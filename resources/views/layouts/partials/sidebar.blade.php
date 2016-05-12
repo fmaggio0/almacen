@@ -31,17 +31,44 @@
 
         <!-- Sidebar Menu -->
         <ul class="sidebar-menu">
-            <li class="header">HEADER</li>
+            <li class="header">ALMACEN</li>
             <!-- Optionally, you can add icons to the links -->
-            <li class="active"><a href="{{ url('home') }}"><i class='fa fa-link'></i> <span>Home</span></a></li>
-            <li><a href="#"><i class='fa fa-link'></i> <span>Another Link</span></a></li>
+           
+            <li class="active"><a href="{{ url('home') }}"> <i class='fa fa-link'></i> <span>Principal</span></a></li>
+
             <li class="treeview">
-                <a href="#"><i class='fa fa-link'></i> <span>Multilevel</span> <i class="fa fa-angle-left pull-right"></i></a>
+                <a href="#"><i class='fa fa-link'></i> <span>Movimientos</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
-                    <li><a href="#">Link in level 2</a></li>
-                    <li><a href="#">Link in level 2</a></li>
+                    <li><a href="#">Entradas</a></li>
+                    <li><a href="#">Salidas</a></li>
                 </ul>
             </li>
+
+            <li><a href="#"><i class='fa fa-link'></i> <span>Recibir autorizaciones</span></a></li>
+            <li><a href="#"><i class='fa fa-link'></i> <span>Recibir orden de compra</span></a></li>
+
+            <li class="treeview">
+                <a href="#"><i class='fa fa-link'></i> <span>Informes/Reportes</span> <i class="fa fa-angle-left pull-right"></i></a>
+                <ul class="treeview-menu">
+                    <li><a href="#">Movimiento de Stock</a></li>
+                    <li><a href="#">Movimientos por empleado</a></li>
+                    <li><a href="#">Stock faltante</a></li>
+                    <li><a href="#">Reporte de compras</a></li>
+                    <li><a href="#">Combustibles</a></li>
+                </ul>
+            </li>
+
+            <li class="treeview">
+                <a href="#"><i class='fa fa-link'></i> <span>Configuracion</span> <i class="fa fa-angle-left pull-right"></i></a>
+                <ul class="treeview-menu">
+                    <li><a href="#">Articulos</a></li>
+                    <li><a href="#">Proveedores</a></li>
+                    <li><a href="#">Usuarios</a></li>
+                    <li><a href="#">Back Up</a></li>
+                </ul>
+            </li>
+
+
         </ul><!-- /.sidebar-menu -->
     </section>
     <!-- /.sidebar -->
