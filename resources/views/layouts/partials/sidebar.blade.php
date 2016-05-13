@@ -44,7 +44,7 @@
                 </ul>
             </li>
 
-            <li><a href="#"><i class='fa fa-link'></i> <span>Recibir autorizaciones</span></a></li>
+            <li><a href="{{ URL::route('autorizar') }}"><i class='fa fa-link'></i> <span>Recibir autorizaciones</span></a></li>
             <li><a href="#"><i class='fa fa-link'></i> <span>Recibir orden de compra</span></a></li>
 
             <li class="treeview">

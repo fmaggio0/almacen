@@ -14,4 +14,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
+Route::get('/autorizar', ['as' => 'autorizar', function (){
+	 return view('autorizaciones.autorizacion_retiro');
+}]);
