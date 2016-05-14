@@ -40,11 +40,11 @@
                 <a href="#"><i class='fa fa-link'></i> <span>Movimientos</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
                     <li><a href="#">Entradas</a></li>
-                    <li><a href="#">Salidas</a></li>
+                    <li><a href="{{ URL::route('salidas') }}">Salidas</a></li>
                 </ul>
             </li>
 
-            <li><a href="{{ URL::route('autorizar') }}"><i class='fa fa-link'></i> <span>Recibir autorizaciones</span></a></li>
+            <li><a href="{{ URL::route('autorizar') }}"><i class='fa fa-link'></i> <span>Gestionar autorizaciones</span></a></li>
             <li><a href="#"><i class='fa fa-link'></i> <span>Recibir orden de compra</span></a></li>
 
             <li class="treeview">

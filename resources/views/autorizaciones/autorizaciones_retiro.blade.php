@@ -6,15 +6,6 @@
 
 
 @section('main-content')
-    <!--<div class="spark-screen">
-        <div class="row">
-            <div class="col-md-10 col-md-offset-1">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Home</div>
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-xs-12"> -->
-
         <div class="box">
             <div class="box-header">
                 <h3 class="box-title">Recibir autorizaciones</h3>
@@ -43,7 +34,7 @@
                         <td>11-7-2016 12:45</td>
                         <td><span class="label label-warning">Pendiente</span></td>
                         <td>Franco Maggioni</td>
-                        <td><input type='button' class="btn btn-default" value='Ver'/></td>
+                        <td><a href="{{ URL::route('autorizar_retiro') }}">VER</a></td>
                     </tr>
                     <tr>
                         <td>fmaggio0</td>
@@ -51,7 +42,7 @@
                         <td>11-7-2014 09:49</td>
                         <td><span class="label label-warning">Pendiente</span></td>
                         <td>Matias Ramirez</td>
-                        <td><input type='button' class="btn btn-default" value='Ver'/></td>
+                        <td><a href="{{ URL::route('autorizar_retiro') }}">VER</a></td>
                     </tr>
                 </table>
             </div><!-- /.box-body -->

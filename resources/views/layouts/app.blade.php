@@ -48,10 +48,6 @@ desired effect
         </section><!-- /.content -->
     </div><!-- /.content-wrapper -->
 
-    @include('layouts.partials.controlsidebar')
-
-    @include('layouts.partials.footer')
-
 </div><!-- ./wrapper -->
 
 @section('scripts')

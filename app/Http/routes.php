@@ -15,5 +15,14 @@ Route::get('/', function () {
 });
 
 Route::get('/autorizar', ['as' => 'autorizar', function (){
-	 return view('autorizaciones.autorizacion_retiro');
+	 return view('autorizaciones.autorizaciones_retiro');
 }]);
+
+Route::get('/autorizar/id', ['as' => 'autorizar_retiro', function (){
+	 return view('autorizaciones.autorizar_retiro');
+}]);
+
+Route::get('/salidas', ['as' => 'salidas', function (){
+	 return view('salidas.salidas');
+}]);
+
