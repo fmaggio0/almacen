@@ -6,12 +6,13 @@
 
 
 @section('main-content')
+    <form class="form-inline" role="form">
         <div class="box">
             <div class="box-header">
                 <h3 class="box-title">Despachar autorización</h3>
                  <div class="box-tools">
                     <div class="input-group">
-                        <input type="button" name="table_search" class="form-control input-sm pull-right" value='Descartar autorizacion' />
+                        <input type="button" name="table_search" class="btn btn-danger" value='Descartar autorizacion' />
                     </div>
                 </div>
             </div><!-- /.box-header -->
@@ -21,6 +22,7 @@
                     <tr>
                         <th>Derivado por</th>
                         <th>Area</th>
+                        <th>Responsable</th>
                         <th>Fecha</th>
                         <th>Autoriza a</th>
                         <th>Legajo</th>
@@ -28,8 +30,9 @@
                     <tr>
                         <td>ndalmas0</td>
                         <td>Espacios Verdes</td>
+                        <td>Zolezzi, jose</td>
                         <td>11-7-2016 12:45</td>
-                        <td>Franco Maggioni</td>
+                        <td>Maggioni, Franco</td>
                         <td>47004</td>
                     </tr>
                     </table>
@@ -64,9 +67,11 @@
                         <td><input type='checkbox' /></td>
                     </tr>
                 </table>
-                <input type='button' class="btn btn-default" value='Despachar'/><input type='button' class="btn btn-default" value='Imprimir'/>
-                
+                <div style="padding: 8px;" class="form-group">
+                    <input type='button' class="btn btn-primary" value='Despachar'/>
+                    <input type='submit' class="btn btn-default" value='Imprimir'/>
+                </div>
             </div><!-- /.box-body -->
         </div><!-- /.box -->
-
+    </form>
 @endsection
