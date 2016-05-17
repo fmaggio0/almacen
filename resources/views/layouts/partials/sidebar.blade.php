@@ -37,7 +37,7 @@
             <li class="active"><a href="{{ url('home') }}"> <i class='fa fa-link'></i> <span>Principal</span></a></li>
 
             <li class="treeview">
-                <a href="#"><i class='fa fa-link'></i> <span>Movimientos</span> <i class="fa fa-angle-left pull-right"></i></a>
+                <a href="#"><i class='fa fa-exchange'></i> <span>Movimientos</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
                     <li><a href="#">Entradas</a></li>
                     <li><a href="{{ URL::route('salidas') }}">Salidas</a></li>
@@ -45,10 +45,10 @@
             </li>
 
             <li><a href="{{ URL::route('autorizar') }}"><i class='fa fa-link'></i> <span>Gestionar autorizaciones</span></a></li>
-            <li><a href="#"><i class='fa fa-link'></i> <span>Recibir orden de compra</span></a></li>
+            <li><a href="#"><i class='fa fa-link'></i> <span>Gestionar ordenes de compra</span></a></li>
 
             <li class="treeview">
-                <a href="#"><i class='fa fa-link'></i> <span>Informes/Reportes</span> <i class="fa fa-angle-left pull-right"></i></a>
+                <a href="#"><i class='fa fa-bar-chart'></i> <span>Informes/Reportes</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
                     <li><a href="#">Movimiento de Stock</a></li>
                     <li><a href="#">Movimientos por empleado</a></li>
@@ -59,7 +59,7 @@
             </li>
 
             <li class="treeview">
-                <a href="#"><i class='fa fa-link'></i> <span>Configuracion</span> <i class="fa fa-angle-left pull-right"></i></a>
+                <a href="#"><i class='fa fa-cogs'></i> <span>Configuracion</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
                     <li><a href="#">Articulos</a></li>
                     <li><a href="#">Proveedores</a></li>
