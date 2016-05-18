@@ -25,4 +25,3 @@ Route::get('/autorizar/id', ['as' => 'autorizar_retiro', function (){
 Route::get('/salidas', ['as' => 'salidas', function (){
 	 return view('salidas.salidas');
 }]);
-
