@@ -161,6 +161,10 @@ return [
         */
         Acacha\AdminLTETemplateLaravel\Providers\AdminLTETemplateServiceProvider::class,
 
+        /*datatable manager */
+
+        Yajra\Datatables\DatatablesServiceProvider::class
+
     ],
 
     /*
@@ -205,7 +209,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-
+        'Datatables' => Yajra\Datatables\Facades\Datatables::class,
         /*
         * Acacha AdminLTE template alias
         */
