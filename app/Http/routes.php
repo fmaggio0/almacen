@@ -24,16 +24,11 @@ Route::get('/autorizar/id', ['as' => 'autorizar_retiro', function (){
 
 Route::get('/salidas', ['as' => 'salidas', function (){
 	 return view('salidas.salidas');
-<<<<<<< HEAD
 }]);
 
 Route::get('/articulos', array('as' => 'articulos', 'uses' => 'ArticulosController@index' ));
 
 
-Route::get('api/users', function(){
-	return Datatables::eloquent(App\Articulo::query())->make(true);
+Route::get('/articulos/tabla', function(){
+	return Datatables::eloquent(App\Articulos::query())->make(true);
 });
-
-=======
-}]);
->>>>>>> origin/master
