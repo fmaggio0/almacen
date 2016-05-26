@@ -8,117 +8,55 @@
 @section('main-content')
         <div class="box">
             <div class="box-header">
-               
+                <h3 class="box-title">Encabezado</h3>
+                <div class="box-tools">
+                     <div class="form-group">
+                        <label>07-04-2016 12:33 hs</label>
+                    </div>
+                </div>
             </div><!-- /.box-header -->
-            <div class="box-body table-responsive no-padding">
-                <form>
-                    <div class="col-md-6">
-                     <fieldset style="  border: 1px groove #ddd !important;
-                            padding: 0 1.4em 1.4em 1.4em !important;
-                            margin: 0 0 1.5em 0 !important;
-                            -webkit-box-shadow:  0px 0px 0px 0px #000;
-                        ">
-                    <legend style=" font-size: 1.2em !important;
-                            font-weight: bold !important;
-                            text-align: left !important;
-                            width:auto;
-                            padding:0 10px;
-                            border-bottom:none;">Despachar salidas</legend>
-                        <div class="form-group">
-                            <label class="col-sm-6">Salida de:</label>
-                            <select>
-                                <option>Articulos</option>
-                                <option>Respuestos</option>
-                                <option>Combustibles</option>
-                            </select>
-                        </div>
-                         <div class="form-group">
-                            <label class="col-sm-6">Fecha:</label>
-                            <input type="text" value="07-04-2016 12:33 hs"></input>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-6">Despachante:</label>
+            <div class="box-body">
+                        <div class="form-group col-sm-4">
+                            <label>Despachante:</label>
                             <input type="text" value="DALMAS DAVID">
                         </div>
-                        <div class="form-group">
-                            <label class="col-sm-6">Responsable:</label>
+                        <div class="form-group col-sm-4">
+                            <label>Responsable:</label>
                             <input type="text" value="ZOLEZZI JOSE">
                         </div>
-                       </fieldset>
-                    </div>
-                    <div class="col-md-6">
-                    <fieldset style="  border: 1px groove #ddd !important;
-                            padding: 0 1.4em 1.4em 1.4em !important;
-                            margin: 0 0 1.5em 0 !important;
-                            -webkit-box-shadow:  0px 0px 0px 0px #000;
-                        ">
-                    <legend style=" font-size: 1.2em !important;
-                            font-weight: bold !important;
-                            text-align: left !important;
-                            width:auto;
-                            padding:0 10px;
-                            border-bottom:none;">Vehiculos</legend>
-                        <div class="form-group">
-                            <label class="col-sm-6">Nº Nota:</label>
-                            <input type="text" disabled>
+                         <div class="form-group col-sm-4">
+                            <label>Nº Nota:</label>
+                            <input type="text" value="35221">
                         </div>
-                        <div class="form-group">
-                            <label class="col-sm-6">Nº Comprobante:</label>
-                            <input type="text" disabled></input>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-6">Vehiculos:</label>
-                            <input type="text" disabled>
-                        </div>
-                        
-                    </fieldset>
-                        
-                    <fieldset style="  border: 1px groove #ddd !important;
-                            padding: 0 1.4em 1.4em 1.4em !important;
-                            margin: 0 0 1.5em 0 !important;
-                            -webkit-box-shadow:  0px 0px 0px 0px #000;
-                        ">
-                    <legend style=" font-size: 1.2em !important;
-                            font-weight: bold !important;
-                            text-align: left !important;
-                            width:auto;
-                            padding:0 10px;
-                            border-bottom:none;">Respuestos</legend>
-                        <div class="form-group">
-                            <label class="col-sm-6">Nº Nota:</label>
-                            <input type="text" disabled>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-6">Maquina:</label>
-                            <input type="text" disabled></input>
-                        </div>
-                    </fieldset>
-
-                    </div>
-
-
-                <form>
             </div><!-- /.box-body -->
         </div><!-- /.box -->
 
-        <div class="box">
+          <div class="box">
             <div class="box-header">
-                <h3 class="box-title">Despachar autorización</h3>
-                <div class="form-group">
-                    <label class="col-sm-6">Retira:</label>
-                    <input type="text" value="Maggioni, Franco">
-                </div>
-                 <div class="form-group col-sm-6">
-                    <label>Articulo:</label>
-                    <input type="text" value="Maggioni, Franco">
-                    <label >Stock actual:</label>
-                    <input type="text" value="56" disabled>
-                </div>
-                 <div class="form-group">
-                    <label class="col-sm-6">Cantidad:</label>
-                    <input type="text" value="2">
-                </div>
+                <h3 class="box-title">Agregar articulos</h3>
             </div><!-- /.box-header -->
+            <div class="box-body">
+                        <div class="form-group col-sm-4">
+                            <label>Articulo:</label>
+                            <input type="text" value="DALMAS DAVID">
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <label> Stock actual: 322</label>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <label> Cantidad a retirar:</label>
+                            <input type="text" size="4" value="1">
+                        </div>
+                        <div class="form-group col-sm-12">
+                            <input type="submit" class="btn btn-default" value="Asignar empleado">
+                            <input type="text" value="RAMIREZ, MATIAS">
+                        </div>
+                         <div class="form-group col-sm-4">
+                            <input type="submit" class="btn btn-default" value="Agregar articulo">
+                        </div>
+
+
+            </div><!-- /.box-body -->
             <div class="box-body table-responsive no-padding">
                 <table class="table table-hover">
                     <tr>
