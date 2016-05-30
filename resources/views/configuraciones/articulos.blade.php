@@ -3,15 +3,11 @@
 @section('htmlheader_title')
     Home
 @endsection
-@section('scripts')
-    @include('layouts.partials.scripts')
-@show
-
 
 @section('main-content')
         <div class="box tabla-articulos">
-            <div class="box-body table-responsive no-padding">
-                <table class="table-bordered" id="articulos">
+            <div class="box-body no-padding">
+                <table class="table table-striped table-bordered"  cellspacing="0" width="100%" id="articulos">
                     <thead>
                         <tr>
                             <th>Derivado por</th>
@@ -39,7 +35,10 @@
                         {data: 'id'},
                         {data: 'desc_articulo'},
                         {data: 'estado'},
-                    ]
+                    ],
+                    "language":{
+                        url: "{!! asset('/plugins/datatables/lenguajes/spanish.json') !!}"
+                    }
                 });
             });
         </script>

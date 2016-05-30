@@ -26,6 +26,10 @@ Route::get('/salidas', ['as' => 'salidas', function (){
 	 return view('salidas.salidas');
 }]);
 
+Route::get('/movimientos', ['as' => 'movimientos', function (){
+	 return view('salidas.movimientos');
+}]);
+
 Route::get('/articulos', array('as' => 'articulos', 'uses' => 'ArticulosController@index' ));
 
 

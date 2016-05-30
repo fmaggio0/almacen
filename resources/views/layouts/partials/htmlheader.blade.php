@@ -3,14 +3,14 @@
     <title> Sistema Integral de Compras - @yield('htmlheader_title', 'Your title here') </title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <!-- Bootstrap 3.3.4 -->
-    <link href="{{ asset('/css/bootstrap.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- Font Awesome Icons -->
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
     <!-- Ionicons -->
     <link href="{{ asset('/css/ionicons.min.css') }}" rel="stylesheet" type="text/css" /> 
     <!-- Theme style -->
     <link href="{{ asset('/css/AdminLTE.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('/css/jquery.dataTables.min.css') }}" rel="stylesheet" type="text/css" /> 
+    <link href="{{ asset('/plugins/datatables/dataTables.bootstrap.css') }}" rel="stylesheet" type="text/css" />
     <!-- Estilos personalizados -->
     <link href="{{ asset('/css/estilos.css') }}" rel="stylesheet" type="text/css" /> 
     <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
@@ -28,3 +28,4 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
+
