@@ -3,20 +3,19 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateArticulosTable extends Migration
+class Rubros extends Migration
 {
     /**
      * Run the migrations.
      *
      * @return void
      */
+
     public function up()
     {
-        Schema::create('articulos', function (Blueprint $table) {
-            $table->increments('id');
-            $table->text('desc_articulo');
-            $table->string('estado');
-            $table->timestamps();
+        Schema::create('rubros', function (Blueprint $table) {
+            $table->increments('id_rubro');
+            $table->string('descripcion');
         });
     }
 
@@ -27,6 +26,6 @@ class CreateArticulosTable extends Migration
      */
     public function down()
     {
-        Schema::drop('articulos');
+        Schema::drop('rubros');
     }
 }
