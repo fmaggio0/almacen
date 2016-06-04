@@ -43,6 +43,9 @@
                 </table>
             </div><!-- /.box-body -->
         </div><!-- /.box -->
+
+        @include ('configuraciones.modalsArticulos.create', ['submitTextButton' => 'ADD'])
+
         <script>
             $(document).ready(function(){
                 $('#articulos').DataTable({
@@ -58,7 +61,7 @@
                         {data: 'id_subrubro'},
                         {data: 
                             function(data) {
-                            return '<a href="#edit-' + data.id_articulo + '" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i></a><a href="#edit-' + data.id_articulo + '" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-remove"></i></a>';
+                            return '<a href="#edit-' + data.id_articulo + '" class="btn btn-xs btn-primary edit"><i class="glyphicon glyphicon-edit"></i></a><a href="#edit-' + data.id_articulo + '" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-remove"></i></a>';
                             }, "orderable": false, "searchable": false,
                         },
                     ],
