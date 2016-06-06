@@ -13,4 +13,7 @@ class ArticulosController extends Controller
 		$articulos=DB::table('articulos')->get();
 		return view('configuraciones.articulos', compact('articulos'));
 	}
+
+	public function eliminar(){
+	}
 }

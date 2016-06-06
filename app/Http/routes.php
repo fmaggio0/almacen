@@ -36,3 +36,16 @@ Route::get('/articulos', array('as' => 'articulos', 'uses' => 'ArticulosControll
 Route::get('/articulos/tabla', function(){
 	return Datatables::eloquent(App\Articulos::query())->make(true);
 });
+
+Route::any('articulos/eliminar','ArticulosController@eliminar');
+
+Route::get('familia', function (Illuminate\Http\Request  $request) {
+        
+		$rubros=DB::table('rubros')->get();
+
+        $valid_tags = [];
+        foreach ($rubros as $id => $rubro) {
+            $valid_tags[] = ['id' => $id, 'text' => $rubro];
+        }
+        return Response::json($valid_tags);
+    });
