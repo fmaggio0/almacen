@@ -18,18 +18,18 @@
 					<div class="form-group">
 							{!! Form::label(null, 'Unidad de medida:', array('class' => 'control-label col-sm-4')) !!}
 							<div class="col-sm-8">
-							{!! Form::select('unidad', array('unidad' => 'Unidad', 'metro' => 'Metro', 'litro' => 'Litro'), null ,array('class'=>'js-example-basic-single form-control col-sm-8')) 
-							!!}
+							{!! Form::select('unidad', array('unidad' => 'Unidad'), null ,array('class'=>'js-example-data-array form-control', 'style' => 'width: 100%')) 
+                            !!}
 
 							</div>
 					</div>
-					<div class="form-group">
+					<!--<div class="form-group">
 							{!! Form::label(null, 'Familia:', array('class' => 'control-label col-sm-4')) !!}
 							<div class="col-sm-8">
 							{!! Form::select('unidad', array('unidad' => 'Unidad', 'metro' => 'Metro', 'litro' => 'Litro'), null ,array('class'=>'familia'))
 							!!}
 							</div>
-					</div>
+					</div> -->
 				</div>
 
 				<div class="modal-footer">

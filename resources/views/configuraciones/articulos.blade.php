@@ -16,7 +16,8 @@
 
 @section('main-content')
         <div class="box tabla-articulos">
-            <div class="box-body no-padding">
+            <div class="box-body no-padding"> 
+
                 <table class="table table-striped table-bordered accionstyle"  cellspacing="0" width="100%" id="articulos">
                     <thead>
                         <tr>
@@ -31,7 +32,7 @@
                     </thead>
                     <tfoot>
                         <tr>
-                            <th>ID</th>
+                            <th>ID </th>
                             <th>Articulo</th>
                             <th>Unidad</th>
                             <th>Usuario</th>
@@ -73,40 +74,17 @@
                         url: "{!! asset('/plugins/datatables/lenguajes/spanish.json') !!}"
                     }
                 });
+                 $.getJSON("/familia", function (json) {
+                      $(".js-example-data-array").select2({
+                            data: json,
+                      });
+                 });
             });
         </script>
          <script>
             $(function(){
                 $('#nuevo').click(function() {
                     $('#myModal').modal();
-                    $(".js-example-basic-single").select2({
-                         language: "es",
-                          ajax: {
-                            url: '/familia',
-                            dataType: "json",
-                            type: "GET",
-                            data: function (params) {
-
-                                var queryParameters = {
-                                    term: params.term
-                                }
-                                return queryParameters;
-                            },
-                            processResults: function (data) {
-                                return {
-                                    results: $.map(data, function (item) {
-                                        return {
-                                            rubro: item.tag_value,
-                                        }
-                                    })
-                                };
-                            }
-                        }
-                    });
-                    $(".familia").select2({
-                        language: "es",
-                        placeholder: "Seleccione una familia",
-                    });
                 });
                  
                 $(document).on('submit', '#formRegister', function(e) {  

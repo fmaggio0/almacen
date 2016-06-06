@@ -41,11 +41,6 @@ Route::any('articulos/eliminar','ArticulosController@eliminar');
 
 Route::get('familia', function (Illuminate\Http\Request  $request) {
         
-		$rubros=DB::table('rubros')->get();
-
-        $valid_tags = [];
-        foreach ($rubros as $rubro) {
-            $valid_tags[] = ['rubro' => $rubro];
-        }
-        return Response::json($valid_tags);
+		$rubros=DB::table('rubros')->select('id_rubro AS id', 'descripcion AS text' )->get();
+        return Response::json($rubros);
     });
