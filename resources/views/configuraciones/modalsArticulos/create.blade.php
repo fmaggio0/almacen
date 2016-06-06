@@ -1,4 +1,4 @@
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="myModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 		{!! Form::open(['method' => 'POST', 'action' => 'ArticulosController@eliminar', 'class' => 'form-horizontal' ]) !!}
@@ -18,7 +18,7 @@
 					<div class="form-group">
 							{!! Form::label(null, 'Unidad de medida:', array('class' => 'control-label col-sm-4')) !!}
 							<div class="col-sm-8">
-							{!! Form::select('unidad', array('unidad' => 'Unidad', 'metro' => 'Metro', 'litro' => 'Litro'), null ,array('class'=>'select2')) 
+							{!! Form::select('unidad', array('unidad' => 'Unidad', 'metro' => 'Metro', 'litro' => 'Litro'), null ,array('class'=>'js-example-basic-single form-control col-sm-8')) 
 							!!}
 
 							</div>
@@ -28,15 +28,6 @@
 							<div class="col-sm-8">
 							{!! Form::select('unidad', array('unidad' => 'Unidad', 'metro' => 'Metro', 'litro' => 'Litro'), null ,array('class'=>'familia'))
 							!!}
-
-							</div>
-					</div>
-					<div class="form-group">
-							{!! Form::label(null, 'SubFamilia:', array('class' => 'control-label col-sm-4')) !!}
-							<div class="col-sm-8">
-							{!! Form::select('unidad', null, null ,array('class'=>'select2')) 
-							!!}
-
 							</div>
 					</div>
 				</div>

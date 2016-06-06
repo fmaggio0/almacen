@@ -79,8 +79,36 @@
             $(function(){
                 $('#nuevo').click(function() {
                     $('#myModal').modal();
+                    $(".js-example-basic-single").select2({
+                         language: "es",
+                          ajax: {
+                            url: '/familia',
+                            dataType: "json",
+                            type: "GET",
+                            data: function (params) {
+
+                                var queryParameters = {
+                                    term: params.term
+                                }
+                                return queryParameters;
+                            },
+                            processResults: function (data) {
+                                return {
+                                    results: $.map(data, function (item) {
+                                        return {
+                                            rubro: item.tag_value,
+                                        }
+                                    })
+                                };
+                            }
+                        }
+                    });
+                    $(".familia").select2({
+                        language: "es",
+                        placeholder: "Seleccione una familia",
+                    });
                 });
-         
+                 
                 $(document).on('submit', '#formRegister', function(e) {  
                     e.preventDefault();
                      
@@ -106,26 +134,6 @@
                     });
                 });
             })
-    </script>
-    <script>
-        $('#familia').select2({
-            // Activamos la opcion "Tags" del plugin
-            ajax: {
-                dataType: 'json',
-                url: '{{ url("familia") }}',
-                delay: 250,
-                data: function(params) {
-                    return {
-                        term: params.term
-                    }
-                },
-                processResults: function (data, page) {
-                  return {
-                    results: data
-                  };
-                },
-            }
-        });
     </script>
 
 

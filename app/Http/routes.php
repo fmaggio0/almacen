@@ -44,8 +44,8 @@ Route::get('familia', function (Illuminate\Http\Request  $request) {
 		$rubros=DB::table('rubros')->get();
 
         $valid_tags = [];
-        foreach ($rubros as $id => $rubro) {
-            $valid_tags[] = ['id' => $id, 'text' => $rubro];
+        foreach ($rubros as $rubro) {
+            $valid_tags[] = ['rubro' => $rubro];
         }
         return Response::json($valid_tags);
     });
