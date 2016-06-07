@@ -18,18 +18,24 @@
 					<div class="form-group">
 							{!! Form::label(null, 'Unidad de medida:', array('class' => 'control-label col-sm-4')) !!}
 							<div class="col-sm-8">
-							{!! Form::select('unidad', array('unidad' => 'Unidad'), null ,array('class'=>'js-example-data-array form-control', 'style' => 'width: 100%')) 
+							{!! Form::select('unidades', array('Unidad' => 'Unidad', 'Metro' => 'Metro', 'Litro' => 'Litro'), null ,array('class'=>'unidades form-control', 'style' => 'width: 100%')) 
                             !!}
-
 							</div>
 					</div>
-					<!--<div class="form-group">
-							{!! Form::label(null, 'Familia:', array('class' => 'control-label col-sm-4')) !!}
+					<div class="form-group">
+							{!! Form::label(null, 'Rubro:', array('class' => 'control-label col-sm-4')) !!}
 							<div class="col-sm-8">
-							{!! Form::select('unidad', array('unidad' => 'Unidad', 'metro' => 'Metro', 'litro' => 'Litro'), null ,array('class'=>'familia'))
+							{!! Form::select('unidad', array('' => 'Seleccione un rubro'), null ,array('class'=>'rubros form-control', 'style' => 'width: 100%')) 
+                            !!}
+							</div>
+					</div>
+					<div class="form-group">
+							{!! Form::label(null, 'SubRubro:', array('class' => 'control-label col-sm-4')) !!}
+							<div class="col-sm-8">
+							{!! Form::select('unidad', array('' => 'Seleccione un subrubro'), null ,array('class'=>'subrubros form-control', 'style' => 'width: 100%'))
 							!!}
 							</div>
-					</div> -->
+					</div>
 				</div>
 
 				<div class="modal-footer">

@@ -74,17 +74,32 @@
                         url: "{!! asset('/plugins/datatables/lenguajes/spanish.json') !!}"
                     }
                 });
-                 $.getJSON("/familia", function (json) {
-                      $(".js-example-data-array").select2({
+                //select familia-------------------------------------------
+                $(".unidades").select2({
+                    language: "es",
+                });
+                 $.getJSON("/rubros", function (json) {
+                      $(".rubros").select2({
                             data: json,
+                            language: "es",
                       });
                  });
+                 $.getJSON("/subrubros", function (json) {
+                      $(".subrubros").select2({
+                            data: json,
+                            language: "es",
+                      });
+                 });
+                 
             });
         </script>
          <script>
             $(function(){
                 $('#nuevo').click(function() {
                     $('#myModal').modal();
+                });
+                $('.close').click(function() {
+                    $('#myModal').modal('hide');
                 });
                  
                 $(document).on('submit', '#formRegister', function(e) {  

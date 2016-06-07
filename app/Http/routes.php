@@ -39,8 +39,11 @@ Route::get('/articulos/tabla', function(){
 
 Route::any('articulos/eliminar','ArticulosController@eliminar');
 
-Route::get('familia', function (Illuminate\Http\Request  $request) {
-        
-		$rubros=DB::table('rubros')->select('id_rubro AS id', 'descripcion AS text' )->get();
-        return Response::json($rubros);
-    });
+Route::get('rubros', function (Illuminate\Http\Request  $request) {      
+	$rubros=DB::table('rubros')->select('id_rubro AS id', 'descripcion AS text' )->get();
+    return Response::json($rubros);
+});
+Route::get('subrubros', function (Illuminate\Http\Request  $request) {    
+	$subrubros=DB::table('subrubros')->select('id_subrubro AS id', 'descripcion AS text' )->get();
+    return Response::json($subrubros);
+});
