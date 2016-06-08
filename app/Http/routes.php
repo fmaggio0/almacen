@@ -37,13 +37,13 @@ Route::get('/articulos/tabla', function(){
 	return Datatables::eloquent(App\Articulos::query())->make(true);
 });
 
-Route::any('articulos/eliminar','ArticulosController@eliminar');
-
 Route::get('rubros', function (Illuminate\Http\Request  $request) {      
 	$rubros=DB::table('rubros')->select('id_rubro AS id', 'descripcion AS text' )->get();
     return Response::json($rubros);
 });
-Route::get('subrubros', function (Illuminate\Http\Request  $request) {    
-	$subrubros=DB::table('subrubros')->select('id_subrubro AS id', 'descripcion AS text' )->get();
+Route::get('subrubros/id={id}', function ($id) {    
+	$subrubros=DB::table('subrubros')->where('id_rubro', '=', $id )->select('id_subrubro AS id', 'descripcion AS text' )->get();
     return Response::json($subrubros);
 });
+
+Route::post('/articulos/addarticulo', ['as' => 'addarticulos', 'uses' => 'ArticulosController@store']);

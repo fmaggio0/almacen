@@ -74,7 +74,7 @@
                         url: "{!! asset('/plugins/datatables/lenguajes/spanish.json') !!}"
                     }
                 });
-                //select familia-------------------------------------------
+                //SELECT2 FAMILIA-SUBFAMILIA-------------------------------------------
                 $(".unidades").select2({
                     language: "es",
                 });
@@ -84,13 +84,21 @@
                             language: "es",
                       });
                  });
-                 $.getJSON("/subrubros", function (json) {
+                 $(".subrubros").select2();
+                 $(".subrubros").prop("disabled", true);
+                 $('.rubros').on("select2:select", function(e) { 
+                    id = $(".rubros").val();
+                    $(".subrubros").select2().empty()
+                    $(".subrubros").prop("disabled", false);
+                    $.getJSON("/subrubros/id=" + id, function (json) {
                       $(".subrubros").select2({
                             data: json,
                             language: "es",
-                      });
-                 });
-                 
+
+                        });
+                    });
+                });
+                //FIN SELECT2 FAMILIA-SUBFAMILIA
             });
         </script>
          <script>
