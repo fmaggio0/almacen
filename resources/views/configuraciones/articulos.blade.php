@@ -46,6 +46,7 @@
         </div><!-- /.box -->
 
         @include('configuraciones.modalsArticulos.create')
+        @include('configuraciones.modalsArticulos.delete')
 
         <script>
             $(document).ready(function(){
@@ -57,15 +58,15 @@
                         alert( 'Custom error' );
                       },
                     "columns":[
-                        {data: 'id_articulo'},
-                        {data: 'descripcion'},
-                        {data: 'unidad'},
-                        {data: 'usuario'},
-                        {data: 'id_rubro'},
-                        {data: 'id_subrubro'},
+                        {data: 'id_articulo', name: 'articulos.id_articulo'},
+                        {data: 'descripcion', name: 'articulos.descripcion'},
+                        {data: 'unidad', name: 'articulos.unidad'},
+                        {data: 'usuario', name: 'articulos.usuario'},
+                        {data: 'id_rubro', name:'rubros.id_rubro'},
+                        {data: 'id_subrubro', name: 'subrubros.id_subrubro'},
                         {data: 
                             function(data) {
-                            return '<a href="#edit-' + data.id_articulo + '" class="btn btn-xs btn-primary edit"><i class="glyphicon glyphicon-edit"></i></a><a href="#edit-' + data.id_articulo + '" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-remove"></i></a>';
+                            return '<a href="#" value="'+ data.id_articulo +'" class="btn btn-xs btn-primary edit"><i class="glyphicon glyphicon-edit"></i></a><a href="#" value="'+ data.id_articulo +'" class="btn btn-xs btn-danger delete"><i class="glyphicon glyphicon-remove"></i></a>';
                             }, "orderable": false, "searchable": false,
                         },
                     ],
@@ -88,7 +89,7 @@
                  $(".subrubros").prop("disabled", true);
                  $('.rubros').on("select2:select", function(e) { 
                     id = $(".rubros").val();
-                    $(".subrubros").select2().empty()
+                    $(".subrubros").select2().empty();
                     $(".subrubros").prop("disabled", false);
                     $.getJSON("/subrubros/id=" + id, function (json) {
                       $(".subrubros").select2({
@@ -99,43 +100,23 @@
                     });
                 });
                 //FIN SELECT2 FAMILIA-SUBFAMILIA
-            });
-        </script>
-         <script>
-            $(function(){
-                $('#nuevo').click(function() {
-                    $('#myModal').modal();
+                //EVENTOS MODALES
+                 $('#articulos').on('draw.dt', function () {
+                    $('.delete').click(function() {
+                        $('#delete').modal();
+                        var id = $(this).attr('value');
+                        $("input[name='id']").val(id);
+                    });
                 });
+                $('#nuevo').click(function(){
+                    $('#myModal').modal(); 
+                });
+                
                 $('.close').click(function() {
                     $('#myModal').modal('hide');
                 });
-                 
-                $(document).on('submit', '#formRegister', function(e) {  
-                    e.preventDefault();
-                     
-                    $('input+small').text('');
-                    $('input').parent().removeClass('has-error');
-                     
-                    $.ajax({
-                        method: $(this).attr('method'),
-                        url: $(this).attr('action'),
-                        data: $(this).serialize(),
-                        dataType: "json"
-                    })
-                    .done(function(data) {
-                        $('.alert-success').removeClass('hidden');
-                        $('#myModal').modal('hide');
-                    })
-                    .fail(function(data) {
-                        $.each(data.responseJSON, function (key, value) {
-                            var input = '#formRegister input[name=' + key + ']';
-                            $(input + '+small').text(value);
-                            $(input).parent().addClass('has-error');
-                        });
-                    });
-                });
-            })
-    </script>
-
+                //FIN EVENTOS MODALES
+            });
+        </script>
 
     @endsection

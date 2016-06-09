@@ -8,13 +8,13 @@ use App\Http\Requests;
 use DB;
 use App\Http\Controllers\Controller;
 use App\addarticulo;
+use App\articulos;
 
 class ArticulosController extends Controller
 {
 	public function index(){
 
-		$articulos=DB::table('articulos')->get();
-		return view('configuraciones.articulos', compact('articulos'));
+		return view('configuraciones.articulos');
 	}
 
 	public function store(Request $request)
@@ -40,4 +40,11 @@ class ArticulosController extends Controller
         return \View::make('configuraciones.articulos', compact('articulos'));
         
 	}
+    public function baja(Request $id)
+    {
+        $update = articulos::findOrFail($id);
+
+        $update->update($id)
+
+    }
 }
