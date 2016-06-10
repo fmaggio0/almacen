@@ -37,16 +37,13 @@ class ArticulosController extends Controller
         
         $articulo->create($request->all());
         return \View::make('configuraciones.articulos');
-        
 	}
     public function baja(Request $request)
     {
-       /* $update = articulos::findOrFail($id); */
         $id = $request->id_articulo;
         $update = articulos::findOrFail($id);
         $update->estado = false;
         $update->save();
-       /*$request->where('id_articulo', $id)->update(array('estado' => 'false'));*/
-       return \View::make('configuraciones.articulos');
+        return \View::make('configuraciones.articulos');
     }
 }

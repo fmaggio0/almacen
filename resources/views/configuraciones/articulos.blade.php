@@ -27,7 +27,9 @@
                             <th>Usuario</th>
                             <th>Rubro</th>
                             <th>Subrubro</th>
-                            <th>Subrubro</th>
+                            <th>Modificado</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tfoot>
@@ -38,7 +40,9 @@
                             <th>Usuario</th>
                             <th>Rubro</th>
                             <th>Subrubro</th>
-                            <th>Subrubro</th>
+                            <th>Modificado</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
                         </tr>
                     </tfoot>
                 </table>
@@ -53,22 +57,20 @@
                 $('#articulos').DataTable({
                     "processing": true,
                     "serverSide": true,
-                    "ajax": "/articulos/tabla",
+                    "ajax": "{!! route('datatables.data') !!}",
                     "error": function () {
                         alert( 'Custom error' );
                       },
                     "columns":[
-                        {data: 'id_articulo', name: 'articulos.id_articulo'},
-                        {data: 'descripcion', name: 'articulos.descripcion'},
-                        {data: 'unidad', name: 'articulos.unidad'},
-                        {data: 'usuario', name: 'articulos.usuario'},
-                        {data: 'id_rubro', name:'rubros.id_rubro'},
-                        {data: 'id_subrubro', name: 'subrubros.id_subrubro'},
-                        {data: 
-                            function(data) {
-                            return '<a href="#" value="'+ data.id_articulo +'" class="btn btn-xs btn-primary edit"><i class="glyphicon glyphicon-edit"></i></a><a href="#" value="'+ data.id_articulo +'" class="btn btn-xs btn-danger delete"><i class="glyphicon glyphicon-remove"></i></a>';
-                            }, "orderable": false, "searchable": false,
-                        },
+                        {data: 'id_articulo'},
+                        {data: 'descripcion'},
+                        {data: 'unidad'},
+                        {data: 'usuario'},
+                        {data: 'descripcionrubro'},
+                        {data: 'descripcionsubrubro'},
+                        {data: 'updated_at'},
+                        {data: 'estado'},
+                        {data: 'action', orderable: false, searchable: false},
                     ],
 
                     "language":{
@@ -109,7 +111,10 @@
                     });
                 });
                 $('#nuevo').click(function(){
-                    $('#myModal').modal(); 
+                    $('#myModal').modal();
+                $('#myModal').on('shown.bs.modal', function() {
+                    $(".desc").focus();
+                });
                 });
                 
                 $('.close').click(function() {

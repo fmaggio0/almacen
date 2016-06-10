@@ -22,7 +22,7 @@
 					<div class="form-group">
 							{!! Form::label('articulo', 'Articulo:', array('class' => 'control-label col-sm-4')) !!}
 							<div class="col-sm-8">
-							{!! Form::text('descripcion',  null, array('class' => 'form-control', 'placeholder' => 'Nombre del articulo', 'required' => 'required')) !!}
+							{!! Form::text('descripcion',  null, array('class' => 'form-control desc', 'placeholder' => 'Nombre del articulo', 'required' => 'required')) !!}
 							</div>
 					</div>
 					<div class="form-group">

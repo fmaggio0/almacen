@@ -32,20 +32,26 @@ Route::get('/movimientos', ['as' => 'movimientos', function (){
 
 Route::get('/articulos', array('as' => 'articulos', 'uses' => 'ArticulosController@index' ));
 
-
-Route::get('/articulos/tabla', function(){
-	return Datatables::eloquent(App\Articulos::query())/*->select('articulos.id_articulo', 'articulos.descripcion', 'articulos.unidad', 'articulos.usuario', 'rubros.descripcion', 'subrubros.descripcion')->join('rubros', 'articulos.id_rubro', '=', 'rubros.id_rubro')->join('subrubros', 'articulos.id_subrubro', '=', 'subrubros.id_subrubro')*/->where('estado', '=', true )->make(true);
-});
-
-Route::get('rubros', function (Illuminate\Http\Request  $request) {      
-	$rubros=DB::table('rubros')->select('id_rubro AS id', 'descripcion AS text' )->get();
+Route::get('rubros', function (Request $request) {      
+	$rubros=DB::table('rubros')
+		->select('id_rubro AS id', 'descripcion AS text' )
+		->get();
     return Response::json($rubros);
 });
+
 Route::get('subrubros/id={id}', function ($id) {    
-	$subrubros=DB::table('subrubros')->where('id_rubro', '=', $id )->select('id_subrubro AS id', 'descripcion AS text' )->get();
+	$subrubros=DB::table('subrubros')
+		->where('id_rubro', '=', $id )
+		->select('id_subrubro AS id', 'descripcion AS text' )
+		->get();
     return Response::json($subrubros);
 });
 
 Route::post('/articulos/addarticulo', ['as' => 'addarticulos', 'uses' => 'ArticulosController@store']);
 
 Route::post('/articulos/dardebaja', ['as' => 'dardebaja', 'uses' => 'ArticulosController@baja']);
+
+Route::controller('datatables', 'DatatablesController', [
+    'anyData'  => 'datatables.data',
+    'getIndex' => 'datatables',
+]);
