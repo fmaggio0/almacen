@@ -23,6 +23,7 @@ class CrearTablaArticulos extends Migration
             $table->foreign('id_rubro')->references('id_rubro')->on('rubros');
             $table->integer('id_subrubro')->unsigned()->nullable();
             $table->foreign('id_subrubro')->references('id_subrubro')->on('subrubros');
+            $table->boolean('estado')->default(true);
             $table->timestamps();
         });
     }

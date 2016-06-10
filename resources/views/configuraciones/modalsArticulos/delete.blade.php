@@ -2,7 +2,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
 
-            {!!Form::open(['route' => 'baja', 'method'=>'post', 'class' => 'form-horizontal id'])!!}
+            {!!Form::open(['route' => 'dardebaja', 'method'=>'post', 'class' => 'form-horizontal id'])!!}
 
             <div class="modal-header" style="background: #4682B4; color: #FFFFFF;">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -14,7 +14,7 @@
             </div>
 
             <div class="modal-footer">
-                {!! Form::hidden('id', '') !!}
+                {!! Form::hidden('id_articulo', '') !!}
                 {!! Form::submit('Dar de baja', array('class'=>'btn btn-danger')) !!}
                 {!! Form::close() !!}
             </div>

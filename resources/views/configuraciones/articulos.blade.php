@@ -105,7 +105,7 @@
                     $('.delete').click(function() {
                         $('#delete').modal();
                         var id = $(this).attr('value');
-                        $("input[name='id']").val(id);
+                        $("input[name='id_articulo']").val(id);
                     });
                 });
                 $('#nuevo').click(function(){

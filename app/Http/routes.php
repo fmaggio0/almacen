@@ -34,7 +34,7 @@ Route::get('/articulos', array('as' => 'articulos', 'uses' => 'ArticulosControll
 
 
 Route::get('/articulos/tabla', function(){
-	return Datatables::eloquent(App\Articulos::query())/*->select('articulos.id_articulo', 'articulos.descripcion', 'articulos.unidad', 'articulos.usuario', 'rubros.descripcion', 'subrubros.descripcion')->join('rubros', 'articulos.id_rubro', '=', 'rubros.id_rubro')->join('subrubros', 'articulos.id_subrubro', '=', 'subrubros.id_subrubro')*/->make(true);
+	return Datatables::eloquent(App\Articulos::query())/*->select('articulos.id_articulo', 'articulos.descripcion', 'articulos.unidad', 'articulos.usuario', 'rubros.descripcion', 'subrubros.descripcion')->join('rubros', 'articulos.id_rubro', '=', 'rubros.id_rubro')->join('subrubros', 'articulos.id_subrubro', '=', 'subrubros.id_subrubro')*/->where('estado', '=', true )->make(true);
 });
 
 Route::get('rubros', function (Illuminate\Http\Request  $request) {      
