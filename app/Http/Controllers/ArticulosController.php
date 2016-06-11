@@ -46,4 +46,15 @@ class ArticulosController extends Controller
         $update->save();
         return \View::make('configuraciones.articulos');
     }
+    public function edit($id)
+    {
+        $articulo = DB::table('articulos')
+            ->join('rubros', 'articulos.id_rubro', '=', 'rubros.id_rubro')
+            ->join('subrubros', 'articulos.id_subrubro', '=', 'subrubros.id_subrubro')
+            ->select(['articulos.id_articulo', 'articulos.descripcion', 'articulos.unidad', 'articulos.usuario', 'rubros.descripcion AS descripcionrubro', 'subrubros.descripcion AS descripcionsubrubro', 'articulos.estado', 'articulos.updated_at'])
+            ->where('id_articulo', '=', $id )
+            ->get();
+
+        return $articulo;
+    }
 }

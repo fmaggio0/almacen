@@ -50,6 +50,7 @@
         </div><!-- /.box -->
 
         @include('configuraciones.modalsArticulos.create')
+        @include('configuraciones.modalsArticulos.edit', ['articulo' => $articulo])
         @include('configuraciones.modalsArticulos.delete')
 
         <script>
@@ -62,15 +63,15 @@
                         alert( 'Custom error' );
                       },
                     "columns":[
-                        {data: 'id_articulo'},
-                        {data: 'descripcion'},
-                        {data: 'unidad'},
-                        {data: 'usuario'},
-                        {data: 'descripcionrubro'},
-                        {data: 'descripcionsubrubro'},
-                        {data: 'updated_at'},
-                        {data: 'estado'},
-                        {data: 'action', orderable: false, searchable: false},
+                        {data: 'id_articulo', name: 'articulos.id_articulo'},
+                        {data: 'descripcion', name: 'articulos.descripcion'},
+                        {data: 'unidad', name: 'articulos.unidad'},
+                        {data: 'usuario', name: 'articulos.unidad'},
+                        {data: 'descripcionrubro', name: 'rubros.descripcion'},
+                        {data: 'descripcionsubrubro', name: 'subrubros.descripcion'},
+                        {data: 'updated_at', name: 'articulos.updated_at'},
+                        {data: 'estado', name: 'articulos.estado'},
+                        {data: 'action', name: 'action' , orderable: false, searchable: false},
                     ],
 
                     "language":{
@@ -102,23 +103,35 @@
                     });
                 });
                 //FIN SELECT2 FAMILIA-SUBFAMILIA
-                //EVENTOS MODALES
+                //ESPERAR HASTA QUE CARGUE LA TABLA
                  $('#articulos').on('draw.dt', function () {
+                    //modal delete
                     $('.delete').click(function() {
                         $('#delete').modal();
                         var id = $(this).attr('value');
                         $("input[name='id_articulo']").val(id);
-                    });
+                         });
+                    
+                    //modal edit
+                    $('.edit').click(function(){
+                        $('#editar').modal();
+                    });   
                 });
+
+                //Modal add art
                 $('#nuevo').click(function(){
                     $('#myModal').modal();
-                $('#myModal').on('shown.bs.modal', function() {
+                    $('#myModal').on('shown.bs.modal', function() {
                     $(".desc").focus();
+                    });
                 });
-                });
+
                 
                 $('.close').click(function() {
                     $('#myModal').modal('hide');
+                    $('#editar').modal('hide');
+                    $('#delete').modal('hide');
+
                 });
                 //FIN EVENTOS MODALES
             });

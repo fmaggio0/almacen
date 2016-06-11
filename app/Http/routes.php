@@ -55,3 +55,5 @@ Route::controller('datatables', 'DatatablesController', [
     'anyData'  => 'datatables.data',
     'getIndex' => 'datatables',
 ]);
+
+Route::get('edit/{id}', 'ArticulosController@edit');
