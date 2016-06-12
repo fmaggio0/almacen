@@ -35,7 +35,7 @@
 					<div class="form-group">
 							{!! Form::label(null, 'Rubro:', array('class' => 'control-label col-sm-4')) !!}
 							<div class="col-sm-8">
-							{!! Form::select('id_rubro', array('' => 'Seleccione un rubro'), null ,array('class'=>'rubros form-control', 'style' => 'width: 100%', 'required' => 'required')) 
+							{!! Form::select('id_rubro', array('' => 'Seleccione un rubro'), null ,array('class'=>'completarrubros form-control', 'style' => 'width: 100%', 'required' => 'required')) 
                             !!}
 							</div>
 					</div>

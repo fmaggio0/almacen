@@ -9,7 +9,7 @@
         GESTION DE MOVIMIENTOS DE SALIDA
     </div>
         <div class="boton_titulo">
-        <a class="btn btn-success" href="#">
+        <a class="btn btn-success" href="#" id="addsalida">
         <i class="fa fa-plus"></i> Nueva salida</a>
     </div>
 @stop
@@ -237,6 +237,9 @@
                 </table>
             </div><!-- /.box-body -->
         </div><!-- /.box -->
+
+        @include('salidas.modalsMovimientos.salidastock')
+
         <script>
        $(document).ready( function () {
             $('#tabla-movimientos').DataTable({
@@ -244,6 +247,16 @@
                     url: "{!! asset('/plugins/datatables/lenguajes/spanish.json') !!}"
                 }
             });
+
+            //MODAL SALIDA STOCK
+            $('#addsalida').click(function(){
+                $("#salidastock").modal();
+            });
+            $('#responsable').select2();
+            $('#destino').select2();
+            $('#articulo').select2();
+
+
 
         });
         </script>

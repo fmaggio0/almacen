@@ -50,7 +50,7 @@
         </div><!-- /.box -->
 
         @include('configuraciones.modalsArticulos.create')
-        @include('configuraciones.modalsArticulos.edit', ['articulo' => $articulo])
+        @include('configuraciones.modalsArticulos.edit')
         @include('configuraciones.modalsArticulos.delete')
 
         <script>
@@ -78,63 +78,125 @@
                         url: "{!! asset('/plugins/datatables/lenguajes/spanish.json') !!}"
                     }
                 });
-                //SELECT2 FAMILIA-SUBFAMILIA-------------------------------------------
+                //SELECT2-------------------------------------------
+                //select2 Unidades de medida
                 $(".unidades").select2({
                     language: "es",
                 });
-                 $.getJSON("/rubros", function (json) {
-                      $(".rubros").select2({
-                            data: json,
-                            language: "es",
-                      });
-                 });
-                 $(".subrubros").select2();
+                //select2 rubros
+                $.getJSON("/rubros", function (json) { //para modal edit y add
+                    $(".completarrubros").select2({
+                        data: json,
+                        language: "es",
+                    });
+                });
+                //select2 subrubros
+                $.getJSON("/subrubros" , function (json) { //solo modal edit
+                  $(".completarsubrubros").select2({
+                        data: json,
+                        language: "es",
+
+                    });
+                });
+                //FIN SELECT2-------------------------------------------
+
                  $(".subrubros").prop("disabled", true);
-                 $('.rubros').on("select2:select", function(e) { 
-                    id = $(".rubros").val();
+                 $('.completarrubros').on("select2:select", function(e) { 
+                    id = $(".completarrubros").val();
+                    $(".subrubros").select2();
                     $(".subrubros").select2().empty();
-                    $(".subrubros").prop("disabled", false);
-                    $.getJSON("/subrubros/id=" + id, function (json) {
+                    $.getJSON("/rubrosub/id=" + id, function (json) {
                       $(".subrubros").select2({
                             data: json,
                             language: "es",
 
                         });
                     });
+                    $(".subrubros").prop("disabled", false);
                 });
                 //FIN SELECT2 FAMILIA-SUBFAMILIA
+
                 //ESPERAR HASTA QUE CARGUE LA TABLA
                  $('#articulos').on('draw.dt', function () {
-                    //modal delete
+
+                    //MODAL DELETE -----------------------------------------------------------------------
                     $('.delete').click(function() {
                         $('#delete').modal();
                         var id = $(this).attr('value');
                         $("input[name='id_articulo']").val(id);
-                         });
-                    
-                    //modal edit
+                    });
+                    //FIN MODAL DELETE -------------------------------------------------------------------
+
+
+                    //MODAL EDIT --------------------------------------------------------------------------
                     $('.edit').click(function(){
                         $('#editar').modal();
-                    });   
-                });
 
-                //Modal add art
+                        //tomo las variables y las paso al modal edit
+                        var unidad = $(this).data('selectunidad');
+                        var rubro = $(this).data('selectrubro');
+                        var subrubro = $(this).data('selectsubrubro');
+                        var desc = $(this).data('desc');
+                        var id = $(this).attr('value');
+
+                         $("#selectsubrubroedit").prop("readonly", true); //desabilitar subrubro hasta que se elija rubro **CORREJIR** Si lo desabilito que seria lo corecto, el usuario vera toda la lista de subrubros.
+
+                        $('#selectrubroedit').on("select2:select", function(e) { //si elijo un rubro...
+                            
+                            idrubro = $("#selectrubroedit").val(); //tomar id
+
+                            $("#selectsubrubroedit").select2().empty(); // vaciar select subrubros
+
+                            $.getJSON("/rubrosub/id=" + idrubro, function (json) { //completar select subrubros con la query que responda al id del rubro
+                              $("#selectsubrubroedit").select2({
+                                    data: json,
+                                    language: "es",
+
+                                });
+                            });
+
+                            $("#selectsubrubroedit").prop("readonly", false); // habilitar subrubro una vez que se eligio rubro
+                        });
+                    
+                        //Modificar atributos con el item seleccionado
+
+                        $("#descedit").val( desc ).trigger("change");
+                        $("#selectunidadedit").val( unidad ).trigger("change");
+                        $("#selectrubroedit").val( rubro ).trigger("change");
+                        $("#selectsubrubroedit").val( subrubro ).trigger("change");
+                        $("input[name='id_articulo']").val(id);
+
+  
+                    });   
+                    //FIN MODAL EDIT -----------------------------------------------------------------------
+
+                });
+                //FIN ESPERAR HASTA QUE CARGUE LA TABLA
+
+                //MODAL ADD ARTICULOS -----------------------------------------------------------------------
                 $('#nuevo').click(function(){
                     $('#myModal').modal();
                     $('#myModal').on('shown.bs.modal', function() {
-                    $(".desc").focus();
+                        $(".desc").focus();
                     });
                 });
-
+                //FIN MODAL ADD ARTICULOS -----------------------------------------------------------------------
                 
+                //CERRAR TODOS LOS MODALES
                 $('.close').click(function() {
                     $('#myModal').modal('hide');
                     $('#editar').modal('hide');
                     $('#delete').modal('hide');
 
                 });
-                //FIN EVENTOS MODALES
+                //FIN CERRAR TODOS LOS MODALES
+
             });
         </script>
 
     @endsection
+
+<!-- Arreglar validaciones 
+    arreglar edit formulario
+    
+-->

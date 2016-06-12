@@ -46,15 +46,30 @@ class ArticulosController extends Controller
         $update->save();
         return \View::make('configuraciones.articulos');
     }
-    public function edit($id)
+    public function edit(Request $request)
     {
-        $articulo = DB::table('articulos')
-            ->join('rubros', 'articulos.id_rubro', '=', 'rubros.id_rubro')
-            ->join('subrubros', 'articulos.id_subrubro', '=', 'subrubros.id_subrubro')
-            ->select(['articulos.id_articulo', 'articulos.descripcion', 'articulos.unidad', 'articulos.usuario', 'rubros.descripcion AS descripcionrubro', 'subrubros.descripcion AS descripcionsubrubro', 'articulos.estado', 'articulos.updated_at'])
-            ->where('id_articulo', '=', $id )
-            ->get();
+        $v = \Validator::make($request->all(), [
+            
+            'descripcion' => 'required|max:255|min:4',
+            'unidad' => 'required|max:20',
+            'usuario'    => 'required|max:255', //modificar cuando cambie la tabla
+            'id_rubro' => 'required|numeric',
+            'id_subrubro' => ''
+        ]);
+ 
+        if ($v->fails())
+        {
+            return redirect()->back()->withInput()->withErrors($v->errors());
+        }
 
-        return $articulo;
+        $id = $request->id_articulo;
+        $update = articulos::findOrFail($id);
+        $update->descripcion         = $request->descripcion;
+        $update->unidad              = $request->unidad;
+        $update->id_rubro            = $request->id_rubro;
+        $update->id_subrubro         = $request->id_subrubro;
+        $update->usuario             = $request->usuario;
+        $update->save();
+        return \View::make('configuraciones.articulos');
     }
 }

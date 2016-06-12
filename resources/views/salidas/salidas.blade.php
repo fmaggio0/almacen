@@ -17,7 +17,7 @@
             <div class="box-header">
                 <fieldset>
                     <legend>Encabezado</legend>
-                        <div class="form-group" style="float:left;">
+                        <div class="form-group">
                             <label class="formsalidas">Tipo de movimiento:</label>
                             <select class="inputs">
                                 <option> *** Seleccione tipo de mov *** </option>
@@ -25,10 +25,6 @@
                                 <option>Salida por destrucción</option>
                                 <option>Salida asignada a trabajo</option>
                             </select>
-                        </div>
-                        <div class="form-group" style="float:right;">
-                            <label class="formsalidas">Responsable:</label>
-                            <input class="inputs" type="text" value="ZOLEZZI JOSE">
                         </div>
                          <div class="form-group">
                             <label class="formsalidas">Nº Nota:</label>

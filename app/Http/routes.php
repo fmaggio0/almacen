@@ -32,16 +32,23 @@ Route::get('/movimientos', ['as' => 'movimientos', function (){
 
 Route::get('/articulos', array('as' => 'articulos', 'uses' => 'ArticulosController@index' ));
 
-Route::get('rubros', function (Request $request) {      
+Route::get('rubros', function () {      
 	$rubros=DB::table('rubros')
 		->select('id_rubro AS id', 'descripcion AS text' )
 		->get();
     return Response::json($rubros);
 });
 
-Route::get('subrubros/id={id}', function ($id) {    
-	$subrubros=DB::table('subrubros')
+Route::get('rubrosub/id={id}', function ($id) {    
+	$rubrosub=DB::table('subrubros')
 		->where('id_rubro', '=', $id )
+		->select('id_subrubro AS id', 'descripcion AS text' )
+		->get();
+    return Response::json($rubrosub);
+});
+
+Route::get('subrubros', function () {    
+	$subrubros=DB::table('subrubros')
 		->select('id_subrubro AS id', 'descripcion AS text' )
 		->get();
     return Response::json($subrubros);
@@ -51,9 +58,9 @@ Route::post('/articulos/addarticulo', ['as' => 'addarticulos', 'uses' => 'Articu
 
 Route::post('/articulos/dardebaja', ['as' => 'dardebaja', 'uses' => 'ArticulosController@baja']);
 
+Route::post('/articulos/edit', ['as' => 'edit', 'uses' => 'ArticulosController@edit']);
+
 Route::controller('datatables', 'DatatablesController', [
     'anyData'  => 'datatables.data',
     'getIndex' => 'datatables',
 ]);
-
-Route::get('edit/{id}', 'ArticulosController@edit');
