@@ -37,7 +37,7 @@
 							</div>
 							{!! Form::label(null, 'Resposable:', array('class' => 'control-label col-sm-2')) !!}
 							<div class="col-sm-4">
-								{!! Form::select('responsable', array('' => 'Buscar responsable'), null ,array('id' => 'responsable', 'class'=>' form-control', 'style' => 'width: 100%', 'required' => 'required')) 
+								{!! Form::select('responsable', array('' => 'Buscar responsable'), null ,array('id' => 'responsables', 'class'=>' form-control', 'style' => 'width: 100%', 'required' => 'required')) 
 	                            !!}
 							</div>
 						
@@ -48,21 +48,24 @@
                         <div class="form-group">
 							{!! Form::label(null, 'Articulo:', array('class' => 'control-label col-sm-2')) !!}
 							<div class="col-sm-4">
-								{!! Form::select('articulo', array('' => 'Buscar articulo'), null ,array('id' => 'articulo', 'class'=>' form-control', 'style' => 'width: 100%', 'required' => 'required')) 
+								{!! Form::select('articulo', array('' => 'Buscar articulo'), null ,array('id' => 'articulos', 'class'=>' form-control', 'style' => 'width: 100%', 'required' => 'required')) 
 	                            !!}
 							</div>
 							{!! Form::label(null, 'Retirado por:', array('class' => 'control-label col-sm-2')) !!}
 							<div class="col-sm-4">
-								{!! Form::select('retiradopor', array('' => 'Buscar personal'), null ,array('id' => 'retiradopor', 'class'=>' form-control', 'style' => 'width: 100%', 'required' => 'required')) 
+								{!! Form::select('retiradopor', array('' => 'Buscar personal'), null ,array('id' => 'empleados', 'class'=>' form-control', 'style' => 'width: 100%', 'required' => 'required')) 
 	                            !!}
 							</div>
 						</div>
 						<div class="form-group">
-							{!! Form::label(null, 'Stock actual: 4', array('class' => 'control-label col-sm-2')) !!}
-							<div class="col-sm-2">
-							{!! Form::text('cantidad',  null, array('class' => 'form-control', 'placeholder' => 'Cantidad', 'required' => 'required')) !!}
+							{!! Form::label(null, 'Cantidad:', array('class' => 'control-label col-sm-2')) !!}
+							<div class="col-sm-4">
+							{!! Form::text('cantidad',  null, array('id' => 'cantidad', 'class' => 'form-control', 'placeholder' => 'Stock actual', 'required' => 'required')) !!}
 							</div>
-							
+							<div class="col-sm-4">
+								{!! Form::submit('Agregar', array('id' => 'empleados', 'class'=>'btn btn-success')) 
+	                            !!}
+							</div>
 						</div>
                         
                	 </fieldset>
@@ -90,6 +93,13 @@
 		                },
 		                "paging":   false,
 		            });
+      				$('#articulos').on("select2:select", function(e) {
+      					$('#cantidad').attr('placeholder', function(){
+      						
+      						
+      					});
+	                	
+               		});
       			</script>
 
 				</div>

@@ -252,12 +252,53 @@
             $('#addsalida').click(function(){
                 $("#salidastock").modal();
             });
-            $('#responsable').select2();
-            $('#destino').select2();
-            $('#articulo').select2();
+            //SELECT2
+            $.getJSON("/movimientos/responsables", function (json) { //para modal edit y add
+                    $("#responsables").select2({
+                        data: json,
+                        language: "es",
+                    });
+            });
+            $.getJSON("/movimientos/empleados", function (json) { //para modal edit y add
+                    $("#empleados").select2({
+                        data: json,
+                        language: "es",
+                    });
+            });
 
+            $("#articulos").select2({
+                minimumInputLength: 2,
+                minimumResultsForSearch: 10,
+                tokenSeparators: [','],
+                ajax:   
+                    {
+                        url: "/movimientos/articulos",
+                        dataType: 'json',
+                        delay: 450,
+                        data: function(params) {
+                            return {
+                                term: params.term
+                            }
+                        },
+                        processResults: function (data) {
+                             data = data.map(function (item) {
+                                return {
+                                    id: item.id,
+                                    text: item.text,
+                                    stock: item.stock_actual,
+                                    unidad: item.unidad
 
-
+                                };
+                            });
+                            return { results: data };
+                        },
+                        cache: true
+                    }
+            });
+            $("#articulos").on("select2:select", function(e) { 
+                data=$("#articulos").select2('data')[0];
+                $("#cantidad").attr('placeholder', data.stock+" "+data.unidad+"es disponibles" )
+            });
         });
         </script>
 @endsection
