@@ -63,7 +63,7 @@
 							{!! Form::text('cantidad',  null, array('id' => 'cantidad', 'class' => 'form-control', 'placeholder' => 'Stock actual', 'required' => 'required')) !!}
 							</div>
 							<div class="col-sm-4">
-								{!! Form::submit('Agregar', array('id' => 'empleados', 'class'=>'btn btn-success')) 
+								{!! Form::button('Agregar', array('id' => 'agregar', 'class'=>'btn btn-success')) 
 	                            !!}
 							</div>
 						</div>
@@ -75,7 +75,7 @@
 		                <table id="tabla-salidastock" class="table table-striped table-bordered"  cellspacing="0" width="100%">
 		                    <thead>
 		                        <tr>
-		                            <th>ID</th>
+		                            <th>Nro Item</th>
 		                            <th>Articulo</th>
 		                            <th>Cantidad</th>
 		                            <th>Retirado por</th>
@@ -87,19 +87,46 @@
       			</div><!-- /.box -->
 
       			<script>
-      				$('#tabla-salidastock').DataTable({
+      				$("#tabla-salidastock").DataTable({
 		                language: {
 		                    url: "{!! asset('/plugins/datatables/lenguajes/spanish.json') !!}"
 		                },
 		                "paging":   false,
 		            });
-      				$('#articulos').on("select2:select", function(e) {
-      					$('#cantidad').attr('placeholder', function(){
+      				$("#articulos").on("select2:select", function(e) {
+      					$("#cantidad").attr('placeholder', function(){
       						
       						
       					});
 	                	
                		});
+
+               		var contador = 1;
+               		$("#agregar").on( 'click', function () {
+               		 	var articulos = $('#articulos :selected').text();
+               		 	var empleados = $('#empleados :selected').text();
+               		 	var cantidad = $("#cantidad").val();
+
+				        $("#tabla-salidastock").DataTable().row.add( [
+				            contador,
+				            articulos,
+				            cantidad,
+				            empleados,
+				            "<a class='btn botrojo btn-xs' href='#'><i class='glyphicon glyphicon-trash delete'></i></a>"
+				        ] ).draw( false );
+				        contador++;
+
+				        $("#articulos").select2("val", "");
+               		 	$("#empleados").select2("val", "");
+               		 	$("#cantidad").val("");
+				    });
+
+				    $("#tabla-salidastock tbody").on( "click", ".delete", function () {
+					    $("#tabla-salidastock").DataTable()
+					        .row( $(this).parents("tr") )
+					        .remove()
+					        .draw();
+					});
       			</script>
 
 				</div>

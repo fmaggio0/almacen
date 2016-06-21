@@ -274,7 +274,7 @@
                     {
                         url: "/movimientos/articulos",
                         dataType: 'json',
-                        delay: 450,
+                        delay: 300,
                         data: function(params) {
                             return {
                                 term: params.term
