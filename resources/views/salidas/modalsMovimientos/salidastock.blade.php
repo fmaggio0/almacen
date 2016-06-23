@@ -37,7 +37,7 @@
 							</div>
 							{!! Form::label(null, 'Resposable:', array('class' => 'control-label col-sm-2')) !!}
 							<div class="col-sm-4">
-								{!! Form::select('responsable', array('' => 'Buscar responsable'), null ,array('id' => 'responsables', 'class'=>' form-control', 'style' => 'width: 100%', 'required' => 'required')) 
+								{!! Form::select('responsable', array('' => ''), null ,array('id' => 'responsables', 'class'=>' form-control', 'style' => 'width: 100%', 'required' => 'required')) 
 	                            !!}
 							</div>
 						
@@ -48,12 +48,12 @@
                         <div class="form-group">
 							{!! Form::label(null, 'Articulo:', array('class' => 'control-label col-sm-2')) !!}
 							<div class="col-sm-4">
-								{!! Form::select('articulo', array('' => 'Buscar articulo'), null ,array('id' => 'articulos', 'class'=>' form-control', 'style' => 'width: 100%', 'required' => 'required')) 
+								{!! Form::select('articulo', array('' => ''), null ,array('id' => 'articulos', 'class'=>' form-control', 'style' => 'width: 100%', 'required' => 'required')) 
 	                            !!}
 							</div>
 							{!! Form::label(null, 'Retirado por:', array('class' => 'control-label col-sm-2')) !!}
 							<div class="col-sm-4">
-								{!! Form::select('retiradopor', array('' => 'Buscar personal'), null ,array('id' => 'empleados', 'class'=>' form-control', 'style' => 'width: 100%', 'required' => 'required')) 
+								{!! Form::select('retiradopor', array('' => ''), null ,array('id' => 'empleados', 'class'=>' form-control', 'style' => 'width: 100%', 'required' => 'required')) 
 	                            !!}
 							</div>
 						</div>

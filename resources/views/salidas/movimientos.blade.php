@@ -252,23 +252,32 @@
             $('#addsalida').click(function(){
                 $("#salidastock").modal();
             });
+            $('.close').click(function() {
+                    $('#salidastock').modal('hide');
+            });
             //SELECT2
             $.getJSON("/movimientos/responsables", function (json) { //para modal edit y add
                     $("#responsables").select2({
                         data: json,
                         language: "es",
+                        placeholder: "Seleccione un responsable",
+                        allowClear: true
                     });
             });
             $.getJSON("/movimientos/empleados", function (json) { //para modal edit y add
                     $("#empleados").select2({
                         data: json,
                         language: "es",
+                        placeholder: "Seleccione un empleado",
+                        allowClear: true
                     });
             });
 
             $("#articulos").select2({
                 minimumInputLength: 2,
                 minimumResultsForSearch: 10,
+                placeholder: "Seleccione un articulo",
+                allowClear: true,
                 tokenSeparators: [','],
                 ajax:   
                     {
