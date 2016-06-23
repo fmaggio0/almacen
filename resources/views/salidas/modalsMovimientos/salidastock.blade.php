@@ -32,7 +32,7 @@
 					<div class="form-group">
 							{!! Form::label(null, 'Destino:', array('class' => 'control-label col-sm-2')) !!}
 							<div class="col-sm-4">
-								{!! Form::select('destino', array('' => 'Buscar destino'), null ,array('id' => 'destino', 'class'=>' form-control', 'style' => 'width: 100%', 'required' => 'required')) 
+								{!! Form::select('destino', array('' => 'Buscar destino'), null ,array('id' => 'destino', 'class'=>' form-control', 'style' => 'width: 100%')) 
 	                            !!}
 							</div>
 							{!! Form::label(null, 'Resposable:', array('class' => 'control-label col-sm-2')) !!}
@@ -108,10 +108,11 @@
                		 	var cantidad = $("#cantidad").val();
 
 				        $("#tabla-salidastock").DataTable().row.add( [
-				            contador,
-				            articulos,
-				            cantidad,
-				            empleados,
+				            contador+"<input type='hidden' name='nroitem[]' value='"+contador+"'>",
+				            articulos+"<input type='hidden' name='articulos[]' value='"+articulos+"'>",
+				            cantidad+"<input type='hidden' name='cantidad[]' value='"+cantidad+"'>",
+				            empleados+"<input type='hidden' name='empleados[]' value='"+empleados+"'>",
+
 				            "<a class='btn botrojo btn-xs' href='#'><i class='glyphicon glyphicon-trash delete'></i></a>"
 				        ] ).draw( false );
 				        contador++;
