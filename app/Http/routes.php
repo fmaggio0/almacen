@@ -70,7 +70,10 @@ Route::get('/movimientos/empleados', function () {
 
 Route::get('/movimientos/articulos', function (Illuminate\Http\Request  $request) {
     $term = $request->term ?: '';
-    $tags = App\articulos::where('descripcion', 'like', $term.'%')->select('descripcion AS text', 'id_articulo AS id', 'stock_actual', 'unidad')->get()->toJson();
+    $tags = App\articulos::where('descripcion', 'like', $term.'%')
+	    ->select('descripcion AS text', 'id_articulo AS id', 'stock_actual', 'unidad')
+	    ->get()
+	    ->toJson();
     return $tags;
 });
 

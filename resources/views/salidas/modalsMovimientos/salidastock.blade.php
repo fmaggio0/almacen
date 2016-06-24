@@ -2,7 +2,7 @@
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 
-		{!! Form::open(['route' => 'addarticulos', 'method' => 'POST', 'class' => 'form-horizontal' ]) !!}
+		{!! Form::open(['route' => 'addsalida', 'method' => 'POST', 'class' => 'form-horizontal' ]) !!}
 
 				<div class="modal-header" style="background: #4682B4; color: #FFFFFF;">
 					<button type="button" class="close" date-dismiss='modal' aria-hidden='true'>&times;</button>
@@ -20,9 +20,9 @@
 
 				<div class="modal-body">
 					<div class="form-group">
-							{!! Form::label('articulo', 'Tipo de retiro:', array('class' => 'control-label col-sm-2')) !!}
+							{!! Form::label('tipo_salida', 'Tipo de retiro:', array('class' => 'control-label col-sm-2')) !!}
 							<div class="col-sm-4">
-								{!! Form::select('id_rubro', array('retiropersonal' => 'Salida por retiro personal', 'retirodestruccion' => 'Salida por destruccion', 'salidatrabajo' => 'Salida asignada a trabajo'), null ,array('class'=>'completarrubros form-control', 'style' => 'width: 100%', 'required' => 'required')) 
+								{!! Form::select('tipo_salida', array('retiropersonal' => 'Salida por retiro personal', 'retirodestruccion' => 'Salida por destruccion', 'salidatrabajo' => 'Salida asignada a trabajo'), null ,array('class'=>'completarrubros form-control', 'style' => 'width: 100%', 'required' => 'required')) 
                             !!}
 							</div>
 
@@ -48,19 +48,19 @@
                         <div class="form-group">
 							{!! Form::label(null, 'Articulo:', array('class' => 'control-label col-sm-2')) !!}
 							<div class="col-sm-4">
-								{!! Form::select('articulo', array('' => ''), null ,array('id' => 'articulos', 'class'=>' form-control', 'style' => 'width: 100%', 'required' => 'required')) 
+								{!! Form::select('', array('' => ''), null ,array('id' => 'articulos', 'class'=>' form-control', 'style' => 'width: 100%')) 
 	                            !!}
 							</div>
 							{!! Form::label(null, 'Retirado por:', array('class' => 'control-label col-sm-2')) !!}
 							<div class="col-sm-4">
-								{!! Form::select('retiradopor', array('' => ''), null ,array('id' => 'empleados', 'class'=>' form-control', 'style' => 'width: 100%', 'required' => 'required')) 
+								{!! Form::select('', array('' => ''), null ,array('id' => 'empleados', 'class'=>' form-control', 'style' => 'width: 100%')) 
 	                            !!}
 							</div>
 						</div>
 						<div class="form-group">
 							{!! Form::label(null, 'Cantidad:', array('class' => 'control-label col-sm-2')) !!}
 							<div class="col-sm-4">
-							{!! Form::text('cantidad',  null, array('id' => 'cantidad', 'class' => 'form-control', 'placeholder' => 'Stock actual', 'required' => 'required')) !!}
+							{!! Form::text('',  null, array('id' => 'cantidad', 'class' => 'form-control', 'placeholder' => 'Stock actual')) !!}
 							</div>
 							<div class="col-sm-4">
 								{!! Form::button('Agregar', array('id' => 'agregar', 'class'=>'btn btn-success')) 
@@ -103,15 +103,17 @@
 
                		var contador = 1;
                		$("#agregar").on( 'click', function () {
-               		 	var articulos = $('#articulos :selected').text();
-               		 	var empleados = $('#empleados :selected').text();
+               		 	var articulos = $("#articulos :selected").text();
+               		 	var articulosid = $("#articulos :selected").val();
+               		 	var empleados = $("#empleados :selected").text();
+               		 	var empleadosid = $("#empleados :selected").val();
                		 	var cantidad = $("#cantidad").val();
 
 				        $("#tabla-salidastock").DataTable().row.add( [
-				            contador+"<input type='hidden' name='nroitem[]' value='"+contador+"'>",
-				            articulos+"<input type='hidden' name='articulos[]' value='"+articulos+"'>",
-				            cantidad+"<input type='hidden' name='cantidad[]' value='"+cantidad+"'>",
-				            empleados+"<input type='hidden' name='empleados[]' value='"+empleados+"'>",
+				            contador,
+				            articulos+"<input type='hidden' name='articulos1["+contador+"]' value='"+articulosid+"'>",
+				            cantidad+"<input type='hidden' name='cantidad1["+contador+"]' value='"+cantidad+"'>",
+				            empleados+"<input type='hidden' name='empleados1["+contador+"]' value='"+empleadosid+"'>",
 
 				            "<a class='btn botrojo btn-xs' href='#'><i class='glyphicon glyphicon-trash delete'></i></a>"
 				        ] ).draw( false );

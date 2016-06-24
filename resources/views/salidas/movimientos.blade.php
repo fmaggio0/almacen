@@ -88,132 +88,6 @@
                                     <i class="fa fa-times"></i></a>
                             </td>
                         </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>NOTSA-4</td>
-                            <td>Salida asignada a trabajo</td>
-                            <td>Espacios verdes</td>
-                            <td>Zolezzi, Jose</td>
-                            <td>29/05/2016 10:44</td>
-                            <td>ndalmas0</td>
-                            <td><span class="label label-success">Registrado</span></td>
-                             <td>
-                                <a class="btn botceleste btn-xs" href="#">
-                                    <i class="fa fa-search"></i></a> 
-                                <a class="btn botgris btn-xs" href="#">
-                                    <i class="fa fa-print"></i></a> 
-                                <a class="btn botrojo btn-xs" href="#">
-                                    <i class="fa fa-times"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                            <td>NOTSA-5</td>
-                            <td>Salida por retiro personal</td>
-                            <td>Espacios verdes</td>
-                            <td>Zolezzi, Jose</td>
-                            <td>29/05/2016 10:44</td>
-                            <td>ndalmas0</td>
-                            <td><span class="label label-success">Registrado</span></td>
-                             <td>
-                                <a class="btn botceleste btn-xs" href="#">
-                                    <i class="fa fa-search"></i></a> 
-                                <a class="btn botgris btn-xs" href="#">
-                                    <i class="fa fa-print"></i></a> 
-                                <a class="btn botrojo btn-xs" href="#">
-                                    <i class="fa fa-times"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>6</td>
-                            <td>NOTSA-6</td>
-                            <td>Salida por retiro personal</td>
-                            <td>Espacios verdes</td>
-                            <td>Zolezzi, Jose</td>
-                            <td>29/05/2016 10:44</td>
-                            <td>ndalmas0</td>
-                            <td><span class="label label-success">Registrado</span></td>
-                             <td>
-                                <a class="btn botceleste btn-xs" href="#">
-                                    <i class="fa fa-search"></i></a> 
-                                <a class="btn botgris btn-xs" href="#">
-                                    <i class="fa fa-print"></i></a> 
-                                <a class="btn botrojo btn-xs" href="#">
-                                    <i class="fa fa-times"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>7</td>
-                            <td>NOTSA-7</td>
-                            <td>Salida asignada a trabajo</td>
-                            <td>Espacios verdes</td>
-                            <td>Zolezzi, Jose</td>
-                            <td>29/05/2016 10:44</td>
-                            <td>ndalmas0</td>
-                            <td><span class="label label-warning">Pendiente</span></td>
-                             <td>
-                                <a class="btn botceleste btn-xs" href="#">
-                                    <i class="fa fa-search"></i></a> 
-                                <a class="btn botgris btn-xs" href="#">
-                                    <i class="fa fa-upload"></i></a> 
-                                <a class="btn botrojo btn-xs" href="#">
-                                    <i class="fa fa-times"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>8</td>
-                            <td>NOTSA-8</td>
-                            <td>Salida por retiro personal</td>
-                            <td>Espacios verdes</td>
-                            <td>Zolezzi, Jose</td>
-                            <td>29/05/2016 10:44</td>
-                            <td>ndalmas0</td>
-                            <td><span class="label label-warning">Pendiente</span></td>
-                             <td>
-                                <a class="btn botceleste btn-xs" href="#">
-                                    <i class="fa fa-search"></i></a> 
-                                <a class="btn botgris btn-xs" href="#">
-                                    <i class="fa fa-upload"></i></a> 
-                                <a class="btn botrojo btn-xs" href="#">
-                                    <i class="fa fa-times"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>9</td>
-                            <td>NOTSA-9</td>
-                            <td>Salida por retiro personal</td>
-                            <td>Espacios verdes</td>
-                            <td>Zolezzi, Jose</td>
-                            <td>29/05/2016 10:44</td>
-                            <td>ndalmas0</td>
-                            <td><span class="label label-success">Registrado</span></td>
-                             <td>
-                                <a class="btn botceleste btn-xs" href="#">
-                                    <i class="fa fa-search"></i></a> 
-                                <a class="btn botgris btn-xs" href="#">
-                                    <i class="fa fa-print"></i></a> 
-                                <a class="btn botrojo btn-xs" href="#">
-                                    <i class="fa fa-times"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>10</td>
-                            <td>AUT-10</td>
-                            <td>Autorizacion retiro personal</td>
-                            <td>Espacios verdes</td>
-                            <td>Zolezzi, Jose</td>
-                            <td>29/05/2016 10:44</td>
-                            <td>ndalmas0</td>
-                            <td><span class="label label-success">Registrado</span></td>
-                             <td>
-                                <a class="btn botceleste btn-xs" href="#">
-                                    <i class="fa fa-search"></i></a> 
-                                <a class="btn botgris btn-xs" href="#">
-                                    <i class="fa fa-print"></i></a> 
-                                <a class="btn botrojo btn-xs" href="#">
-                                    <i class="fa fa-times"></i></a>
-                            </td>
-                        </tr>
                     </tbody>
                         <tr>
                             <th>ID</th>
@@ -224,14 +98,7 @@
                             <th>Fecha que registra</th>
                             <th>Usuario</th>
                             <th>Estado</th>
-                             <td>
-                                <a class="btn botceleste btn-xs" href="#">
-                                    <i class="fa fa-search"></i></a> 
-                                <a class="btn botgris btn-xs" href="#">
-                                    <i class="fa fa-print"></i></a> 
-                                <a class="btn botrojo btn-xs" href="#">
-                                    <i class="fa fa-times"></i></a>
-                            </td>
+                            <th>Acciones</th>
                         <tr>
                     </tfoot>
                 </table>
