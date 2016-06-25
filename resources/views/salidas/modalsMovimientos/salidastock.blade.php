@@ -22,7 +22,7 @@
 					<div class="form-group">
 							{!! Form::label('tipo_salida', 'Tipo de retiro:', array('class' => 'control-label col-sm-2')) !!}
 							<div class="col-sm-4">
-								{!! Form::select('tipo_salida', array('retiropersonal' => 'Salida por retiro personal', 'retirodestruccion' => 'Salida por destruccion', 'salidatrabajo' => 'Salida asignada a trabajo'), null ,array('class'=>'completarrubros form-control', 'style' => 'width: 100%', 'required' => 'required')) 
+								{!! Form::select('tipo_salida', array('salidatrabajo' => 'Salida asignada al trabajo', 'retiropersonal' => 'Elementos de seguridad'), null ,array('class'=>'completarrubros form-control', 'style' => 'width: 100%', 'required' => 'required')) 
                             !!}
 							</div>
 
@@ -32,12 +32,12 @@
 					<div class="form-group">
 							{!! Form::label(null, 'Destino:', array('class' => 'control-label col-sm-2')) !!}
 							<div class="col-sm-4">
-								{!! Form::select('destino', array('' => 'Buscar destino'), null ,array('id' => 'destino', 'class'=>' form-control', 'style' => 'width: 100%')) 
+								{!! Form::select('destino', array('' => ''), null ,array('id' => 'destinos', 'class'=>' form-control', 'style' => 'width: 100%')) 
 	                            !!}
 							</div>
-							{!! Form::label(null, 'Resposable:', array('class' => 'control-label col-sm-2')) !!}
+							{!! Form::label(null, 'Asignar a:', array('class' => 'control-label col-sm-2')) !!}
 							<div class="col-sm-4">
-								{!! Form::select('responsable', array('' => ''), null ,array('id' => 'responsables', 'class'=>' form-control', 'style' => 'width: 100%', 'required' => 'required')) 
+								{!! Form::select('subdestino', array('' => ''), null ,array('id' => 'subdestinos', 'class'=>' form-control', 'style' => 'width: 100%', 'disabled' => 'disabled')) 
 	                            !!}
 							</div>
 						
@@ -100,6 +100,21 @@
       					});
 	                	
                		});
+
+
+      				$("#destinos").on("select2:select", function(e) {
+      					$("#subdestinos").attr('disabled', false);
+      					var destinoid = $("#destinos :selected").val();
+      					$.getJSON("/movimientos/subdestinos/id="+ destinoid, function (json) { //para modal edit y add
+			                    $("#subdestinos").select2({
+			                        data: json,
+			                        language: "es",
+			                        placeholder: "IGNORAR POR AHORA... VER QUE HACER",
+			                        allowClear: true
+			                    });
+			            });
+               		});
+
 
                		var contador = 1;
                		$("#agregar").on( 'click', function () {

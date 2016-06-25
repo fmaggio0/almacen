@@ -60,13 +60,32 @@ Route::get('/movimientos/responsables', function () {
     return Response::json($responsable);
 });
 
-Route::get('/movimientos/empleados', function () {    
-	$empleados=DB::table('empleados')
-		->select('id_empleado AS id', 'apellido AS text' )
-		->where('responsable', '=', 0)
-		->get();
-    return Response::json($empleados);
+Route::get('/movimientos/empleados', function (Illuminate\Http\Request  $request) {
+    $term = $request->term ?: '';
+    $empleados = App\empleados::where('apellido', 'like', $term.'%')
+	    ->select('apellido AS text', 'id_empleado AS id')
+	    ->get()
+	    ->toJson();
+    return $empleados;
 });
+
+Route::get('/movimientos/subdestinos/id={id}', function ($id) {    
+	$subdestinos=DB::table('subdestinos')
+		->where('id_destino', '=', $id )
+		->select('id_subdestino AS id', 'descripcion_subdestino AS text' )
+		->get();
+    return Response::json($subdestinos);
+});
+
+Route::get('/movimientos/destinos', function (Illuminate\Http\Request  $request) {
+    $term = $request->term ?: '';
+    $destinos = App\Destinos::where('descripcion_destino', 'like', $term.'%')
+	    ->select('descripcion_destino AS text', 'id_destino AS id')
+	    ->get()
+	    ->toJson();
+    return $destinos;
+});
+
 
 Route::get('/movimientos/articulos', function (Illuminate\Http\Request  $request) {
     $term = $request->term ?: '';
@@ -76,6 +95,7 @@ Route::get('/movimientos/articulos', function (Illuminate\Http\Request  $request
 	    ->toJson();
     return $tags;
 });
+
 
 Route::post('/articulos/addarticulo', ['as' => 'addarticulos', 'uses' => 'ArticulosController@store']);
 

@@ -122,22 +122,34 @@
             $('.close').click(function() {
                     $('#salidastock').modal('hide');
             });
-            //SELECT2
-            $.getJSON("/movimientos/responsables", function (json) { //para modal edit y add
-                    $("#responsables").select2({
-                        data: json,
-                        language: "es",
-                        placeholder: "Seleccione un responsable",
-                        allowClear: true
-                    });
-            });
-            $.getJSON("/movimientos/empleados", function (json) { //para modal edit y add
-                    $("#empleados").select2({
-                        data: json,
-                        language: "es",
-                        placeholder: "Seleccione un empleado",
-                        allowClear: true
-                    });
+
+            $("#empleados").select2({
+                minimumInputLength: 2,
+                minimumResultsForSearch: 10,
+                placeholder: "Seleccione un empleado",
+                allowClear: true,
+                tokenSeparators: [','],
+                ajax:   
+                    {
+                        url: "/movimientos/empleados",
+                        dataType: 'json',
+                        delay: 300,
+                        data: function(params) {
+                            return {
+                                term: params.term
+                            }
+                        },
+                        processResults: function (data) {
+                             data = data.map(function (item) {
+                                return {
+                                    id: item.id,
+                                    text: item.text,
+                                };
+                            });
+                            return { results: data };
+                        },
+                        cache: true
+                    }
             });
 
             $("#articulos").select2({
@@ -171,6 +183,36 @@
                         cache: true
                     }
             });
+
+            $("#destinos").select2({
+                minimumInputLength: 2,
+                minimumResultsForSearch: 10,
+                placeholder: "Seleccione un destino",
+                allowClear: true,
+                tokenSeparators: [','],
+                ajax:   
+                    {
+                        url: "/movimientos/destinos",
+                        dataType: 'json',
+                        delay: 300,
+                        data: function(params) {
+                            return {
+                                term: params.term
+                            }
+                        },
+                        processResults: function (data) {
+                             data = data.map(function (item) {
+                                return {
+                                    id: item.id,
+                                    text: item.text,
+                                };
+                            });
+                            return { results: data };
+                        },
+                        cache: true
+                    }
+            });
+
             $("#articulos").on("select2:select", function(e) { 
                 data=$("#articulos").select2('data')[0];
                 $("#cantidad").attr('placeholder', data.stock+" "+data.unidad+"es disponibles" )
