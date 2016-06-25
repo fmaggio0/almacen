@@ -22,7 +22,7 @@
 					<div class="form-group">
 							{!! Form::label('tipo_salida', 'Tipo de retiro:', array('class' => 'control-label col-sm-2')) !!}
 							<div class="col-sm-4">
-								{!! Form::select('tipo_salida', array('salidatrabajo' => 'Salida asignada al trabajo', 'retiropersonal' => 'Elementos de seguridad'), null ,array('class'=>'completarrubros form-control', 'style' => 'width: 100%', 'required' => 'required')) 
+								{!! Form::select('tipo_retiro', array('salidatrabajo' => 'Salida asignada al trabajo', 'retiropersonal' => 'Elementos de seguridad'), null ,array('class'=>'completarrubros form-control', 'style' => 'width: 100%', 'required' => 'required')) 
                             !!}
 							</div>
 
@@ -126,9 +126,9 @@
 
 				        $("#tabla-salidastock").DataTable().row.add( [
 				            contador,
-				            articulos+"<input type='hidden' name='articulos1["+contador+"]' value='"+articulosid+"'>",
-				            cantidad+"<input type='hidden' name='cantidad1["+contador+"]' value='"+cantidad+"'>",
-				            empleados+"<input type='hidden' name='empleados1["+contador+"]' value='"+empleadosid+"'>",
+				            articulos+"<input type='hidden' name='articulos1[]' value='"+articulosid+"'>",
+				            cantidad+"<input type='hidden' name='cantidad1[]' value='"+cantidad+"'>",
+				            empleados+"<input type='hidden' name='empleados1[]' value='"+empleadosid+"'>",
 
 				            "<a class='btn botrojo btn-xs' href='#'><i class='glyphicon glyphicon-trash delete'></i></a>"
 				        ] ).draw( false );
