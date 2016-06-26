@@ -26,7 +26,8 @@
                             !!}
 							</div>
 
-							{!! Form::label('articulo', 'Despachante: ndalmas0', array('class' => 'control-label col-sm-6')) !!}
+							{!! Form::label('articulo', Auth::user()->name , array('class' => 'control-label col-sm-6')) !!}
+							{!! Form::hidden('usuario', Auth::user()->id) !!}
 
 					</div>
 					<div class="form-group">

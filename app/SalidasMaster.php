@@ -9,7 +9,7 @@ class SalidasMaster extends Model
 	protected $table = 'salidas_master';
 	protected $primaryKey = 'id_master';
     //Definimos los campos que se pueden llenar con asignación masiva
-    protected $fillable = ['tipo_retiro','id_destino'];
+    protected $fillable = ['tipo_retiro','id_destino', 'pendiente', 'usuario'];
 
     public function detalles()
     {

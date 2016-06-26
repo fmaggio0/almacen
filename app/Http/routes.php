@@ -110,3 +110,5 @@ Route::controller('datatables', 'DatatablesController', [
     'getIndex' => 'datatables',
 ]);
 
+Route::get('/movimientos/tabla','DatatablesController@salidastable');
+Route::get('/movimientos/tabladetalles','DatatablesController@salidasdetallestabla');

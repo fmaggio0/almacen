@@ -164,7 +164,10 @@ return [
         /*datatable manager */
 
         Yajra\Datatables\DatatablesServiceProvider::class,
-        Collective\Html\HtmlServiceProvider::class
+        Collective\Html\HtmlServiceProvider::class,
+        /* Handlebars*/
+
+        ProAI\Handlebars\HandlebarsServiceProvider::class
 
     ],
 

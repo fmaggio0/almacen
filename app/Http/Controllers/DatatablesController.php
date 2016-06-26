@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use Datatables;
-use App\articulos;
 use DB;
+use App\SalidasMaster;
+use App\SalidasDetalles;
 
 class DatatablesController extends Controller
 {
@@ -54,4 +55,47 @@ class DatatablesController extends Controller
         	})
             ->make(true);
 	}
+
+    public function salidastable()
+    {
+
+        $salidas = DB::table('salidas_master')
+            ->join('salidas_detalles', 'salidas_master.id_master', '=', 'salidas_detalles.id_master')
+            ->join('destinos', 'salidas_master.id_destino', '=', 'destinos.id_destino')
+            ->join('articulos', 'articulos.id_articulo', '=', 'salidas_detalles.id_articulo')
+            ->join('empleados', 'salidas_detalles.id_empleado', '=', 'empleados.id_empleado')
+            ->join('users', 'salidas_master.usuario', '=', 'users.id')
+            ->select(['salidas_master.id_master as id_master', 'salidas_master.tipo_retiro', 'destinos.descripcion_destino', 'salidas_master.updated_at', 'users.name', 'salidas_master.pendiente as pendiente']);
+
+        return Datatables::of($salidas)
+            ->addColumn('action', function ($salidas) {
+
+                if($salidas->pendiente == false)
+                {
+                    return '<a href="edit/'.$salidas->id_master.'" class="btn btn-xs btn-primary edit"><i class="glyphicon glyphicon-edit edit"></i></a>';
+                }
+                else
+                {
+                    /*return '<a href="#" value="'.$salidas->id_articulo.'" data-desc="'.$articulos->descripcion.'" data-selectunidad="'.$articulos->unidad.'" data-selectrubro="'.$articulos->id_rubro.'" data-selectsubrubro="'.$articulos->id_subrubro.'" class="btn btn-xs btn-primary edit"><i class="glyphicon glyphicon-edit edit"></i></a><a href="#" value="'.$articulos->id_articulo.'" class="btn btn-xs btn-danger delete"><i class="glyphicon glyphicon-remove"></i></a>';*/
+                }
+            })
+            ->editColumn('pendiente', function($salidas){
+                if( $salidas->pendiente == true )
+                {
+                    return "<span class='label label-danger'>Pendiente</span>";
+                }
+                else
+                {
+                    return "<span class='label label-success'>Registrado</span>";
+                }
+
+            })
+            ->make(true);
+    }
+    public function salidasdetallestabla($id)
+    {
+        $posts = SalidasDetalles::find($id)->posts();
+
+        return Datatables::of($posts)->make(true);
+    }
 }

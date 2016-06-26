@@ -20,12 +20,12 @@ class MovimientosController extends Controller
 	public function store(Request $request){
 
         $master = new SalidasMaster;
-        $detalles = new SalidasDetalles;
 
         $post = $request->all();
 
         $master->tipo_retiro = $post['tipo_retiro'];
         $master->id_destino = $post['destino'];
+        $master->usuario = $post['usuario'];
         $master->save();
 
         $j = $master->id_master;
@@ -40,7 +40,7 @@ class MovimientosController extends Controller
                                     'id_empleado'  => $post['empleados1'][$i],
                                     'cantidad' => $post['cantidad1'][$i]
                                     );
-                $detalles::insert($detalles);
+                SalidasDetalles::create($detalles);
             }
             return \View::make('salidas.movimientos');
         }
