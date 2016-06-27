@@ -65,7 +65,8 @@ class DatatablesController extends Controller
             ->join('articulos', 'articulos.id_articulo', '=', 'salidas_detalles.id_articulo')
             ->join('empleados', 'salidas_detalles.id_empleado', '=', 'empleados.id_empleado')
             ->join('users', 'salidas_master.usuario', '=', 'users.id')
-            ->select(['salidas_master.id_master as id_master', 'salidas_master.tipo_retiro', 'destinos.descripcion_destino', 'salidas_master.updated_at', 'users.name', 'salidas_master.pendiente as pendiente']);
+            ->select(['salidas_master.id_master as id_master', 'salidas_master.tipo_retiro', 'destinos.descripcion_destino', 'salidas_master.updated_at', 'users.name', 'salidas_master.pendiente as pendiente'])
+            ->distinct();
 
         return Datatables::of($salidas)
             ->addColumn('action', function ($salidas) {
@@ -94,8 +95,12 @@ class DatatablesController extends Controller
     }
     public function salidasdetallestabla($id)
     {
-        $posts = SalidasDetalles::find($id)->posts();
+        $salidas = DB::table('salidas_detalles')
+            ->join('articulos', 'salidas_detalles.id_articulo', '=', 'articulos.id_articulo')
+            ->join('empleados', 'salidas_detalles.id_empleado', '=', 'empleados.id_empleado')
+            ->select(['articulos.descripcion', 'empleados.nombre', 'salidas_detalles.cantidad'])
+            ->where('salidas_detalles.id_master', '=', $id);
 
-        return Datatables::of($posts)->make(true);
+        return Datatables::of($salidas)->make(true);
     }
 }

@@ -111,4 +111,4 @@ Route::controller('datatables', 'DatatablesController', [
 ]);
 
 Route::get('/movimientos/tabla','DatatablesController@salidastable');
-Route::get('/movimientos/tabladetalles','DatatablesController@salidasdetallestabla');
+Route::get('/movimientos/tabladetalles/id={id}', ['uses' =>'DatatablesController@salidasdetallestabla']);

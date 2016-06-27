@@ -145,7 +145,7 @@
             $('#tabla-movimientos tbody').on('click', 'td.details-control', function () {
                 var tr = $(this).closest('tr');
                 var row = table.row(tr);
-                var tableId = 'posts-' + row.data().id_master;
+                var tableId = row.data().id_master;
                 
                 if (row.child.isShown()) {
                     // This row is already open - close it
@@ -161,14 +161,26 @@
             });
 
             function initTable(tableId, data) {
-                $('#' + tableId).DataTable({
-                    processing: true,
-                    serverSide: true,
-                    ajax: "/movimientos/tabladetalles",
+                $(".details-table").attr("id", "post-"+tableId );
+                $('#post-' + tableId).DataTable({
+                    "processing": true,
+                    "serverSide": true,
+                    "paging": false,
+                    "bFilter": false,
+                    "ajax": "/movimientos/tabla",
+                    "error": function () {
+                    alert( 'Custom error' );
+                    },
+                    "ajax": "/movimientos/tabladetalles/id="+ tableId ,
                     columns: [
-                        { data: 'id', name: 'id' },
-                        { data: 'title', name: 'title' }
-                    ]
+                        {data: 'descripcion', name: 'articulos.descripcion'},
+                        {data: 'nombre', name: 'empleados.nombre'},
+                        {data: 'cantidad', name: 'salidas_detalles.cantidad'}
+                    ],
+                    language: {
+                        url: "{!! asset('/plugins/datatables/lenguajes/spanish.json') !!}"
+                    }
+
                 })
             }
 
