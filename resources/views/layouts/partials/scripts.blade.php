@@ -13,6 +13,7 @@
 <script src="{{ asset('/plugins/datatables/datatables.min.js') }}" type="text/javascript"></script>
 <!-- Bootstrap-select-->
 <script src="{{ asset('/plugins/select2/js/select2.min.js') }}"></script>
+<script src="{{ asset('/plugins/select2/js/es.js') }}"></script>
 
 <script src="{{ asset('/js/handlebars-v4.0.5.js') }}" type="text/javascript"></script>
 <!-- Optionally, you can add Slimscroll and FastClick plugins.

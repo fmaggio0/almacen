@@ -176,9 +176,6 @@
                 //MODAL ADD ARTICULOS -----------------------------------------------------------------------
                 $('#nuevo').click(function(){
                     $('#myModal').modal();
-                    $('#myModal').on('shown.bs.modal', function() {
-                        $(".desc").focus();
-                    });
                 });
                 //FIN MODAL ADD ARTICULOS -----------------------------------------------------------------------
                 

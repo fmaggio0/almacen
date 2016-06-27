@@ -210,14 +210,16 @@
             //MODAL SALIDA STOCK
             $('#addsalida').click(function(){
                 $("#salidastock").modal();
+                
             });
             $('.close').click(function() {
-                    $('#salidastock').modal('hide');
+                $('#salidastock').modal('hide');
             });
 
             $("#empleados").select2({
                 minimumInputLength: 2,
                 minimumResultsForSearch: 10,
+                language: "es",
                 placeholder: "Seleccione un empleado",
                 allowClear: true,
                 tokenSeparators: [','],
@@ -247,6 +249,7 @@
             $("#articulos").select2({
                 minimumInputLength: 2,
                 minimumResultsForSearch: 10,
+                language: "es",
                 placeholder: "Seleccione un articulo",
                 allowClear: true,
                 tokenSeparators: [','],
@@ -279,6 +282,7 @@
             $("#destinos").select2({
                 minimumInputLength: 2,
                 minimumResultsForSearch: 10,
+                language: "es",
                 placeholder: "Seleccione un destino",
                 allowClear: true,
                 tokenSeparators: [','],
@@ -303,12 +307,7 @@
                         },
                         cache: true
                     }
-            });
-
-            $("#articulos").on("select2:select", function(e) { 
-                data=$("#articulos").select2('data')[0];
-                $("#cantidad").attr('placeholder', data.stock+" "+data.unidad+"es disponibles" )
-            });
+            });  
         });
         </script>
 @endsection

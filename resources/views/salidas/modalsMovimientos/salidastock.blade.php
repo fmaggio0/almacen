@@ -22,7 +22,7 @@
 					<div class="form-group">
 							{!! Form::label('tipo_salida', 'Tipo de retiro:', array('class' => 'control-label col-sm-2')) !!}
 							<div class="col-sm-4">
-								{!! Form::select('tipo_retiro', array('salidatrabajo' => 'Salida asignada al trabajo', 'retiropersonal' => 'Elementos de seguridad'), null ,array('class'=>'completarrubros form-control', 'style' => 'width: 100%', 'required' => 'required')) 
+								{!! Form::select('tipo_retiro', array('salidatrabajo' => 'Salida asignada al trabajo', 'retiropersonal' => 'Elementos de seguridad'), null ,array('class'=>'tipo_retiro form-control', 'style' => 'width: 100%', 'required' => 'required')) 
                             !!}
 							</div>
 
@@ -49,7 +49,7 @@
                         <div class="form-group">
 							{!! Form::label(null, 'Articulo:', array('class' => 'control-label col-sm-2')) !!}
 							<div class="col-sm-4">
-								{!! Form::select('', array('' => ''), null ,array('id' => 'articulos', 'class'=>' form-control', 'style' => 'width: 100%')) 
+								{!! Form::select('', array('' => ''), null ,array('id' => 'articulos', 'class'=>' form-control', 'style' => 'width: 100%', 'tabindex' => '3')) 
 	                            !!}
 							</div>
 							{!! Form::label(null, 'Retirado por:', array('class' => 'control-label col-sm-2')) !!}
@@ -88,19 +88,35 @@
       			</div><!-- /.box -->
 
       			<script>
+      				//FOCUS ACCESIBILIDAD
+      				$('#salidastock').on('shown.bs.modal', function() {
+                    	$(".tipo_retiro").focus();
+               	 	});
+               	 	$(".tipo_retiro").blur(function (){
+               	 		$("#destinos").select2("open");
+               	 	});
+               	 	$("#destinos").on("select2:select", function(e) {
+               	 		$("#articulos").select2("open");
+               	 	});
+               	 	$("#articulos").on("select2:select", function(e) {
+               	 		$("#empleados").select2("open");
+               	 	});
+               	 	$("#empleados").on("select2:select", function(e) {
+               	 		$("#cantidad").focus();
+               	 	});
+               	 	//FIN
+
+
       				$("#tabla-salidastock").DataTable({
 		                language: {
 		                    url: "{!! asset('/plugins/datatables/lenguajes/spanish.json') !!}"
 		                },
 		                "paging":   false,
 		            });
-      				$("#articulos").on("select2:select", function(e) {
-      					$("#cantidad").attr('placeholder', function(){
-      						
-      						
-      					});
-	                	
-               		});
+      				$("#articulos").on("select2:select", function(e) { 
+		                data=$("#articulos").select2('data')[0];
+		                $("#cantidad").attr('placeholder', data.stock+" "+data.unidad+"es disponibles" )
+			        });
 
 
       				$("#destinos").on("select2:select", function(e) {
@@ -138,6 +154,7 @@
 				        $("#articulos").select2("val", "");
                		 	$("#empleados").select2("val", "");
                		 	$("#cantidad").val("");
+               		 	$("#articulos").select2("open");
 				    });
 
 				    $("#tabla-salidastock tbody").on( "click", ".delete", function () {
@@ -151,7 +168,7 @@
 				</div>
 
 				<div class="modal-footer">
-					{{ Form::submit('Guardar', ['class'=>'btn btn btn-primary'])}}
+					{{ Form::submit('Guardar', ['class'=>'btn btn btn-primary', 'tabindex' => '1'])}}
 					{!! Form::close() !!}
 				</div>
 		</div>
