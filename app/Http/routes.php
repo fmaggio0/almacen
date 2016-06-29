@@ -63,7 +63,7 @@ Route::get('/movimientos/responsables', function () {
 Route::get('/movimientos/empleados', function (Illuminate\Http\Request  $request) {
     $term = $request->term ?: '';
     $empleados = App\empleados::where('apellido', 'like', $term.'%')
-	    ->select('apellido AS text', 'id_empleado AS id')
+	    ->select('apellido AS text', 'id_empleado AS id', 'nombre')
 	    ->get()
 	    ->toJson();
     return $empleados;
@@ -112,3 +112,19 @@ Route::controller('datatables', 'DatatablesController', [
 
 Route::get('/movimientos/tabla','DatatablesController@salidastable');
 Route::get('/movimientos/tabladetalles/id={id}', ['uses' =>'DatatablesController@salidasdetallestabla']);
+
+
+//para el usuario
+
+Route::get('/usuario', array('as' => 'autorizaciones', 'uses' => 'AutorizacionesController@index' ));
+Route::post('/usuario/autorizar', ['as' => 'autorizar', 'uses' => 'AutorizacionesController@store']);
+
+Route::get('/usuario/destinos/id={id}', function ($id) {
+    $term = $request->term ?: '';
+    $destinos = App\Destinos::where('descripcion_destino', 'like', $term.'%')
+    	->where('id_destino', '=', $id )
+	    ->select('descripcion_destino AS text', 'id_destino AS id')
+	    ->get()
+	    ->toJson();
+    return $destinos;
+});

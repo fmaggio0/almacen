@@ -2,11 +2,11 @@
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 
-		{!! Form::open(['route' => 'addsalida', 'method' => 'POST', 'class' => 'form-horizontal' ]) !!}
+		{!! Form::open(['route' => 'autorizar', 'method' => 'POST', 'class' => 'form-horizontal' ]) !!}
 
 				<div class="modal-header" style="background: #4682B4; color: #FFFFFF;">
 					<button type="button" class="close" date-dismiss='modal' aria-hidden='true'>&times;</button>
-					<h4 class="modal-title">Salida de stock</h4> 
+					<h4 class="modal-title">Autorizacion para retiro en el almacen - {!!Auth::user()->lugar_trabajo !!}</h4> 
 				</div>
 
 				@if($errors->has())
@@ -23,10 +23,12 @@
 							{!! Form::label('tipo_salida', 'Tipo de retiro:', array('class' => 'control-label col-sm-2')) !!}
 							<div class="col-sm-4">
 								{!! Form::select('tipo_retiro', array('salidatrabajo' => 'Salida asignada al trabajo', 'retiropersonal' => 'Elementos de seguridad'), null ,array('class'=>'tipo_retiro form-control', 'style' => 'width: 100%', 'required' => 'required')) 
-                            !!}
+	                            !!}
 							</div>
-
-							{!! Form::label('articulo', Auth::user()->name , array('class' => 'control-label col-sm-6')) !!}
+							{!! Form::label('articulo', 'Usuario:' , array('class' => 'control-label col-sm-2')) !!}
+							<div class="col-sm-4">
+								<h4> {!!Auth::user()->name !!}</h4>
+							</div>
 							{!! Form::hidden('usuario', Auth::user()->id) !!}
 
 					</div>
@@ -38,14 +40,14 @@
 							</div>
 							{!! Form::label(null, 'Asignar a:', array('class' => 'control-label col-sm-2')) !!}
 							<div class="col-sm-4">
-								{!! Form::select('subdestino', array('' => ''), null ,array('id' => 'subdestinos', 'class'=>' form-control', 'style' => 'width: 100%', 'disabled' => 'disabled')) 
+								{!! Form::select('asignacion', array('' => ''), null ,array('id' => 'asignacion', 'class'=>' form-control', 'style' => 'width: 100%')) 
 	                            !!}
 							</div>
 						
 					</div>
 
 					<fieldset>
-                     <legend>Detalles</legend>
+                     <legend>Articulos solicitados</legend>
                         <div class="form-group">
 							{!! Form::label(null, 'Articulo:', array('class' => 'control-label col-sm-2')) !!}
 							<div class="col-sm-4">
@@ -61,7 +63,7 @@
 						<div class="form-group">
 							{!! Form::label(null, 'Cantidad:', array('class' => 'control-label col-sm-2')) !!}
 							<div class="col-sm-4">
-							{!! Form::number('',  null, array('id' => 'cantidad', 'class' => 'form-control', 'placeholder' => 'Stock actual', 'min' => '1')) !!}
+							{!! Form::number('',  null, array('id' => 'cantidad', 'class' => 'form-control', 'placeholder' => 'Cantidad solicitada', 'min' => '1')) !!}
 							</div>
 							<div class="col-sm-4">
 								{!! Form::button('Agregar', array('id' => 'agregar', 'class'=>'btn btn-success')) 
@@ -113,11 +115,6 @@
 		                },
 		                "paging":   false,
 		            });
-      				$("#articulos").on("select2:select", function(e) { 
-		                data=$("#articulos").select2('data')[0];
-		                $("#cantidad").attr('placeholder', data.stock+" "+data.unidad+"es disponibles" );
-			        });
-
 
       				$("#destinos").on("select2:select", function(e) {
       					$("#subdestinos").attr('disabled', false);

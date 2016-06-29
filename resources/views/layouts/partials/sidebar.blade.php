@@ -70,7 +70,7 @@
                 </ul>
             </li>
 
-
+            <li><a href="{{ URL::route('autorizaciones') }}"><i class='fa fa-link'></i> <span>Autorizaciones***</span></a></li>
         </ul><!-- /.sidebar-menu -->
     </section>
     <!-- /.sidebar -->

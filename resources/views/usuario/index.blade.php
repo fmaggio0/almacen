@@ -103,8 +103,8 @@
             </div><!-- /.box-body -->
         </div><!-- /.box -->
 
-        @include('salidas.modalsMovimientos.salidastock')
-        @include('salidas.modalsMovimientos.detalles') 
+        @include('usuario.modalsMovimientosAut.crear_autorizacion')
+        @include('usuario.modalsMovimientosAut.detalles') 
 
         <script>
        $(document).ready( function () {
@@ -184,12 +184,35 @@
                 })
             }
 
+            /*
+            $('#tabla-movimientos').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "ajax": "/movimientos/tabla",
+                "error": function () {
+                    alert( 'Custom error' );
+                  },
+                "columns":[
+                    {data: 'id_master', name: 'salidas_master.id_master'},
+                    {data: 'tipo_retiro', name: 'salidas_master.tipo_retiro'},
+                    {data: 'descripcion_destino', name: 'destinos.descripcion_destino'},
+                    {data: 'updated_at', name: 'salidas_master.updated_at'},
+                    {data: 'name', name: 'users.name'},
+                    {data: 'pendiente', name: 'salidas_master.pendiente'},
+                    {data: 'action', name: 'action' , orderable: false, searchable: false},
+                ],
+
+                language: {
+                    url: "{!! asset('/plugins/datatables/lenguajes/spanish.json') !!}"
+                }
+            });*/
+
             //MODAL SALIDA STOCK
             $('#addsalida').click(function(){
                 $("#salidastock").modal();
                 
             });
-            $(".close").click(function() {
+            $('.close').click(function() {
                 $('#salidastock').modal('hide');
             });
 
@@ -265,7 +288,7 @@
                 tokenSeparators: [','],
                 ajax:   
                     {
-                        url: "/movimientos/destinos",
+                        url: "/usuario/destinos",
                         dataType: 'json',
                         delay: 300,
                         data: function(params) {
