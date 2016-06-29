@@ -122,7 +122,7 @@
       				$("#destinos").on("select2:select", function(e) {
       					$("#subdestinos").attr('disabled', false);
       					var destinoid = $("#destinos :selected").val();
-      					$.getJSON("/movimientos/subdestinos/id="+ destinoid, function (json) { //para modal edit y add
+      					$.getJSON("/movimientos/subareas/id="+ destinoid, function (json) { //para modal edit y add
 			                    $("#subdestinos").select2({
 			                        data: json,
 			                        language: "es",

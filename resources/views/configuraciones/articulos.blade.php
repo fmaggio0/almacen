@@ -66,7 +66,7 @@
                         {data: 'id_articulo', name: 'articulos.id_articulo'},
                         {data: 'descripcion', name: 'articulos.descripcion'},
                         {data: 'unidad', name: 'articulos.unidad'},
-                        {data: 'usuario', name: 'articulos.unidad'},
+                        {data: 'usuario', name: 'users.name'},
                         {data: 'descripcionrubro', name: 'rubros.descripcion'},
                         {data: 'descripcionsubrubro', name: 'subrubros.descripcion'},
                         {data: 'updated_at', name: 'articulos.updated_at'},

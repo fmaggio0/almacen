@@ -1,6 +1,8 @@
 <?php
 namespace App;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\UserInfo;
+
 class User extends Authenticatable
 {
     /**
@@ -20,4 +22,8 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+    public function UserInfo()
+    {
+        return $this->hasOne('App\UserInfo');
+    }
 }

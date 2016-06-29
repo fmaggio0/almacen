@@ -7,8 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use DB;
 use App\Http\Controllers\Controller;
-use App\addarticulo;
-use App\articulos;
+use App\Articulos;
 
 class ArticulosController extends Controller
 {
@@ -19,13 +18,13 @@ class ArticulosController extends Controller
 
 	public function store(Request $request)
 	{
-        $articulo = new addarticulo;
+        $articulo = new Articulos;
      
         $v = \Validator::make($request->all(), [
             
             'descripcion' => 'required|max:255',
             'unidad' => 'required|max:20',
-            'usuario'    => 'required|max:255', //modificar cuando cambie la tabla
+            'id_usuario'    => 'required', //modificar cuando cambie la tabla
             'id_rubro' => 'required|numeric',
             'id_subrubro' => ''
         ]);
@@ -41,7 +40,7 @@ class ArticulosController extends Controller
     public function baja(Request $request)
     {
         $id = $request->id_articulo;
-        $update = articulos::findOrFail($id);
+        $update = Articulos::findOrFail($id);
         $update->estado = false;
         $update->save();
         return \View::make('configuraciones.articulos');
@@ -52,7 +51,7 @@ class ArticulosController extends Controller
             
             'descripcion' => 'required|max:255|min:4',
             'unidad' => 'required|max:20',
-            'usuario'    => 'required|max:255', //modificar cuando cambie la tabla
+            'id_usuario'    => 'required', //modificar cuando cambie la tabla
             'id_rubro' => 'required|numeric',
             'id_subrubro' => ''
         ]);
@@ -63,12 +62,12 @@ class ArticulosController extends Controller
         }
 
         $id = $request->id_articulo;
-        $update = articulos::findOrFail($id);
+        $update = Articulos::findOrFail($id);
         $update->descripcion         = $request->descripcion;
         $update->unidad              = $request->unidad;
         $update->id_rubro            = $request->id_rubro;
         $update->id_subrubro         = $request->id_subrubro;
-        $update->usuario             = $request->usuario;
+        $update->id_usuario             = $request->id_usuario;
         $update->save();
         return \View::make('configuraciones.articulos');
     }

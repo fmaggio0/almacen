@@ -16,10 +16,6 @@ class CrearEmpleadosTabla extends Migration
             $table->increments('id_empleado');
             $table->string('nombre', 60);
             $table->string('apellido', 60);
-            $table->string('area', 60);
-            $table->boolean('responsable')->default(false);  
-            $table->integer('responsable_area')->unsigned()->nullable();
-            $table->foreign('responsable_area')->references('id_empleado')->on('empleados');
             $table->integer('dni')->nullable();
             $table->integer('legajo')->nullable();
             $table->timestamps();

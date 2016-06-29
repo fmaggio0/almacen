@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CrearSubdestinosTabla extends Migration
+class CrearSubareasTabla extends Migration
 {
    /**
      * Run the migrations.
@@ -12,11 +12,11 @@ class CrearSubdestinosTabla extends Migration
      */
     public function up()
     {
-        Schema::create('subdestinos', function (Blueprint $table) {
-            $table->increments('id_subdestino');
-            $table->integer('id_destino')->unsigned();
-            $table->foreign('id_destino')->references('id_destino')->on('destinos');
-            $table->string('descripcion_subdestino', 60);
+        Schema::create('subareas', function (Blueprint $table) {
+            $table->increments('id_subarea');
+            $table->integer('id_area')->unsigned();
+            $table->foreign('id_area')->references('id_area')->on('areas');
+            $table->string('descripcion_subarea', 60);
             $table->timestamps();
         });
     }

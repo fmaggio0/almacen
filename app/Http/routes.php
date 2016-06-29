@@ -62,34 +62,34 @@ Route::get('/movimientos/responsables', function () {
 
 Route::get('/movimientos/empleados', function (Illuminate\Http\Request  $request) {
     $term = $request->term ?: '';
-    $empleados = App\empleados::where('apellido', 'like', $term.'%')
+    $empleados = App\Empleados::where('apellido', 'like', $term.'%')
 	    ->select('apellido AS text', 'id_empleado AS id', 'nombre')
 	    ->get()
 	    ->toJson();
     return $empleados;
 });
 
-Route::get('/movimientos/subdestinos/id={id}', function ($id) {    
-	$subdestinos=DB::table('subdestinos')
-		->where('id_destino', '=', $id )
-		->select('id_subdestino AS id', 'descripcion_subdestino AS text' )
+Route::get('/movimientos/subareas/id={id}', function ($id) {    
+	$subareas=DB::table('subareas')
+		->where('id_area', '=', $id )
+		->select('id_subarea AS id', 'descripcion_subarea AS text' )
 		->get();
-    return Response::json($subdestinos);
+    return Response::json($subareas);
 });
 
-Route::get('/movimientos/destinos', function (Illuminate\Http\Request  $request) {
+Route::get('/movimientos/subareas', function (Illuminate\Http\Request  $request) {
     $term = $request->term ?: '';
-    $destinos = App\Destinos::where('descripcion_destino', 'like', $term.'%')
-	    ->select('descripcion_destino AS text', 'id_destino AS id')
+    $subareas = App\SubAreas::where('descripcion_subarea', 'like', $term.'%')
+	    ->select('descripcion_subarea AS text', 'id_subarea AS id')
 	    ->get()
 	    ->toJson();
-    return $destinos;
+    return $subareas;
 });
 
 
 Route::get('/movimientos/articulos', function (Illuminate\Http\Request  $request) {
     $term = $request->term ?: '';
-    $tags = App\articulos::where('descripcion', 'like', $term.'%')
+    $tags = App\Articulos::where('descripcion', 'like', $term.'%')
 	    ->select('descripcion AS text', 'id_articulo AS id', 'stock_actual', 'unidad')
 	    ->get()
 	    ->toJson();
@@ -119,12 +119,15 @@ Route::get('/movimientos/tabladetalles/id={id}', ['uses' =>'DatatablesController
 Route::get('/usuario', array('as' => 'autorizaciones', 'uses' => 'AutorizacionesController@index' ));
 Route::post('/usuario/autorizar', ['as' => 'autorizar', 'uses' => 'AutorizacionesController@store']);
 
-Route::get('/usuario/destinos/id={id}', function ($id) {
+Route::get('/usuario/subareas', function (Illuminate\Http\Request $request) {
+
+	$userid = Auth::user()->id;
+	$areaid = App\UserInfo::find($userid);
     $term = $request->term ?: '';
-    $destinos = App\Destinos::where('descripcion_destino', 'like', $term.'%')
-    	->where('id_destino', '=', $id )
-	    ->select('descripcion_destino AS text', 'id_destino AS id')
+    $areas = App\SubAreas::where('descripcion_subarea', 'like', $term.'%')
+    	->where('id_area', '=', $areaid->id_area )
+	    ->select('descripcion_subarea AS text', 'id_subarea AS id')
 	    ->get()
 	    ->toJson();
-    return $destinos;
+    return $areas;
 });

@@ -45,7 +45,7 @@
 							{!! Form::select('id_subrubro', array('' => 'Seleccione un subrubro'), null ,array('class'=>'subrubros form-control', 'style' => 'width: 100%'))
 							!!}
 							{!! Form::token(); !!}
-							{!! Form::hidden('usuario', Auth::user()->name ) !!}
+							{!! Form::hidden('id_usuario', Auth::user()->id ) !!}
 
 							</div>
 					</div>

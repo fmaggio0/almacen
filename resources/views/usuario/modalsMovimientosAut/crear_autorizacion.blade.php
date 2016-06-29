@@ -33,7 +33,7 @@
 
 					</div>
 					<div class="form-group">
-							{!! Form::label(null, 'Destino:', array('class' => 'control-label col-sm-2')) !!}
+							{!! Form::label(null, 'Dependencia:', array('class' => 'control-label col-sm-2')) !!}
 							<div class="col-sm-4">
 								{!! Form::select('destino', array('' => ''), null ,array('id' => 'destinos', 'class'=>' form-control', 'style' => 'width: 100%')) 
 	                            !!}

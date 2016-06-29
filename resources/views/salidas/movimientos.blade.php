@@ -129,10 +129,10 @@
                     },
                     {data: 'id_master', name: 'salidas_master.id_master'},
                     {data: 'tipo_retiro', name: 'salidas_master.tipo_retiro'},
-                    {data: 'descripcion_destino', name: 'destinos.descripcion_destino'},
+                    {data: 'subarea', name: 'subarea.descripcion_subarea'},
                     {data: 'updated_at', name: 'salidas_master.updated_at'},
                     {data: 'name', name: 'users.name'},
-                    {data: 'pendiente', name: 'salidas_master.pendiente'},
+                    {data: 'estado', name: 'salidas_master.estado'},
                     {data: 'action', name: 'action' , orderable: false, searchable: false},
                 ],
 
@@ -265,7 +265,7 @@
                 tokenSeparators: [','],
                 ajax:   
                     {
-                        url: "/movimientos/destinos",
+                        url: "/movimientos/subareas",
                         dataType: 'json',
                         delay: 300,
                         data: function(params) {

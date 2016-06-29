@@ -24,8 +24,8 @@ class MovimientosController extends Controller
         $post = $request->all();
 
         $master->tipo_retiro = $post['tipo_retiro'];
-        $master->id_destino = $post['destino'];
-        $master->usuario = $post['usuario'];
+        $master->id_subarea = $post['destino'];
+        $master->id_usuario = $post['usuario'];
         $master->save();
 
         $j = $master->id_master;
