@@ -27,9 +27,9 @@
 							</div>
 							{!! Form::label('articulo', 'Usuario:' , array('class' => 'control-label col-sm-2')) !!}
 							<div class="col-sm-4">
-								<h4> {!!Auth::user()->name !!}</h4>
+								<h4>{!!Auth::user()->name !!}</h4>
 							</div>
-							{!! Form::hidden('usuario', Auth::user()->id) !!}
+							{!! Form::hidden('usuario', Auth::user()->id, array('id' => 'id_usuario')) !!}
 
 					</div>
 					<div class="form-group">

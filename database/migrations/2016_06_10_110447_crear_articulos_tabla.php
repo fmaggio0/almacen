@@ -18,7 +18,6 @@ class CrearArticulosTabla extends Migration
             $table->string('unidad', 20)->required();
             $table->integer('stock_actual');
             $table->integer('stock_minimo')->nullable();
-            $table->string('usuario')->nullable();
             $table->integer('id_usuario')->unsigned()->required();
             $table->foreign('id_usuario')->references('id')->on('users');
             $table->integer('id_rubro')->unsigned()->required();

@@ -32,61 +32,6 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <!--<tr>
-                            <td>1</td>
-                            <td>NOTSA-1</td>
-                            <td>Destruccion</td>
-                            <td>Espacios verdes</td>
-                            <td>Zolezzi, Jose</td>
-                            <td>29/05/2016 10:44</td>
-                            <td>ndalmas0</td>
-                            <td>
-                             <span class="label label-success">Registrado</span></td>
-                            <td>
-                                <a class="btn botceleste btn-xs" href="#">
-                                    <i class="fa fa-search"></i></a> 
-                                <a class="btn botgris btn-xs" href="#">
-                                    <i class="fa fa-print"></i></a> 
-                                <a class="btn botrojo btn-xs" href="#">
-                                    <i class="fa fa-times"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>NOTSA-2</td>
-                            <td>Salida por retiro personal</td>
-                            <td>Espacios verdes</td>
-                            <td>Zolezzi, Jose</td>
-                            <td>29/05/2016 10:44</td>
-                            <td>ndalmas0</td>
-                            <td><span class="label label-success">Registrado</span></td>
-                             <td>
-                                <a class="btn botceleste btn-xs" href="#">
-                                    <i class="fa fa-search"></i></a> 
-                                <a class="btn botgris btn-xs" href="#">
-                                    <i class="fa fa-print"></i></a> 
-                                <a class="btn botrojo btn-xs" href="#">
-                                    <i class="fa fa-times"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>NOTSA-3</td>
-                            <td>Salida asignada a trabajo</td>
-                            <td>Espacios verdes</td>
-                            <td>Zolezzi, Jose</td>
-                            <td>29/05/2016 10:44</td>
-                            <td>ndalmas0</td>
-                            <td><span class="label label-warning">Pendiente</span></td>
-                             <td>
-                                <a class="btn botceleste btn-xs" href="#">
-                                    <i class="fa fa-search"></i></a> 
-                                <a class="btn botgris btn-xs" href="#">
-                                    <i class="fa fa-upload"></i></a> 
-                                <a class="btn botrojo btn-xs" href="#">
-                                    <i class="fa fa-times"></i></a>
-                            </td>
-                        </tr>-->
                     </tbody>
                         <tr>
                             <th></th>
@@ -129,10 +74,10 @@
                     },
                     {data: 'id_master', name: 'salidas_master.id_master'},
                     {data: 'tipo_retiro', name: 'salidas_master.tipo_retiro'},
-                    {data: 'descripcion_destino', name: 'destinos.descripcion_destino'},
+                    {data: 'descripcion_subarea', name: 'subareas.descripcion_subarea'},
                     {data: 'updated_at', name: 'salidas_master.updated_at'},
                     {data: 'name', name: 'users.name'},
-                    {data: 'pendiente', name: 'salidas_master.pendiente'},
+                    {data: 'estado', name: 'salidas_master.estado'},
                     {data: 'action', name: 'action' , orderable: false, searchable: false},
                 ],
 
@@ -256,6 +201,8 @@
                     }
             });
             
+
+            var iduser = $("#id_usuario").val();
             $("#destinos").select2({
                 minimumInputLength: 2,
                 minimumResultsForSearch: 10,
@@ -265,7 +212,7 @@
                 tokenSeparators: [','],
                 ajax:   
                     {
-                        url: "/usuario/subareas/",
+                        url: "/usuario/subareas/id="+iduser,
                         dataType: 'json',
                         delay: 300,
                         data: function(params) {

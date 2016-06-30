@@ -23,8 +23,6 @@ class DatatablesController extends Controller
 	 */
 	public function anyData()
 	{
-	    /*->select('articulos.id_articulo', 'articulos.descripcion', 'articulos.unidad', 'articulos.id_usuario', 'rubros.descripcion', 'subrubros.descripcion')->join('rubros', 'articulos.id_rubro', '=', 'rubros.id_rubro')->join('subrubros', 'articulos.id_subrubro', '=', 'subrubros.id_subrubro')*/
-
 	    $articulos = DB::table('articulos')
             ->join('rubros', 'articulos.id_rubro', '=', 'rubros.id_rubro')
             ->join('subrubros', 'articulos.id_subrubro', '=', 'subrubros.id_subrubro')
@@ -59,7 +57,6 @@ class DatatablesController extends Controller
 
     public function salidastable()
     {
-
         $salidas = DB::table('salidas_master')
             ->join('salidas_detalles', 'salidas_master.id_master', '=', 'salidas_detalles.id_master')
             ->join('subareas', 'salidas_master.id_subarea', '=', 'subareas.id_subarea')

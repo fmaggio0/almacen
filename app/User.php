@@ -24,6 +24,6 @@ class User extends Authenticatable
     ];
     public function UserInfo()
     {
-        return $this->hasOne('App\UserInfo');
+        return $this->hasOne('App\UserInfo', 'id_user');
     }
 }

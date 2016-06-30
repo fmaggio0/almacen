@@ -119,15 +119,13 @@ Route::get('/movimientos/tabladetalles/id={id}', ['uses' =>'DatatablesController
 Route::get('/usuario', array('as' => 'autorizaciones', 'uses' => 'AutorizacionesController@index' ));
 Route::post('/usuario/autorizar', ['as' => 'autorizar', 'uses' => 'AutorizacionesController@store']);
 
-Route::get('/usuario/subareas', function (Illuminate\Http\Request $request) {
-
-	$userid = Auth::user()->id;
-	$areaid = App\UserInfo::find($userid);
-    $term = $request->term ?: '';
-    $areas = App\SubAreas::where('descripcion_subarea', 'like', $term.'%')
-    	->where('id_area', '=', $areaid->id_area )
-	    ->select('descripcion_subarea AS text', 'id_subarea AS id')
-	    ->get()
-	    ->toJson();
-    return $areas;
+Route::get('/usuario/subareas/id={id}', function (Illuminate\Http\Request  $request, $id) { 
+	$term = $request->term ?: '';
+	$areaid = App\UserInfo::find($id)->id_area;   
+	$subareas=DB::table('subareas')
+		->where('id_area', '=', $id )
+		->where('descripcion_subarea', 'like', $term.'%')
+		->select('id_subarea AS id', 'descripcion_subarea AS text' )
+		->get();
+    return Response::json($subareas);
 });
