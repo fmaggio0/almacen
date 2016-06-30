@@ -60,7 +60,7 @@
             var table = $('#tabla-movimientos').DataTable({
                 "processing": true,
                 "serverSide": true,
-                "ajax": "/movimientos/tabla",
+                "ajax": "/usuario/tabla",
                 "error": function () {
                     alert( 'Custom error' );
                   },
@@ -72,12 +72,12 @@
                         data:           null,
                         defaultContent: '+'
                     },
-                    {data: 'id_master', name: 'salidas_master.id_master'},
-                    {data: 'tipo_retiro', name: 'salidas_master.tipo_retiro'},
+                    {data: 'id_master', name: 'autorizaciones_master.id_master'},
+                    {data: 'tipo_retiro', name: 'autorizaciones_master.tipo_retiro'},
                     {data: 'descripcion_subarea', name: 'subareas.descripcion_subarea'},
-                    {data: 'updated_at', name: 'salidas_master.updated_at'},
+                    {data: 'updated_at', name: 'autorizaciones_master.updated_at'},
                     {data: 'name', name: 'users.name'},
-                    {data: 'estado', name: 'salidas_master.estado'},
+                    {data: 'estado', name: 'autorizaciones_master.estado'},
                     {data: 'action', name: 'action' , orderable: false, searchable: false},
                 ],
 
@@ -112,15 +112,14 @@
                     "serverSide": true,
                     "paging": false,
                     "bFilter": false,
-                    "ajax": "/movimientos/tabla",
                     "error": function () {
                     alert( 'Custom error' );
                     },
-                    "ajax": "/movimientos/tabladetalles/id="+ tableId ,
+                    "ajax": "/usuario/tabladetalles/id="+ tableId ,
                     columns: [
                         {data: 'descripcion', name: 'articulos.descripcion'},
                         {data: 'nombre', name: 'empleados.nombre'},
-                        {data: 'cantidad', name: 'salidas_detalles.cantidad'}
+                        {data: 'cantidad', name: 'autorizaciones_detalles.cantidad'}
                     ],
                     language: {
                         url: "{!! asset('/plugins/datatables/lenguajes/spanish.json') !!}"

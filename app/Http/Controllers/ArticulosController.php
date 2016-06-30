@@ -71,4 +71,14 @@ class ArticulosController extends Controller
         $update->save();
         return \View::make('configuraciones.articulos');
     }
+    public function getArticulos(Request $request)
+    {
+        $term = $request->term ?: '';
+        $tags = DB::table ('articulos')
+            ->where('descripcion', 'like', $term.'%')
+            ->select('descripcion AS text', 'id_articulo AS id', 'stock_actual', 'unidad')
+            ->get()
+            ->toJson();
+        return $tags;
+    }
 }

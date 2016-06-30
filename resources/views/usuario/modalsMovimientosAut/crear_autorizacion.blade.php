@@ -22,7 +22,7 @@
 					<div class="form-group">
 							{!! Form::label('tipo_salida', 'Tipo de retiro:', array('class' => 'control-label col-sm-2')) !!}
 							<div class="col-sm-4">
-								{!! Form::select('tipo_retiro', array('salidatrabajo' => 'Salida asignada al trabajo', 'retiropersonal' => 'Elementos de seguridad'), null ,array('class'=>'tipo_retiro form-control', 'style' => 'width: 100%', 'required' => 'required')) 
+								{!! Form::select('tipo_retiro', array('Autorizacion de recursos' => 'Autorizar recursos', 'Autorizacion de elementos de seguridad' => 'Autorizar elementos de seguridad'), null ,array('class'=>'tipo_retiro form-control', 'style' => 'width: 100%', 'required' => 'required')) 
 	                            !!}
 							</div>
 							{!! Form::label('articulo', 'Usuario:' , array('class' => 'control-label col-sm-2')) !!}
@@ -132,6 +132,24 @@
 
                		var contador = 1;
                		$("#agregar").on( 'click', function () {
+
+               			/*function isSession(selector) {
+						    $.ajax({
+						        type: "GET",
+						        url: '/ultimo',
+						        data: ({ issession : 1, selector: selector }),
+						        dataType: "html",
+						        success: function(data) {
+						            // Run the code here that needs
+						            //    to access the data returned
+						            return data;
+						        },
+						        error: function() {
+						            alert('Error occured');
+						        }
+						    });
+						}*/
+
                		 	var articulos = $("#articulos :selected").text();
                		 	var articulosid = $("#articulos :selected").val();
                		 	var empleados = $("#empleados :selected").text();
@@ -143,7 +161,6 @@
 				            articulos+"<input type='hidden' name='articulos1[]' value='"+articulosid+"'>",
 				            cantidad+"<input type='hidden' name='cantidad1[]' value='"+cantidad+"'>",
 				            empleados+"<input type='hidden' name='empleados1[]' value='"+empleadosid+"'>",
-
 				            "<a class='btn botrojo btn-xs' href='#'><i class='glyphicon glyphicon-trash delete'></i></a>"
 				        ] ).draw( false );
 				        contador++;

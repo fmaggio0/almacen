@@ -78,46 +78,35 @@ Route::get('/movimientos/subareas/id={id}', function ($id) {
 });
 
 Route::get('/movimientos/subareas', function (Illuminate\Http\Request  $request) {
-    $term = $request->term ?: '';
-    $subareas = App\SubAreas::where('descripcion_subarea', 'like', $term.'%')
-	    ->select('descripcion_subarea AS text', 'id_subarea AS id')
-	    ->get()
-	    ->toJson();
-    return $subareas;
 });
 
 
-Route::get('/movimientos/articulos', function (Illuminate\Http\Request  $request) {
-    $term = $request->term ?: '';
-    $tags = App\Articulos::where('descripcion', 'like', $term.'%')
-	    ->select('descripcion AS text', 'id_articulo AS id', 'stock_actual', 'unidad')
-	    ->get()
-	    ->toJson();
-    return $tags;
-});
+Route::get('/movimientos/articulos', 			['uses' => 'ArticulosController@getArticulos']);
 
 
-Route::post('/articulos/addarticulo', ['as' => 'addarticulos', 'uses' => 'ArticulosController@store']);
+Route::post('/articulos/addarticulo', 			['as' => 'addarticulos', 'uses' => 'ArticulosController@store']);
 
-Route::post('/articulos/dardebaja', ['as' => 'dardebaja', 'uses' => 'ArticulosController@baja']);
+Route::post('/articulos/dardebaja', 			['as' => 'dardebaja', 'uses' => 'ArticulosController@baja']);
 
-Route::post('/articulos/edit', ['as' => 'edit', 'uses' => 'ArticulosController@edit']);
+Route::post('/articulos/edit', 					['as' => 'edit', 'uses' => 'ArticulosController@edit']);
 
-Route::post('/movimientos/addsalida', ['as' => 'addsalida', 'uses' => 'MovimientosController@store']);
+Route::post('/movimientos/addsalida', 			['as' => 'addsalida', 'uses' => 'MovimientosController@store']);
 
 Route::controller('datatables', 'DatatablesController', [
     'anyData'  => 'datatables.data',
     'getIndex' => 'datatables',
 ]);
 
-Route::get('/movimientos/tabla','DatatablesController@salidastable');
+Route::get('/movimientos/tabla', 				 ['uses' =>'DatatablesController@salidastable']);
 Route::get('/movimientos/tabladetalles/id={id}', ['uses' =>'DatatablesController@salidasdetallestabla']);
 
 
 //para el usuario
 
-Route::get('/usuario', array('as' => 'autorizaciones', 'uses' => 'AutorizacionesController@index' ));
-Route::post('/usuario/autorizar', ['as' => 'autorizar', 'uses' => 'AutorizacionesController@store']);
+Route::get('/usuario/tabla', 					['uses' => 'DatatablesController@autorizacionestabla']);
+Route::get('/usuario/tabladetalles/id={id}', 	['uses' =>'DatatablesController@autorizacionesdetallestabla']);
+Route::get('/usuario',							['as' => 'autorizaciones', 'uses' => 'AutorizacionesController@index']);
+Route::post('/usuario/autorizar', 				['as' => 'autorizar', 'uses' => 'AutorizacionesController@store']);
 
 Route::get('/usuario/subareas/id={id}', function (Illuminate\Http\Request  $request, $id) { 
 	$term = $request->term ?: '';
