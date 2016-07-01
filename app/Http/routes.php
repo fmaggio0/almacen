@@ -14,9 +14,29 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/autorizar', ['as' => 'autorizar', function (){
-	 return view('autorizaciones.autorizaciones_retiro');
-}]);
+//Gestionar autorizaciones
+
+	Route::get('/autorizaciones', ['as' => 'gestionarautorizacion', function (){
+		 return view('autorizaciones.autorizaciones_retiro');
+	}]);
+
+	Route::get('/autorizaciones/tabla', 					['uses' => 'DatatablesController@autorizacionesadmin']);
+	Route::get('/autorizaciones/tabladetalles/id={id}', 	['uses' =>'DatatablesController@autorizacionesdetallesadmin']);
+
+	// route to show our edit form
+	Route::get('autorizaciones/editar/{id}', array('as' => 'autorizaciones.view', function($id) 
+	    {
+	        // return our view and Nerd information
+	        return View::make('nerd-edit') // pulls app/views/nerd-edit.blade.php
+	            ->with('nerd', Nerd::find($id));
+	    }));
+
+	// route to process the form
+	Route::post('nerd/edit', function() {
+	    // process our form
+	});
+
+//Fin Gestionar autorizaciones
 
 Route::get('/autorizar/id', ['as' => 'autorizar_retiro', function (){
 	 return view('autorizaciones.autorizar_retiro');
@@ -78,6 +98,12 @@ Route::get('/movimientos/subareas/id={id}', function ($id) {
 });
 
 Route::get('/movimientos/subareas', function (Illuminate\Http\Request  $request) {
+	$term = $request->term ?: '';
+	$subareas=DB::table('subareas')
+		->where('descripcion_subarea', 'like', $term.'%')
+		->select('id_subarea AS id', 'descripcion_subarea AS text' )
+		->get();
+    return Response::json($subareas);
 });
 
 

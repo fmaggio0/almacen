@@ -1,11 +1,11 @@
 <script id="details-template" type="text/x-handlebars-template">
-    <div class="label label-info">User 's Posts</div>
+    <div class="label label-info">Detalles de autorización.</div>
     <table class="table table-striped table-bordered details-table" id="">
         <thead>
         <tr>
-            <th>Articulo retirado</th>
-            <th>Empleado que retira</th>
-            <th>Cantidad que retira</th>
+            <th>Articulo solicitado</th>
+            <th>Empleado que solicita</th>
+            <th>Cantidad que solicita</th>
         </tr>
         </thead>
     </table>

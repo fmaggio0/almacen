@@ -77,8 +77,8 @@ class ArticulosController extends Controller
         $tags = DB::table ('articulos')
             ->where('descripcion', 'like', $term.'%')
             ->select('descripcion AS text', 'id_articulo AS id', 'stock_actual', 'unidad')
-            ->get()
-            ->toJson();
+            ->get();
+        json_encode($tags);
         return $tags;
     }
 }

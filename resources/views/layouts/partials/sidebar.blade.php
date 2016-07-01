@@ -45,7 +45,7 @@
                 </ul>
             </li>
 
-            <li><a href="{{ URL::route('autorizar') }}"><i class='fa fa-link'></i> <span>Gestionar autorizaciones</span></a></li>
+            <li><a href="{{ URL::route('gestionarautorizacion') }}"><i class='fa fa-link'></i> <span>Gestionar autorizaciones</span></a></li>
             <li><a href="#"><i class='fa fa-link'></i> <span>Gestionar ordenes de compra</span></a></li>
              <li><a href="#"><i class='fa fa-link'></i> <span>Registro de combustibles</span></a></li>
 

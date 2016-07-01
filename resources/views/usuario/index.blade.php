@@ -28,7 +28,6 @@
                             <th>Fecha que registra</th>
                             <th>Usuario</th>
                             <th>Estado</th>
-                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -41,7 +40,6 @@
                             <th>Fecha que registra</th>
                             <th>Usuario</th>
                             <th>Estado</th>
-                            <th>Acciones</th>
                         <tr>
                     </tfoot>
                 </table>
@@ -78,7 +76,6 @@
                     {data: 'updated_at', name: 'autorizaciones_master.updated_at'},
                     {data: 'name', name: 'users.name'},
                     {data: 'estado', name: 'autorizaciones_master.estado'},
-                    {data: 'action', name: 'action' , orderable: false, searchable: false},
                 ],
 
                 language: {
