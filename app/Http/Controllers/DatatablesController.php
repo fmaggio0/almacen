@@ -160,17 +160,10 @@ class DatatablesController extends Controller
             ->join('users', 'autorizaciones_master.id_usuario', '=', 'users.id')
             ->join('users_info', 'autorizaciones_master.id_usuario', '=', 'users_info.id_user')
             ->join('areas', 'users_info.id_area', '=', 'areas.id_area')
-            ->select(['autorizaciones_master.id_master as id_master', 'autorizaciones_master.tipo_retiro', 'subareas.descripcion_subarea', 'autorizaciones_master.updated_at', 'users.name', 'autorizaciones_master.estado as estado', 'areas.descripcion_area'])
+            ->select(['autorizaciones_master.id_master as id_master', 'autorizaciones_master.tipo_retiro', 'subareas.descripcion_subarea', 'autorizaciones_master.updated_at', 'users.name', 'autorizaciones_master.estado as estado', 'areas.descripcion_area', 'autorizaciones_master.id_subarea'])
             ->distinct();
 
         return Datatables::of($salidas)
-            ->addColumn('action', function ($salidas) {
-
-                if($salidas->estado == false)
-                {
-                    return '<a href="autorizaciones/editar/'.$salidas->id_master.'" class="btn btn-xs btn-primary edit"><i class="glyphicon glyphicon-edit edit"></i></a>';
-                }
-            })
             ->editColumn('estado', function($salidas){
                 if( $salidas->estado == 0 )
                 {

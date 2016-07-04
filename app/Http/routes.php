@@ -23,18 +23,18 @@ Route::get('/', function () {
 	Route::get('/autorizaciones/tabla', 					['uses' => 'DatatablesController@autorizacionesadmin']);
 	Route::get('/autorizaciones/tabladetalles/id={id}', 	['uses' =>'DatatablesController@autorizacionesdetallesadmin']);
 
-	// route to show our edit form
-	Route::get('autorizaciones/editar/{id}', array('as' => 'autorizaciones.view', function($id) 
-	    {
-	        // return our view and Nerd information
-	        return View::make('nerd-edit') // pulls app/views/nerd-edit.blade.php
-	            ->with('nerd', Nerd::find($id));
-	    }));
 
-	// route to process the form
-	Route::post('nerd/edit', function() {
-	    // process our form
-	});
+	Route::get('/autorizaciones/details/{id}', function ($id) {      
+	$detalles=DB::table('autorizaciones_detalles')
+		->where('id_master', '=', $id)
+		->join('articulos', 'articulos.id_articulo', '=', 'autorizaciones_detalles.id_articulo')
+		->join('empleados', 'empleados.id_empleado', '=', 'autorizaciones_detalles.id_empleado')
+		->select('articulos.id_articulo', 'articulos.descripcion','autorizaciones_detalles.id_empleado', 'empleados.nombre','empleados.apellido', 'autorizaciones_detalles.cantidad' )
+		->get();
+    return Response::json($detalles);
+});
+
+	Route::post('/autorizaciones/guardar', 	['as' => 'autorizaciones.view', 'uses' =>'DatatablesController@autorizacionesdetallesadmin']);
 
 //Fin Gestionar autorizaciones
 
