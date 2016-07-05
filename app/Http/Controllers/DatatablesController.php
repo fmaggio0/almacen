@@ -63,7 +63,8 @@ class DatatablesController extends Controller
             ->join('articulos', 'articulos.id_articulo', '=', 'salidas_detalles.id_articulo')
             ->join('empleados', 'salidas_detalles.id_empleado', '=', 'empleados.id_empleado')
             ->join('users', 'salidas_master.id_usuario', '=', 'users.id')
-            ->select(['salidas_master.id_master as id_master', 'salidas_master.tipo_retiro', 'subareas.descripcion_subarea as subarea', 'salidas_master.updated_at', 'users.name', 'salidas_master.estado as estado'])
+            ->join('areas', 'subareas.id_area', '=', 'areas.id_area')
+            ->select(['salidas_master.id_master as id_master', 'salidas_master.tipo_retiro', 'subareas.descripcion_subarea as subarea', 'salidas_master.updated_at', 'users.name', 'salidas_master.estado as estado', 'areas.descripcion_area'])
             ->distinct();
 
         return Datatables::of($salidas)
@@ -93,11 +94,11 @@ class DatatablesController extends Controller
     }
     public function salidasdetallestabla($id)
     {
-        $salidas = DB::table('autorizaciones_detalles')
-            ->join('articulos', 'autorizaciones_detalles.id_articulo', '=', 'articulos.id_articulo')
-            ->join('empleados', 'autorizaciones_detalles.id_empleado', '=', 'empleados.id_empleado')
-            ->select(['articulos.descripcion', 'empleados.nombre', 'autorizaciones_detalles.cantidad'])
-            ->where('autorizaciones_detalles.id_master', '=', $id);
+        $salidas = DB::table('salidas_detalles')
+            ->join('articulos', 'salidas_detalles.id_articulo', '=', 'articulos.id_articulo')
+            ->join('empleados', 'salidas_detalles.id_empleado', '=', 'empleados.id_empleado')
+            ->select(['articulos.descripcion', 'empleados.nombre', 'salidas_detalles.cantidad'])
+            ->where('salidas_detalles.id_master', '=', $id);
 
         return Datatables::of($salidas)->make(true);
     }

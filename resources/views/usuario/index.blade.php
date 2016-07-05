@@ -6,11 +6,11 @@
 
 @section ('contentheader_title') 
     <div class="titulo_header">
-        GESTION DE MOVIMIENTOS DE SALIDA
+        GESTION DE AUTORIZACIONES
     </div>
         <div class="boton_titulo">
         <a class="btn btn-success" href="#" id="addsalida">
-        <i class="fa fa-plus"></i> Nueva salida</a>
+        <i class="fa fa-plus"></i> Autorizar movimiento</a>
     </div>
 @stop
 
@@ -24,24 +24,12 @@
                             <th></th>
                             <th>ID</th>
                             <th>Tipo de movimiento</th>
-                            <th>Area</th>
+                            <th>Subarea</th>
                             <th>Fecha que registra</th>
                             <th>Usuario</th>
                             <th>Estado</th>
                         </tr>
                     </thead>
-                    <tbody>
-                    </tbody>
-                        <tr>
-                            <th></th>
-                            <th>ID</th>
-                            <th>Tipo de movimiento</th>
-                            <th>Area</th>
-                            <th>Fecha que registra</th>
-                            <th>Usuario</th>
-                            <th>Estado</th>
-                        <tr>
-                    </tfoot>
                 </table>
             </div><!-- /.box-body -->
         </div><!-- /.box -->
@@ -77,7 +65,7 @@
                     {data: 'name', name: 'users.name'},
                     {data: 'estado', name: 'autorizaciones_master.estado'},
                 ],
-
+                "order": [ 4, "desc" ],
                 language: {
                     url: "{!! asset('/plugins/datatables/lenguajes/spanish.json') !!}"
                 }

@@ -76,6 +76,7 @@
                     {data: 'id_subarea', name: 'autorizaciones_master.id_subarea', visible: false},
 
                 ],
+                "order": [ 5, "desc" ],
                 language: {
                     url: "{!! asset('/plugins/datatables/lenguajes/spanish.json') !!}"
                 }

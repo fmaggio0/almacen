@@ -35,7 +35,7 @@ class ArticulosController extends Controller
         }
         
         $articulo->create($request->all());
-        return \View::make('configuraciones.articulos');
+        return back()->withInput();
 	}
     public function baja(Request $request)
     {
@@ -43,7 +43,7 @@ class ArticulosController extends Controller
         $update = Articulos::findOrFail($id);
         $update->estado = false;
         $update->save();
-        return \View::make('configuraciones.articulos');
+        return back()->withInput();
     }
     public function edit(Request $request)
     {
@@ -69,7 +69,7 @@ class ArticulosController extends Controller
         $update->id_subrubro         = $request->id_subrubro;
         $update->id_usuario             = $request->id_usuario;
         $update->save();
-        return \View::make('configuraciones.articulos');
+        return back()->withInput();
     }
     public function getArticulos(Request $request)
     {

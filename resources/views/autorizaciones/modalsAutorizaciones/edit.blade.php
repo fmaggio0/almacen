@@ -2,7 +2,7 @@
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 
-		{!! Form::open(['route' => 'autorizaciones.view', 'method' => 'POST', 'class' => 'form-horizontal' ]) !!}
+		{!! Form::open(['route' => 'addarticulos', 'method' => 'POST', 'class' => 'form-horizontal' ]) !!}
 
 				<div class="modal-header" style="background: #4682B4; color: #FFFFFF;">
 					<button type="button" class="close" date-dismiss='modal' aria-hidden='true'>&times;</button>
