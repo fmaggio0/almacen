@@ -168,6 +168,20 @@
 
   
                     });   
+
+                        //focus accesibilidad
+                        $('#editar').on('shown.bs.modal', function() {
+                            $("#descedit").focus();
+                        });
+                        $("#descedit").blur(function (){
+                            $("#selectunidadedit").select2("open");
+                        });
+                        $("#selectunidadedit").on("select2:select", function(e) {
+                            $("#selectrubroedit").select2("open");
+                        });
+                        $("#selectrubroedit").on("select2:select", function(e) {
+                            $("#selectsubrubroedit").select2("open");
+                        });
                     //FIN MODAL EDIT -----------------------------------------------------------------------
 
                 });
