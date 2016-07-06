@@ -7,12 +7,18 @@ use Illuminate\Http\RedirectResponse;
 use App\AutorizacionesMaster;
 use App\AutorizacionesDetalles;
 use App\Http\Requests;
+use Auth;
+use App\Areas;
+
 
 class AutorizacionesController extends Controller
 {
     public function index(){
 
-		return view('usuario.index');
+    	$id_area = Auth::user()->UserInfo->id_area;
+    	$desc_area = Areas::find($id_area);
+		return view('usuario.index')->with('desc_area', $desc_area);
+		
 	}
 	
 	public function store(Request $request){

@@ -26,7 +26,7 @@
                             !!}
 							</div>
 
-							{!! Form::label('articulo', Auth::user()->name , array('class' => 'control-label col-sm-6')) !!}
+							{!! Form::label('usuarioname', Auth::user()->name , array('class' => 'control-label col-sm-6')) !!}
 							{!! Form::hidden('usuario', Auth::user()->id) !!}
 
 					</div>

@@ -6,7 +6,7 @@
 
 				<div class="modal-header" style="background: #4682B4; color: #FFFFFF;">
 					<button type="button" class="close" date-dismiss='modal' aria-hidden='true'>&times;</button>
-					<h4 class="modal-title">Autorizacion para retiro en el almacen - {!!Auth::user()->lugar_trabajo !!}</h4> 
+					<h4 class="modal-title">Autorizacion para retiro en el almacen - {!! $desc_area->descripcion_area !!}</h4> 
 				</div>
 
 				@if($errors->has())
@@ -25,7 +25,7 @@
 								{!! Form::select('tipo_retiro', array('Autorizacion de recursos' => 'Autorizar recursos', 'Autorizacion de elementos de seguridad' => 'Autorizar elementos de seguridad'), null ,array('class'=>'tipo_retiro form-control', 'style' => 'width: 100%', 'required' => 'required')) 
 	                            !!}
 							</div>
-							{!! Form::label('articulo', 'Usuario:' , array('class' => 'control-label col-sm-2')) !!}
+							{!! Form::label('usuario', 'Usuario:' , array('class' => 'control-label col-sm-2')) !!}
 							<div class="col-sm-4">
 								<h4>{!!Auth::user()->name !!}</h4>
 							</div>

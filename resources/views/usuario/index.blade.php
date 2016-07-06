@@ -6,7 +6,7 @@
 
 @section ('contentheader_title') 
     <div class="titulo_header">
-        GESTION DE AUTORIZACIONES
+        GESTION DE AUTORIZACIONES - {!! $desc_area->descripcion_area !!}
     </div>
         <div class="boton_titulo">
         <a class="btn btn-success" href="#" id="addsalida">

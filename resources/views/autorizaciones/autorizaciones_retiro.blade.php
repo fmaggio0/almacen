@@ -221,7 +221,7 @@
 
                     $("#destinos").val(filadata.descripcion_subarea);
                     $("#id_subarea").val(filadata.id_subarea);
-
+                    $("#id_autorizacion").val(filadata.id_master);
                     $("#tipo_retiro").val(filadata.tipo_retiro);
 
                     $ ("#view_autorizacion").modal();

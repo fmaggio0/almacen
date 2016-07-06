@@ -2,7 +2,7 @@
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 
-		{!! Form::open(['route' => 'addarticulos', 'method' => 'POST', 'class' => 'form-horizontal' ]) !!}
+		{!! Form::open(['route' => 'addsalida', 'method' => 'POST', 'class' => 'form-horizontal' ]) !!}
 
 				<div class="modal-header" style="background: #4682B4; color: #FFFFFF;">
 					<button type="button" class="close" date-dismiss='modal' aria-hidden='true'>&times;</button>
@@ -28,14 +28,15 @@
 
 							{!! Form::label('articulo', Auth::user()->name , array('class' => 'control-label col-sm-6')) !!}
 							{!! Form::hidden('usuario', Auth::user()->id) !!}
+							{!! Form::hidden('id_autorizacion', '', array('id' => 'id_autorizacion')) !!}
 
 					</div>
 					<div class="form-group">
 							{!! Form::label(null, 'Destino:', array('class' => 'control-label col-sm-2')) !!}
 							<div class="col-sm-4">
-								{!! Form::text('destino', null, array( 'readonly' => 'true', 'class'=>' form-control', 'id' => 'destinos', 'style' => 'width: 100%' ))
+								{!! Form::text('desc_subarea', null, array( 'readonly' => 'true', 'class'=>' form-control', 'id' => 'destinos', 'style' => 'width: 100%' ))
 	                            !!}
-	                            {!! Form::hidden('id_subarea', '', array('id' => 'id_subarea')) !!}
+	                            {!! Form::hidden('destino', '', array('id' => 'id_subarea')) !!}
 							</div>
 							{!! Form::label(null, 'Asignado a:', array('class' => 'control-label col-sm-2')) !!}
 							<div class="col-sm-4">

@@ -9,13 +9,14 @@ use DB;
 use App\Http\Controllers\Controller;
 use App\SalidasMaster;
 use App\SalidasDetalles;
+use App\AutorizacionesMaster;
 
 
 class MovimientosController extends Controller
 {
 	public function index(){
 
-		return view('salidas.movimientos');
+		return view('movimientos.salidas');
 	}
 
 	public function store(Request $request){
@@ -27,6 +28,15 @@ class MovimientosController extends Controller
         $master->tipo_retiro = $post['tipo_retiro'];
         $master->id_subarea = $post['destino'];
         $master->id_usuario = $post['usuario'];
+
+       if ( $master->tipo_retiro == "Autorizacion de recursos" )
+        {
+            $id = $post['id_autorizacion'];
+            $update = AutorizacionesMaster::findOrFail($id);
+            $update->estado = 1;
+            $update->save();
+        }
+
         $master->save();
 
         $j = $master->id_master;

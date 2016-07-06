@@ -36,8 +36,8 @@
             </div><!-- /.box-body -->
         </div><!-- /.box -->
 
-        @include('salidas.modalsMovimientos.salidastock')
-        @include('salidas.modalsMovimientos.detalles') 
+        @include('movimientos.modalsMovimientos.salidastock')
+        @include('movimientos.modalsMovimientos.detalles') 
 
         <script>
        $(document).ready( function () {
@@ -63,7 +63,7 @@
                     {data: 'id_master', name: 'salidas_master.id_master'},
                     {data: 'tipo_retiro', name: 'salidas_master.tipo_retiro'},
                     {data: 'descripcion_area', name: 'areas.descripcion_area'},
-                    {data: 'subarea', name: 'subarea.descripcion_subarea'},
+                    {data: 'subarea', name: 'subareas.descripcion_subarea'},
                     {data: 'updated_at', name: 'salidas_master.updated_at'},
                     {data: 'name', name: 'users.name'},
                     {data: 'estado', name: 'salidas_master.estado'},

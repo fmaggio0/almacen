@@ -42,11 +42,7 @@ Route::get('/autorizar/id', ['as' => 'autorizar_retiro', function (){
 	 return view('autorizaciones.autorizar_retiro');
 }]);
 
-Route::get('/salidas', ['as' => 'salidas', function (){
-	 return view('salidas.salidas');
-}]);
-
-Route::get('/movimientos', array('as' => 'movimientos', 'uses' => 'MovimientosController@index' ));
+Route::get('/salidas', array('as' => 'salidas', 'uses' => 'MovimientosController@index' ));
 
 Route::get('/articulos', array('as' => 'articulos', 'uses' => 'ArticulosController@index' ));
 
