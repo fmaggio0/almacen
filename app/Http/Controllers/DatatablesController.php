@@ -11,17 +11,7 @@ use App\SalidasDetalles;
 
 class DatatablesController extends Controller
 {
-    public function getIndex()
-	{
-	    return view('datatables.index');
-	}
-
-	/**
-	 * Process datatables ajax request.
-	 *
-	 * @return \Illuminate\Http\JsonResponse
-	 */
-	public function anyData()
+	public function articulostable()
 	{
 	    $articulos = DB::table('articulos')
             ->join('rubros', 'articulos.id_rubro', '=', 'rubros.id_rubro')

@@ -20,9 +20,6 @@ Route::get('/', function () {
 		 return view('autorizaciones.autorizaciones_retiro');
 	}]);
 
-	Route::get('/autorizaciones/tabla', 					['uses' => 'DatatablesController@autorizacionesadmin']);
-	Route::get('/autorizaciones/tabladetalles/id={id}', 	['uses' =>'DatatablesController@autorizacionesdetallesadmin']);
-
 
 	Route::get('/autorizaciones/details/{id}', function ($id) {      
 	$detalles=DB::table('autorizaciones_detalles')
@@ -60,19 +57,14 @@ Route::post('/articulos/edit', 					['as' => 'edit', 'uses' => 'ArticulosControl
 
 Route::post('/movimientos/addsalida', 			['as' => 'addsalida', 'uses' => 'MovimientosController@store']);
 
-Route::controller('datatables', 'DatatablesController', [
-    'anyData'  => 'datatables.data',
-    'getIndex' => 'datatables',
-]);
 
-Route::get('/movimientos/tabla', 				 ['uses' =>'DatatablesController@salidastable']);
-Route::get('/movimientos/tabladetalles/id={id}', ['uses' =>'DatatablesController@salidasdetallestabla']);
+
+
 
 
 //para el usuario
 
-Route::get('/usuario/tabla', 					['uses' => 'DatatablesController@autorizacionestabla']);
-Route::get('/usuario/tabladetalles/id={id}', 	['uses' =>'DatatablesController@autorizacionesdetallestabla']);
+
 Route::get('/usuario',							['as' => 'autorizaciones', 'uses' => 'AutorizacionesController@index']);
 Route::post('/usuario/autorizar', 				['as' => 'autorizar', 'uses' => 'AutorizacionesController@store']);
 
@@ -92,3 +84,20 @@ Route::get('/ajax/subareas', ['uses' => 'AjaxController@getSubareas']);
 Route::get('/ajax/subareas/{id}', ['uses' => 'AjaxController@getSubareasxid_area']);
 
 Route::get('/ajax/articulos', ['uses' => 'AjaxController@getArticulos']);
+
+//RUTAS DATATABLES
+
+Route::get('/datatables/autorizar', ['uses' => 'DatatablesController@autorizacionestabla']);
+
+Route::get('/datatables/autorizar-detalles/{id}', ['uses' =>'DatatablesController@autorizacionesdetallestabla']);
+
+Route::get('/datatables/salidas', ['uses' =>'DatatablesController@salidastable']);
+
+Route::get('/datatables/salidas-detalles/{id}', ['uses' =>'DatatablesController@salidasdetallestabla']);
+
+Route::get('/datatables/articulos', ['uses' => 'DatatablesController@articulostable']);
+
+Route::get('/datatables/autorizaciones', ['uses' => 'DatatablesController@autorizacionesadmin']);
+
+Route::get('/datatables/autorizaciones-detalles/{id}', ['uses' =>'DatatablesController@autorizacionesdetallesadmin']);
+

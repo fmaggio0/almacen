@@ -58,7 +58,7 @@
                 $('#articulos').DataTable({
                     "processing": true,
                     "serverSide": true,
-                    "ajax": "{!! route('datatables.data') !!}",
+                    "ajax": "/datatables/articulos",
                     "error": function () {
                         alert( 'Custom error' );
                       },

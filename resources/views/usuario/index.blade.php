@@ -46,7 +46,7 @@
             var table = $('#tabla-movimientos').DataTable({
                 "processing": true,
                 "serverSide": true,
-                "ajax": "/usuario/tabla",
+                "ajax": "/datatables/autorizar",
                 "error": function () {
                     alert( 'Custom error' );
                   },
@@ -100,7 +100,7 @@
                     "error": function () {
                     alert( 'Custom error' );
                     },
-                    "ajax": "/usuario/tabladetalles/id="+ tableId ,
+                    "ajax": "/datatables/autorizar-detalles/"+ tableId ,
                     columns: [
                         {data: 'descripcion', name: 'articulos.descripcion'},
                         {data: 'nombre', name: 'empleados.nombre'},
