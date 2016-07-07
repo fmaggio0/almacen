@@ -71,14 +71,4 @@ class ArticulosController extends Controller
         $update->save();
         return back()->withInput();
     }
-    public function getArticulos(Request $request)
-    {
-        $term = $request->term ?: '';
-        $tags = DB::table ('articulos')
-            ->where('descripcion', 'like', $term.'%')
-            ->select('descripcion AS text', 'id_articulo AS id', 'stock_actual', 'unidad')
-            ->get();
-        json_encode($tags);
-        return $tags;
-    }
 }

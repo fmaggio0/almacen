@@ -155,7 +155,7 @@
                     tokenSeparators: [','],
                     ajax:   
                         {
-                            url: "/movimientos/empleados",
+                            url: "/ajax/empleados",
                             dataType: 'json',
                             delay: 300,
                             data: function(params) {
@@ -185,7 +185,7 @@
                     tokenSeparators: [','],
                     ajax:   
                         {
-                            url: "/movimientos/articulos",
+                            url: "/ajax/articulos",
                             dataType: 'json',
                             delay: 300,
                             data: function(params) {
@@ -276,7 +276,7 @@
                 $("#destinos").on("select2:select", function(e) {
                     $("#subdestinos").attr('disabled', false);
                     var destinoid = $("#destinos :selected").val();
-                    $.getJSON("/movimientos/subareas/id="+ destinoid, function (json) { //para modal edit y add
+                    $.getJSON("/ajax/subareas/"+ destinoid, function (json) { //para modal edit y add
                             $("#subdestinos").select2({
                                 data: json,
                                 language: "es",

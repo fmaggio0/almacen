@@ -131,7 +131,7 @@
                 tokenSeparators: [','],
                 ajax:   
                     {
-                        url: "/movimientos/empleados",
+                        url: "/ajax/empleados",
                         dataType: 'json',
                         delay: 300,
                         data: function(params) {
@@ -161,7 +161,7 @@
                 tokenSeparators: [','],
                 ajax:   
                     {
-                        url: "/movimientos/articulos",
+                        url: "/ajax/articulos",
                         dataType: 'json',
                         delay: 300,
                         data: function(params) {
@@ -196,7 +196,7 @@
                 tokenSeparators: [','],
                 ajax:   
                     {
-                        url: "/usuario/subareas/id="+iduser,
+                        url: "/ajax/subareas/"+iduser,
                         dataType: 'json',
                         delay: 300,
                         data: function(params) {

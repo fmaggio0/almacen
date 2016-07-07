@@ -46,64 +46,10 @@ Route::get('/salidas', array('as' => 'salidas', 'uses' => 'MovimientosController
 
 Route::get('/articulos', array('as' => 'articulos', 'uses' => 'ArticulosController@index' ));
 
-Route::get('rubros', function () {      
-	$rubros=DB::table('rubros')
-		->select('id_rubro AS id', 'descripcion AS text' )
-		->get();
-    return Response::json($rubros);
-});
-
-Route::get('rubrosub/id={id}', function ($id) {    
-	$rubrosub=DB::table('subrubros')
-		->where('id_rubro', '=', $id )
-		->select('id_subrubro AS id', 'descripcion AS text' )
-		->get();
-    return Response::json($rubrosub);
-});
-
-Route::get('subrubros', function () {    
-	$subrubros=DB::table('subrubros')
-		->select('id_subrubro AS id', 'descripcion AS text' )
-		->get();
-    return Response::json($subrubros);
-});
-
-Route::get('/movimientos/responsables', function () {    
-	$responsable=DB::table('empleados')
-		->select('id_empleado AS id', 'apellido AS text' )
-		->where('responsable', '=', 1)
-		->get();
-    return Response::json($responsable);
-});
-
-Route::get('/movimientos/empleados', function (Illuminate\Http\Request  $request) {
-    $term = $request->term ?: '';
-    $empleados = App\Empleados::where('apellido', 'like', $term.'%')
-	    ->select('apellido AS text', 'id_empleado AS id', 'nombre')
-	    ->get()
-	    ->toJson();
-    return $empleados;
-});
-
-Route::get('/movimientos/subareas/id={id}', function ($id) {    
-	$subareas=DB::table('subareas')
-		->where('id_area', '=', $id )
-		->select('id_subarea AS id', 'descripcion_subarea AS text' )
-		->get();
-    return Response::json($subareas);
-});
-
-Route::get('/movimientos/subareas', function (Illuminate\Http\Request  $request) {
-	$term = $request->term ?: '';
-	$subareas=DB::table('subareas')
-		->where('descripcion_subarea', 'like', $term.'%')
-		->select('id_subarea AS id', 'descripcion_subarea AS text' )
-		->get();
-    return Response::json($subareas);
-});
 
 
-Route::get('/movimientos/articulos', 			['uses' => 'ArticulosController@getArticulos']);
+
+
 
 
 Route::post('/articulos/addarticulo', 			['as' => 'addarticulos', 'uses' => 'ArticulosController@store']);
@@ -130,13 +76,19 @@ Route::get('/usuario/tabladetalles/id={id}', 	['uses' =>'DatatablesController@au
 Route::get('/usuario',							['as' => 'autorizaciones', 'uses' => 'AutorizacionesController@index']);
 Route::post('/usuario/autorizar', 				['as' => 'autorizar', 'uses' => 'AutorizacionesController@store']);
 
-Route::get('/usuario/subareas/id={id}', function (Illuminate\Http\Request  $request, $id) { 
-	$term = $request->term ?: '';
-	$areaid = App\UserInfo::find($id)->id_area;   
-	$subareas=DB::table('subareas')
-		->where('id_area', '=', $id )
-		->where('descripcion_subarea', 'like', $term.'%')
-		->select('id_subarea AS id', 'descripcion_subarea AS text' )
-		->get();
-    return Response::json($subareas);
-});
+
+//RESPUESTAS AJAX JSON/ARRAY
+
+Route::get('/ajax/rubros', ['uses' => 'AjaxController@getRubros']);
+
+Route::get('/ajax/subrubros', ['uses' => 'AjaxController@getSubrubros']);
+
+Route::get('/ajax/subrubros/{id}', ['uses' => 'AjaxController@getSubrubrosxid_rubro']);
+
+Route::get('/ajax/empleados', ['uses' => 'AjaxController@getEmpleados']);
+
+Route::get('/ajax/subareas', ['uses' => 'AjaxController@getSubareas']);
+
+Route::get('/ajax/subareas/{id}', ['uses' => 'AjaxController@getSubareasxid_area']);
+
+Route::get('/ajax/articulos', ['uses' => 'AjaxController@getArticulos']);

@@ -84,14 +84,14 @@
                     language: "es",
                 });
                 //select2 rubros
-                $.getJSON("/rubros", function (json) { //para modal edit y add
+                $.getJSON("/ajax/rubros", function (json) { //para modal edit y add
                     $(".completarrubros").select2({
                         data: json,
                         language: "es",
                     });
                 });
                 //select2 subrubros
-                $.getJSON("/subrubros" , function (json) { //solo modal edit
+                $.getJSON("/ajax/subrubros" , function (json) { //solo modal edit
                   $(".completarsubrubros").select2({
                         data: json,
                         language: "es",
@@ -105,7 +105,7 @@
                     id = $(".completarrubros").val();
                     $(".subrubros").select2();
                     $(".subrubros").select2().empty();
-                    $.getJSON("/rubrosub/id=" + id, function (json) {
+                    $.getJSON("ajax/subrubros/" + id, function (json) {
                       $(".subrubros").select2({
                             data: json,
                             language: "es",
@@ -147,7 +147,7 @@
 
                             $("#selectsubrubroedit").select2().empty(); // vaciar select subrubros
 
-                            $.getJSON("/rubrosub/id=" + idrubro, function (json) { //completar select subrubros con la query que responda al id del rubro
+                            $.getJSON("/ajax/subrubros/" + idrubro, function (json) { //completar select subrubros con la query que responda al id del rubro
                               $("#selectsubrubroedit").select2({
                                     data: json,
                                     language: "es",
