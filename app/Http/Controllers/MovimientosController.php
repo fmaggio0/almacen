@@ -21,39 +21,60 @@ class MovimientosController extends Controller
 
 	public function store(Request $request){
 
-        $master = new SalidasMaster;
+       
 
-        $post = $request->all();
+        DB::beginTransaction();
 
-        $master->tipo_retiro = $post['tipo_retiro'];
-        $master->id_subarea = $post['destino'];
-        $master->id_usuario = $post['usuario'];
+        try {
 
-       if ( $master->tipo_retiro == "Autorizacion de recursos" )
-        {
-            $id = $post['id_autorizacion'];
-            $update = AutorizacionesMaster::findOrFail($id);
-            $update->estado = 1;
-            $update->save();
-        }
+            $master = new SalidasMaster;
 
-        $master->save();
+            $post = $request->all();
 
-        $j = $master->id_master;
+            $master->tipo_retiro = $post['tipo_retiro'];
+            $master->id_subarea = $post['destino'];
+            $master->id_usuario = $post['usuario'];
 
-        if($j > 0)
-        {
-            for($i=0;$i <count($post['articulos1']);$i++)
+           if ( $master->tipo_retiro == "Autorizacion de recursos" || $master->tipo_retiro == "Autorizacion de elementos de seguridad")
             {
-                $detalles = array(
-                                    'id_master' => $j,
-                                    'id_articulo'=> $post['articulos1'][$i],
-                                    'id_empleado'  => $post['empleados1'][$i],
-                                    'cantidad' => $post['cantidad1'][$i]
-                                    );
-                SalidasDetalles::create($detalles);
+                $id = $post['id_autorizacion'];
+                $update = AutorizacionesMaster::findOrFail($id);
+                $update->estado = 1;
+                $update->save();
+                $errors = "estado= 1";
             }
-            return back()->withInput();
+
+            $master->save();
+
+            $j = $master->id_master;
+
+            if($j > 0)
+            {
+                for($i=0;$i <count($post['articulos1']);$i++)
+                {
+                    $detalles = array(
+                                        'id_master' => $j,
+                                        'id_articulo'=> $post['articulos1'][$i],
+                                        'id_empleado'  => $post['empleados1'][$i],
+                                        'cantidad' => $post['cantidad1'][$i]
+                                        );
+                    SalidasDetalles::create($detalles);
+                }
+                return $errors;
+                
+            }
         }
+        // Ha ocurrido un error, devolvemos la BD a su estado previo y hacemos lo que queramos con esa excepción
+        catch (\Exception $e)
+        {
+                DB::rollback();
+                // no se... Informemos con un echo por ejemplo
+                $errors = "chau";
+                return $errors;
+        }
+
+        // Hacemos los cambios permanentes ya que no han habido errores
+        DB::commit();
+        return back()->withInput();
 	}
 }

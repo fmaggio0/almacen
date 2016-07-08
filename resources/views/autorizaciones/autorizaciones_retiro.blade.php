@@ -12,6 +12,13 @@
 
 
 @section('main-content')
+
+    @if($errors->has())
+        <div class="alert alert-warning" role="alert">
+              <div>{{ $errors }}</div>
+        </div>
+    @endif </br> 
+
         <div class="box tabla-articulos">
             <div class="box-body no-padding">
                 <table id="tabla-movimientos" class="table table-striped table-bordered"  cellspacing="0" width="100%">
@@ -65,13 +72,7 @@
                     {data: 'updated_at', name: 'autorizaciones_master.updated_at'},
                     {data: 'name', name: 'users.name'},
                     {data: 'estado', name: 'autorizaciones_master.estado'},
-                    {
-                        className:      'edit',
-                        orderable:      false,
-                        searchable:      false,
-                        data:           null,
-                        defaultContent: "<a href='#' class='btn btn-xs btn-primary edit'><i class='glyphicon glyphicon-edit edit'></i></a>"
-                    },
+                    {data: 'action', name: 'action' , orderable: false, searchable: false},
                     //extra info columnas hidden
                     {data: 'id_subarea', name: 'autorizaciones_master.id_subarea', visible: false},
 
@@ -213,32 +214,33 @@
 
                 //evento iniciar modal edit--------------------------------------------------------------------------------
 
-                $('#tabla-movimientos tbody').on('click', 'td.edit', function () {
+                $('#tabla-movimientos').on('draw.dt', function () {
 
+                    $('#tabla-movimientos tbody').on('click', 'td.edit', function () {
+                        var tr = $(this).closest('tr');
+                        var filadata = table.row(tr).data();
+                        console.log(filadata);
 
-                    var filadata = table.row( this ).data();
-                    console.log(filadata);
+                        /*$("#destinos").val(filadata.descripcion_subarea);
+                        $("#id_subarea").val(filadata.id_subarea);
+                        $("#id_autorizacion").val(filadata.id_master);
+                        $("#tipo_retiro").val(filadata.tipo_retiro);
 
-                    $("#destinos").val(filadata.descripcion_subarea);
-                    $("#id_subarea").val(filadata.id_subarea);
-                    $("#id_autorizacion").val(filadata.id_master);
-                    $("#tipo_retiro").val(filadata.tipo_retiro);
-
-                    $ ("#view_autorizacion").modal();
-                    $.getJSON("/autorizaciones/details/"+filadata.id_master, function (json) { //para modal edit y add
-                        $("#tabla-salidastock").DataTable().clear();
-                        for (var i=0;i<json.length;++i)
-                        {
-                            $("#tabla-salidastock").DataTable().row.add( [
-                            json[i].descripcion+"<input type='hidden' name='articulos1[]' value='"+json[i].id_articulo+"'>",
-                             json[i].cantidad+"<input type='hidden' name='cantidad1[]' value='"+json[i].cantidad+"'>",
-                            json[i].apellido+", "+json[i].nombre+"<input type='hidden' name='empleados1[]' value='"+json[i].id_empleado+"'>",
-                            "<a class='btn botrojo btn-xs' href='#'><i class='glyphicon glyphicon-trash delete'></i></a>"
-                            ] ).draw( false );
-                        }
-                            
+                        $ ("#view_autorizacion").modal();
+                        $.getJSON("/autorizaciones/details/"+filadata.id_master, function (json) { //para modal edit y add
+                            $("#tabla-salidastock").DataTable().clear();
+                            for (var i=0;i<json.length;++i)
+                            {
+                                $("#tabla-salidastock").DataTable().row.add( [
+                                json[i].descripcion+"<input type='hidden' name='articulos1[]' value='"+json[i].id_articulo+"'>",
+                                 json[i].cantidad+"<input type='hidden' name='cantidad1[]' value='"+json[i].cantidad+"'>",
+                                json[i].apellido+", "+json[i].nombre+"<input type='hidden' name='empleados1[]' value='"+json[i].id_empleado+"'>",
+                                "<a class='btn botrojo btn-xs' href='#'><i class='glyphicon glyphicon-trash delete'></i></a>"
+                                ] ).draw( false );
+                            }
+                                
+                        });*/
                     });
-
                 });
 
                 //fin evento iniciar modal edit----------------------------------------------------------------------------

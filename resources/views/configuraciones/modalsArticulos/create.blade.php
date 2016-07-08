@@ -9,15 +9,6 @@
 					<h4 class="modal-title">Nuevo articulo</h4> 
 				</div>
 
-				@if($errors->has())
-		            <div class="alert alert-warning" role="alert">
-		               @foreach ($errors->all() as $error)
-		                  <div>{{ $error }}</div>
-		              @endforeach
-		            </div>
-       			 @endif </br> 
-
-
 				<div class="modal-body">
 					<div class="form-group">
 							{!! Form::label('articulo', 'Articulo:', array('class' => 'control-label col-sm-4')) !!}
@@ -55,25 +46,6 @@
 					{{ Form::submit('Guardar', ['class'=>'btn btn btn-primary'])}}
 					{!! Form::close() !!}
 				</div>
-
-				<script>
-		            $('#myModal').on('shown.bs.modal', function() {
-		                $(".desc").focus();
-		                $(".desc").blur(function (){
-		                    $(".unidades").select2("open");
-		                });
-		                $(".unidades").on("select2:select", function(e) {
-		                    $(".completarrubros").select2("open");
-		                });
-		                $(".completarrubros").on("select2:select", function(e) {
-		                    $("subrubros").select2("open");
-		                });
-		                $(".subrubros").on("select2:select", function(e) {
-		                    $(".btn-primary").focus();
-		                });
-		            });
-			</script>
-
 		</div>
 	</div>
 </div>

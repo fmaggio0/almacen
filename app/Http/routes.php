@@ -53,6 +53,8 @@ Route::post('/articulos/addarticulo', 			['as' => 'addarticulos', 'uses' => 'Art
 
 Route::post('/articulos/dardebaja', 			['as' => 'dardebaja', 'uses' => 'ArticulosController@baja']);
 
+Route::post('/articulos/activar', 			['as' => 'activar', 'uses' => 'ArticulosController@activar']);
+
 Route::post('/articulos/edit', 					['as' => 'edit', 'uses' => 'ArticulosController@edit']);
 
 Route::post('/movimientos/addsalida', 			['as' => 'addsalida', 'uses' => 'MovimientosController@store']);

@@ -37,6 +37,7 @@ class ArticulosController extends Controller
         $articulo->create($request->all());
         return back()->withInput();
 	}
+
     public function baja(Request $request)
     {
         $id = $request->id_articulo;
@@ -45,6 +46,16 @@ class ArticulosController extends Controller
         $update->save();
         return back()->withInput();
     }
+
+     public function activar(Request $request)
+    {
+        $id = $request->id_articulo;
+        $update = Articulos::findOrFail($id);
+        $update->estado = true;
+        $update->save();
+        return back()->withInput();
+    }
+
     public function edit(Request $request)
     {
         $v = \Validator::make($request->all(), [

@@ -92,9 +92,6 @@
       				$('#salidastock').on('shown.bs.modal', function() {
                     	$(".tipo_retiro").focus();
                	 	});
-               	 	$(".tipo_retiro").blur(function (){
-               	 		$("#destinos").select2("open");
-               	 	});
                	 	$("#destinos").on("select2:select", function(e) {
                	 		$("#articulos").select2("open");
                	 	});
@@ -168,7 +165,7 @@
 				</div>
 
 				<div class="modal-footer">
-					{{ Form::submit('Guardar', ['class'=>'btn btn btn-primary', 'tabindex' => '1'])}}
+					{{ Form::submit('Despachar', ['class'=>'btn btn btn-primary', 'tabindex' => '1'])}}
 					{!! Form::close() !!}
 				</div>
 		</div>

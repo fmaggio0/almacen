@@ -15,6 +15,14 @@
 @stop
 
 @section('main-content')
+    @if($errors->has())
+        <div class="alert alert-warning" role="alert">
+           @foreach ($errors->all() as $error)
+              <div>{{ $error }}</div>
+          @endforeach
+        </div>
+    @endif
+
         <div class="box tabla-articulos">
             <div class="box-body no-padding"> 
 
@@ -24,27 +32,16 @@
                             <th>ID</th>
                             <th>Articulo</th>
                             <th>Unidad</th>
-                            <th>Usuario</th>
+                            <th>Stock minimo</th>
+                            <th>Stock actual</th>
                             <th>Rubro</th>
                             <th>Subrubro</th>
                             <th>Modificado</th>
+                            <th>Usuario</th>
                             <th>Estado</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
-                    <tfoot>
-                        <tr>
-                            <th>ID </th>
-                            <th>Articulo</th>
-                            <th>Unidad</th>
-                            <th>Usuario</th>
-                            <th>Rubro</th>
-                            <th>Subrubro</th>
-                            <th>Modificado</th>
-                            <th>Estado</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </tfoot>
                 </table>
             </div><!-- /.box-body -->
         </div><!-- /.box -->
@@ -52,9 +49,11 @@
         @include('configuraciones.modalsArticulos.create')
         @include('configuraciones.modalsArticulos.edit')
         @include('configuraciones.modalsArticulos.delete')
+        @include('configuraciones.modalsArticulos.activar')
 
         <script>
             $(document).ready(function(){
+            //DATATABLE
                 $('#articulos').DataTable({
                     "processing": true,
                     "serverSide": true,
@@ -63,21 +62,24 @@
                         alert( 'Custom error' );
                       },
                     "columns":[
-                        {data: 'id_articulo', name: 'articulos.id_articulo'},
+                        {data: 'id_articulo', name: 'articulos.id_articulo', visible: false},
                         {data: 'descripcion', name: 'articulos.descripcion'},
                         {data: 'unidad', name: 'articulos.unidad'},
-                        {data: 'usuario', name: 'users.name'},
+                        {data: 'stock_minimo', name: 'articulos.stock_minimo'},
+                        {data: 'stock_actual', name: 'articulos.stock_actual'},
                         {data: 'descripcionrubro', name: 'rubros.descripcion'},
                         {data: 'descripcionsubrubro', name: 'subrubros.descripcion'},
                         {data: 'updated_at', name: 'articulos.updated_at'},
+                        {data: 'usuario', name: 'users.name'},
                         {data: 'estado', name: 'articulos.estado'},
                         {data: 'action', name: 'action' , orderable: false, searchable: false},
                     ],
-
                     "language":{
                         url: "{!! asset('/plugins/datatables/lenguajes/spanish.json') !!}"
                     }
                 });
+            //FIN DATATABLE
+
                 //SELECT2-------------------------------------------
                 //select2 Unidades de medida
                 $(".unidades").select2({
@@ -127,6 +129,14 @@
                     });
                     //FIN MODAL DELETE -------------------------------------------------------------------
 
+                    //MODAL ACTIVAR -----------------------------------------------------------------------
+                    $('.activar').click(function() {
+                        $('#activar').modal();
+                        var id = $(this).attr('value');
+                        $("input[name='id_articulo']").val(id);
+                    });
+                    //FIN MODAL ACTIVAR -------------------------------------------------------------------
+
 
                     //MODAL EDIT --------------------------------------------------------------------------
                     $('.edit').click(function(){
@@ -138,6 +148,7 @@
                         var subrubro = $(this).data('selectsubrubro');
                         var desc = $(this).data('desc');
                         var id = $(this).attr('value');
+                        var estado = $(this).data('estado');
 
                          $("#selectsubrubroedit").prop("readonly", true); //desabilitar subrubro hasta que se elija rubro **CORREJIR** Si lo desabilito que seria lo corecto, el usuario vera toda la lista de subrubros.
 
@@ -165,16 +176,21 @@
                         $("#selectrubroedit").val( rubro ).trigger("change");
                         $("#selectsubrubroedit").val( subrubro ).trigger("change");
                         $("input[name='id_articulo']").val(id);
-
-  
+                        if (estado == 0)
+                        {
+                           $("#estado").val(false); 
+                           $('#estado').prop('checked', false);
+                        }
+                        else
+                        {
+                            $("#estado").val(true);
+                            $('#estado').prop('checked', true);
+                        }
                     });   
 
-                        //focus accesibilidad
+                        //focus accesibilidad EDIT
                         $('#editar').on('shown.bs.modal', function() {
                             $("#descedit").focus();
-                        });
-                        $("#descedit").blur(function (){
-                            $("#selectunidadedit").select2("open");
                         });
                         $("#selectunidadedit").on("select2:select", function(e) {
                             $("#selectrubroedit").select2("open");
@@ -187,10 +203,28 @@
                 });
                 //FIN ESPERAR HASTA QUE CARGUE LA TABLA
 
+                //FOCUS ACCESIBILIDAD
+
                 //MODAL ADD ARTICULOS -----------------------------------------------------------------------
+
                 $('#nuevo').click(function(){
                     $('#myModal').modal();
                 });
+                    //focus accesibilidad
+                    $('#myModal').on('shown.bs.modal', function() {
+                        $(".desc").focus();
+                        $(".unidades").on("select2:select", function(e) {
+                            $(".completarrubros").select2("open");
+                        });
+                        $(".completarrubros").on("select2:select", function(e) {
+                            $("subrubros").select2("open");
+                        });
+                        $(".subrubros").on("select2:select", function(e) {
+                            $(".btn-primary").focus();
+                        });
+                    });
+                    //fin focus accesibilidad
+
                 //FIN MODAL ADD ARTICULOS -----------------------------------------------------------------------
                 
                 //CERRAR TODOS LOS MODALES
@@ -198,10 +232,8 @@
                     $('#myModal').modal('hide');
                     $('#editar').modal('hide');
                     $('#delete').modal('hide');
-
                 });
                 //FIN CERRAR TODOS LOS MODALES
-
             });
         </script>
 
