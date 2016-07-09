@@ -16,13 +16,22 @@
 
 
 @section('main-content')
+
+@if($errors->has())
+    <div class="alert alert-warning" role="alert">
+       @foreach ($errors->all() as $error)
+          <div>{{ $error }}</div>
+      @endforeach
+    </div>
+ @endif 
+
         <div class="box tabla-articulos">
             <div class="box-body no-padding">
                 <table id="tabla-movimientos" class="table table-striped table-bordered"  cellspacing="0" width="100%">
                     <thead>
                         <tr>
                             <th></th>
-                            <th>ID</th>
+                            <th>Nro documento</th>
                             <th>Tipo de movimiento</th>
                             <th>Area</th>
                             <th>Subarea</th>
@@ -58,7 +67,7 @@
                         orderable:      false,
                         searchable:      false,
                         data:           null,
-                        defaultContent: '+'
+                        defaultContent: "+"
                     },
                     {data: 'id_master', name: 'salidas_master.id_master'},
                     {data: 'tipo_retiro', name: 'salidas_master.tipo_retiro'},

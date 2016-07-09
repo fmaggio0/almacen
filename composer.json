@@ -10,7 +10,8 @@
         "laravelcollective/html": "5.2.*",
         "acacha/admin-lte-template-laravel": "2.*",
         "yajra/laravel-datatables-oracle": "~6.0",
-        "proai/laravel-handlebars": "~1.0@dev"
+        "proai/laravel-handlebars": "~1.0@dev",
+        "zizaco/entrust": "5.2.x-dev"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

@@ -41,7 +41,7 @@ class MovimientosController extends Controller
                 $update = AutorizacionesMaster::findOrFail($id);
                 $update->estado = 1;
                 $update->save();
-                $errors = "estado= 1";
+               
             }
 
             $master->save();
@@ -59,22 +59,20 @@ class MovimientosController extends Controller
                                         'cantidad' => $post['cantidad1'][$i]
                                         );
                     SalidasDetalles::create($detalles);
-                }
-                return $errors;
-                
+                }    
             }
+            /*$errors = "Se autorizó correctamente la solicitud";*/
         }
         // Ha ocurrido un error, devolvemos la BD a su estado previo y hacemos lo que queramos con esa excepción
         catch (\Exception $e)
         {
                 DB::rollback();
                 // no se... Informemos con un echo por ejemplo
-                $errors = "chau";
-                return $errors;
+                /*$errors = 'ERROR(' . $e->getCode() . '): ' . $e->getMessage().'<br>Copie este texto y contacte con informática';   */
         }
 
         // Hacemos los cambios permanentes ya que no han habido errores
         DB::commit();
-        return back()->withInput();
+        return redirect()->back()/*->withErrors($errors)*/;
 	}
 }

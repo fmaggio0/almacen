@@ -9,20 +9,11 @@
 					<h4 class="modal-title">Salida de stock</h4> 
 				</div>
 
-				@if($errors->has())
-		            <div class="alert alert-warning" role="alert">
-		               @foreach ($errors->all() as $error)
-		                  <div>{{ $error }}</div>
-		              @endforeach
-		            </div>
-       			 @endif </br> 
-
-
 				<div class="modal-body">
 					<div class="form-group">
 							{!! Form::label('tipo_salida', 'Tipo de retiro:', array('class' => 'control-label col-sm-2')) !!}
 							<div class="col-sm-4">
-								{!! Form::select('tipo_retiro', array('salidatrabajo' => 'Salida asignada al trabajo', 'retiropersonal' => 'Elementos de seguridad'), null ,array('class'=>'tipo_retiro form-control', 'style' => 'width: 100%', 'required' => 'required')) 
+								{!! Form::select('tipo_retiro', array('Salida de recursos' => 'Salida de recursos', 'Elementos de seguridad' => 'Elementos de seguridad'), null ,array('class'=>'tipo_retiro form-control', 'style' => 'width: 100%', 'required' => 'required')) 
                             !!}
 							</div>
 

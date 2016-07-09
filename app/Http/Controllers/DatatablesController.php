@@ -8,6 +8,7 @@ use Datatables;
 use DB;
 use App\SalidasMaster;
 use App\SalidasDetalles;
+use Response;
 
 class DatatablesController extends Controller
 {
@@ -72,7 +73,7 @@ class DatatablesController extends Controller
 
                 if($salidas->estado == false)
                 {
-                    return '<a href="edit/'.$salidas->id_master.'" class="btn btn-xs btn-primary edit"><i class="glyphicon glyphicon-edit edit"></i></a>';
+                    return '<a href="#" class="btn btn-xs botgris edit"><i class="glyphicon glyphicon-print"></i></a>';
                 }
                 else
                 {
@@ -90,8 +91,20 @@ class DatatablesController extends Controller
                 }
 
             })
+            ->editColumn('id_master', function($salidas){
+                if( $salidas->tipo_retiro == "Elementos de seguridad" || $salidas->tipo_retiro == "Salida de recursos" )
+                {
+                    return "MSA-".$salidas->id_master;
+                }
+                else
+                {
+                    return "AUT-".$salidas->id_master;
+                }
+
+            })
             ->make(true);
     }
+
     public function salidasdetallestabla($id)
     {
         $salidas = DB::table('salidas_detalles')
@@ -102,6 +115,7 @@ class DatatablesController extends Controller
 
         return Datatables::of($salidas)->make(true);
     }
+
     public function autorizacionestabla()
     {
         $salidas = DB::table('autorizaciones_master')
@@ -115,7 +129,6 @@ class DatatablesController extends Controller
 
         return Datatables::of($salidas)
             ->addColumn('action', function ($salidas) {
-
                 if($salidas->estado == false)
                 {
                     return '<a href="edit/'.$salidas->id_master.'" class="btn btn-xs btn-primary edit"><i class="glyphicon glyphicon-edit edit"></i></a>';
@@ -141,6 +154,7 @@ class DatatablesController extends Controller
             })
             ->make(true);
     }
+    
     public function autorizacionesdetallestabla($id)
     {
         $salidas = DB::table('autorizaciones_detalles')
@@ -151,6 +165,7 @@ class DatatablesController extends Controller
 
         return Datatables::of($salidas)->make(true);
     }
+
     public function autorizacionesadmin()
     {
         $salidas = DB::table('autorizaciones_master')
@@ -187,7 +202,7 @@ class DatatablesController extends Controller
 
                 if($salidas->estado == 0)
                 {
-                    return "<a href='#' id='edit' class='btn btn-xs btn-primary edit'><i class='glyphicon glyphicon-search edit'></i></a>";
+                    return "<a href='#' class='btn btn-xs btn-primary edit'><i class='glyphicon glyphicon-search edit'></i></a>";
                 }
             })
             ->make(true);
@@ -201,5 +216,16 @@ class DatatablesController extends Controller
             ->where('autorizaciones_detalles.id_master', '=', $id);
 
         return Datatables::of($salidas)->make(true);
+    }
+
+    public function autorizaciondetallesmodal($id)
+    {
+        $detalles=DB::table('autorizaciones_detalles')
+            ->where('id_master', '=', $id)
+            ->join('articulos', 'articulos.id_articulo', '=', 'autorizaciones_detalles.id_articulo')
+            ->join('empleados', 'empleados.id_empleado', '=', 'autorizaciones_detalles.id_empleado')
+            ->select('articulos.id_articulo', 'articulos.descripcion','autorizaciones_detalles.id_empleado', 'empleados.nombre','empleados.apellido', 'autorizaciones_detalles.cantidad' )
+            ->get();
+        return Response::json($detalles);
     }
 }

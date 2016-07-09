@@ -2,6 +2,7 @@
 namespace App;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\UserInfo;
+use Zizaco\Entrust\HasRole;
 
 class User extends Authenticatable
 {
@@ -22,6 +23,12 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+    
+    public function roles()
+    {
+        return $this->belongsToMany('Role','assigned_roles');
+    }
+
     public function UserInfo()
     {
         return $this->hasOne('App\UserInfo', 'id_user');

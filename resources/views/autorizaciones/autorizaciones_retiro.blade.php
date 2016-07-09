@@ -13,11 +13,11 @@
 
 @section('main-content')
 
-    @if($errors->has())
+    @if($errors->any())
         <div class="alert alert-warning" role="alert">
-              <div>{{ $errors }}</div>
+              <div>{{ $errors->first() }}</div>
         </div>
-    @endif </br> 
+    @endif
 
         <div class="box tabla-articulos">
             <div class="box-body no-padding">
@@ -216,18 +216,17 @@
 
                 $('#tabla-movimientos').on('draw.dt', function () {
 
-                    $('#tabla-movimientos tbody').on('click', 'td.edit', function () {
+                    $('.edit').click( function () {
                         var tr = $(this).closest('tr');
                         var filadata = table.row(tr).data();
-                        console.log(filadata);
 
-                        /*$("#destinos").val(filadata.descripcion_subarea);
+                        $("#destinos").val(filadata.descripcion_subarea);
                         $("#id_subarea").val(filadata.id_subarea);
                         $("#id_autorizacion").val(filadata.id_master);
                         $("#tipo_retiro").val(filadata.tipo_retiro);
 
                         $ ("#view_autorizacion").modal();
-                        $.getJSON("/autorizaciones/details/"+filadata.id_master, function (json) { //para modal edit y add
+                        $.getJSON("/datatables/autorizaciones-detalles-modal/"+filadata.id_master, function (json) { //para modal edit y add
                             $("#tabla-salidastock").DataTable().clear();
                             for (var i=0;i<json.length;++i)
                             {
@@ -239,7 +238,7 @@
                                 ] ).draw( false );
                             }
                                 
-                        });*/
+                        });
                     });
                 });
 

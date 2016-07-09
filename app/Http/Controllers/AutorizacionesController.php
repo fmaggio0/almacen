@@ -14,6 +14,10 @@ use App\Areas;
 class AutorizacionesController extends Controller
 {
     public function index(){
+		return view('autorizaciones.autorizaciones_retiro');	
+	}
+
+    public function indexUsuario(){
 
     	$id_area = Auth::user()->UserInfo->id_area;
     	$desc_area = Areas::find($id_area);

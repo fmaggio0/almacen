@@ -156,18 +156,18 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
-        /*
-        * Acacha AdminLTE template provider
-        */
+        /*Acacha AdminLTE template provider*/
         Acacha\AdminLTETemplateLaravel\Providers\AdminLTETemplateServiceProvider::class,
 
-        /*datatable manager */
-
+        /*Datatable manager */
         Yajra\Datatables\DatatablesServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
-        /* Handlebars*/
 
-        ProAI\Handlebars\HandlebarsServiceProvider::class
+        /* Handlebars*/
+        ProAI\Handlebars\HandlebarsServiceProvider::class,
+
+        /*Entrust Roles y permisos*/
+        Zizaco\Entrust\EntrustServiceProvider::class
 
     ],
 
@@ -216,11 +216,12 @@ return [
         'Datatables' => Yajra\Datatables\Facades\Datatables::class,
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
-        /*
-        * Acacha AdminLTE template alias
-        */
         
+        //Acacha AdminLTE template alias
         'AdminLTE' => Acacha\AdminLTETemplateLaravel\Facades\AdminLTE::class,
+        
+        //Entrust
+        'Entrust' => Zizaco\Entrust\EntrustFacade::class,
 
     ],
 

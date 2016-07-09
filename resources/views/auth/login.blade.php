@@ -4,7 +4,7 @@
     Log in
 @endsection
 
- @include('layouts.partials.scripts')
+@include('layouts.partials.scripts')
 
 @section('content')
 <body class="hold-transition login-page">

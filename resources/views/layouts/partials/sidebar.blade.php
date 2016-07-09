@@ -40,11 +40,11 @@
                 <a href="#"><i class='fa fa-exchange'></i> <span>Gestionar stock</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
                     <li><a href="#">Entradas</a></li>
-                    <li><a href="{{ URL::route('salidas') }}">Salidas</a></li>
+                    <li><a href="/salidas">Salidas</a></li>
                 </ul>
             </li>
 
-            <li><a href="{{ URL::route('gestionarautorizacion') }}"><i class='fa fa-link'></i> <span>Gestionar autorizaciones</span></a></li>
+            <li><a href="/autorizaciones"><i class='fa fa-link'></i> <span>Gestionar autorizaciones</span></a></li>
             <li><a href="#"><i class='fa fa-link'></i> <span>Gestionar ordenes de compra</span></a></li>
              <li><a href="#"><i class='fa fa-link'></i> <span>Registro de combustibles</span></a></li>
 
@@ -62,14 +62,14 @@
             <li class="treeview">
                 <a href="#"><i class='fa fa-cogs'></i> <span>Configuracion</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
-                    <li><a href="{{ URL::route('articulos') }}">Articulos</a></li>
+                    <li><a href="/salidas">Articulos</a></li>
                     <li><a href="#">Proveedores</a></li>
                     <li><a href="#">Usuarios</a></li>
                     <li><a href="#">Back Up</a></li>
                 </ul>
             </li>
 
-            <li><a href="{{ URL::route('autorizaciones') }}"><i class='fa fa-link'></i> <span>Autorizaciones***</span></a></li>
+            <li><a href="/usuario"><i class='fa fa-link'></i> <span>Autorizaciones***</span></a></li>
         </ul><!-- /.sidebar-menu -->
     </section>
     <!-- /.sidebar -->
