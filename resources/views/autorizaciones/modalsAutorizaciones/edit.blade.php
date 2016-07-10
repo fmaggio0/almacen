@@ -90,7 +90,7 @@
 				</div>
 
 				<div class="modal-footer">
-					{{ Form::submit('Guardar', ['class'=>'btn btn btn-primary', 'tabindex' => '1'])}}
+					{{ Form::submit('Despachar', ['class'=>'btn btn btn-primary', 'tabindex' => '1'])}}
 					{!! Form::close() !!}
 				</div>
 		</div>
