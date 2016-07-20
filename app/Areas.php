@@ -11,7 +11,7 @@ class Areas extends Model
     //Definimos los campos que se pueden llenar con asignación masiva
     protected $fillable = ['descripcion_area'];
 
-    public function subdestinos()
+    public function subareas()
     {
     	return $this->hasMany('App\SubAreas');
 
