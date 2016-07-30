@@ -46,6 +46,10 @@ Route::get('/ajax/subareas/{id}', ['uses' => 'AjaxController@getSubareasxid_area
 
 Route::get('/ajax/articulos', ['uses' => 'AjaxController@getArticulos']);
 
+Route::get('/ajax/salidastabledetails/{id}', ['uses' => 'AjaxController@getDetallesSalidas']);
+
+Route::get('/ajax/autorizacionestabledetails/{id}', ['uses' => 'AjaxController@getDetallesAutorizaciones']);
+
 //RUTAS DATATABLES
 
 Route::get('/datatables/autorizar', ['uses' => 'DatatablesController@autorizacionestabla']);
@@ -54,13 +58,9 @@ Route::get('/datatables/autorizar-detalles/{id}', ['uses' => 'DatatablesControll
 
 Route::get('/datatables/salidas', ['uses' =>'DatatablesController@salidastable']);
 
-Route::get('/datatables/salidas-detalles/{id}', ['uses' => 'DatatablesController@salidasdetallestabla']);
-
 Route::get('/datatables/articulos', ['uses' => 'DatatablesController@articulostable']);
 
 Route::get('/datatables/autorizaciones', ['uses' => 'DatatablesController@autorizacionesadmin']);
 
-Route::get('/datatables/autorizaciones-detalles/{id}', ['uses' =>'DatatablesController@autorizacionesdetallesadmin']);
-
-Route::get('/datatables/autorizaciones-detalles-modal/{id}', ['uses' => 'DatatablesController@autorizaciondetallesmodal']);
+/*Route::get('/datatables/autorizaciones-detalles-modal/{id}', ['uses' => 'DatatablesController@autorizaciondetallesmodal']); SE SIGUE USANDO ???? */
 

@@ -35,14 +35,12 @@
         </div><!-- /.box -->
 
         @include('usuario.modalsMovimientosAut.crear_autorizacion')
-        @include('usuario.modalsMovimientosAut.detalles') 
 
         <script>
-       $(document).ready( function () {
+        $(document).ready( function () {
 
         //DAtatables 
 
-            var template = Handlebars.compile($("#details-template").html());
             var table = $('#tabla-movimientos').DataTable({
                 "processing": true,
                 "serverSide": true,
@@ -56,7 +54,7 @@
                         orderable:      false,
                         searchable:      false,
                         data:           null,
-                        defaultContent: '+'
+                        defaultContent: ''
                     },
                     {data: 'id_master', name: 'autorizaciones_master.id_master'},
                     {data: 'tipo_retiro', name: 'autorizaciones_master.tipo_retiro'},
@@ -71,47 +69,52 @@
                 }
             });
 
-            // Add event listener for opening and closing details
-            $('#tabla-movimientos tbody').on('click', 'td.details-control', function () {
+            $("#tabla-movimientos tbody").on("click", "td.details-control", function () {
                 var tr = $(this).closest('tr');
                 var row = table.row(tr);
                 var tableId = row.data().id_master;
-                
                 if (row.child.isShown()) {
                     // This row is already open - close it
                     row.child.hide();
                     tr.removeClass('shown');
                 } else {
                     // Open this row
-                    row.child(template(row.data())).show();
-                    initTable(tableId, row.data());
+                    format(row.child, tableId);
                     tr.addClass('shown');
-                    tr.next().find('td').addClass('no-padding bg-gray');
                 }
             });
+            //FIN EVENTO---------------------------------------------------------------------------------------------------
 
-            function initTable(tableId, data) {
-                $(".details-table").attr("id", "post-"+tableId );
-                $('#post-' + tableId).DataTable({
-                    "processing": true,
-                    "serverSide": true,
-                    "paging": false,
-                    "bFilter": false,
-                    "error": function () {
-                    alert( 'Custom error' );
+            //FUNCION INICIAR TABLA DETALLES-------------------------------------------------------------------------------
+ 
+            function format(callback, $tableId) {
+                $.ajax({
+                    url: "/ajax/autorizacionestabledetails/" + $tableId,
+                    dataType: "json",
+                    beforeSend: function(){
+                        callback($('<div align="center">Cargando...</div>')).show();
                     },
-                    "ajax": "/datatables/autorizar-detalles/"+ tableId ,
-                    columns: [
-                        {data: 'descripcion', name: 'articulos.descripcion'},
-                        {data: 'nombre', name: 'empleados.nombre'},
-                        {data: 'cantidad', name: 'autorizaciones_detalles.cantidad'}
-                    ],
-                    language: {
-                        url: "{!! asset('/plugins/datatables/lenguajes/spanish.json') !!}"
-                    }
+                    complete: function (response) {
+                        var data = JSON.parse(response.responseText);   
+                        var thead = '',  tbody = '';
+                        thead += '<th>#</th>';
+                        thead += '<th>Articulo solicitado</th>'; 
+                        thead += '<th>Empleado solicitante</th>'; 
+                        thead += '<th>Cantidad solicitada</th>'; 
 
-                })
+                        count = 1;
+                        $.each(data, function (i, d) {
+                            tbody += '<tr><td>'+ count +'</td><td>' + d.Articulo + '</td><td>' + d.Apellido + ', '+ d.Nombre+ '</td><td>'+ d.Cantidad+'</td></tr>';
+                            count++;
+                        });
+                        callback($('<table class="table table-hover">' + thead + tbody + '</table>')).show();
+                    },
+                    error: function () {
+                        callback($('<div align="center">Ha ocurrido un error. Intente nuevamente y si persigue el error, contactese con informática.</div>')).show();
+                    }
+                });
             }
+
 
             //MODAL SALIDA STOCK
             $('#addsalida').click(function(){

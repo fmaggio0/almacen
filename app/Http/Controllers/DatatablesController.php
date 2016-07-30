@@ -69,15 +69,14 @@ class DatatablesController extends Controller
             ->distinct();
 
         return Datatables::of($salidas)
+            ->addColumn('id_tabla', function ($salidas) {
+                return $salidas->id_master;
+            })
             ->addColumn('action', function ($salidas) {
 
                 if($salidas->estado == false)
                 {
                     return '<a href="#" class="btn btn-xs botgris edit"><i class="glyphicon glyphicon-print"></i></a>';
-                }
-                else
-                {
-                    /*return '<a href="#" value="'.$salidas->id_articulo.'" data-desc="'.$articulos->descripcion.'" data-selectunidad="'.$articulos->unidad.'" data-selectrubro="'.$articulos->id_rubro.'" data-selectsubrubro="'.$articulos->id_subrubro.'" class="btn btn-xs btn-primary edit"><i class="glyphicon glyphicon-edit edit"></i></a><a href="#" value="'.$articulos->id_articulo.'" class="btn btn-xs btn-danger delete"><i class="glyphicon glyphicon-remove"></i></a>';*/
                 }
             })
             ->editColumn('estado', function($salidas){
@@ -103,17 +102,6 @@ class DatatablesController extends Controller
 
             })
             ->make(true);
-    }
-
-    public function salidasdetallestabla($id)
-    {
-        $salidas = DB::table('salidas_detalles')
-            ->join('articulos', 'salidas_detalles.id_articulo', '=', 'articulos.id_articulo')
-            ->join('empleados', 'salidas_detalles.id_empleado', '=', 'empleados.id_empleado')
-            ->select(['articulos.descripcion', 'empleados.nombre', 'salidas_detalles.cantidad'])
-            ->where('salidas_detalles.id_master', '=', $id);
-
-        return Datatables::of($salidas)->make(true);
     }
 
     public function autorizacionestabla()
@@ -153,17 +141,6 @@ class DatatablesController extends Controller
                 }
             })
             ->make(true);
-    }
-    
-    public function autorizacionesdetallestabla($id)
-    {
-        $salidas = DB::table('autorizaciones_detalles')
-            ->join('articulos', 'autorizaciones_detalles.id_articulo', '=', 'articulos.id_articulo')
-            ->join('empleados', 'autorizaciones_detalles.id_empleado', '=', 'empleados.id_empleado')
-            ->select(['articulos.descripcion', 'empleados.nombre', 'autorizaciones_detalles.cantidad'])
-            ->where('autorizaciones_detalles.id_master', '=', $id);
-
-        return Datatables::of($salidas)->make(true);
     }
 
     public function autorizacionesadmin()
@@ -206,16 +183,6 @@ class DatatablesController extends Controller
                 }
             })
             ->make(true);
-    }
-    public function autorizacionesdetallesadmin($id)
-    {
-        $salidas = DB::table('autorizaciones_detalles')
-            ->join('articulos', 'autorizaciones_detalles.id_articulo', '=', 'articulos.id_articulo')
-            ->join('empleados', 'autorizaciones_detalles.id_empleado', '=', 'empleados.id_empleado')
-            ->select(['articulos.descripcion', 'empleados.nombre', 'autorizaciones_detalles.cantidad'])
-            ->where('autorizaciones_detalles.id_master', '=', $id);
-
-        return Datatables::of($salidas)->make(true);
     }
 
     public function autorizaciondetallesmodal($id)

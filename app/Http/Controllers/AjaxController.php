@@ -77,4 +77,24 @@ class AjaxController extends Controller
 
         return Response::json($tags);
     }
+
+    public function getDetallesSalidas($id){
+        $detalles=DB::table('salidas_detalles')
+            ->where('id_master', '=', $id )
+            ->join('articulos', 'salidas_detalles.id_articulo', '=', 'articulos.id_articulo')
+            ->join('empleados', 'salidas_detalles.id_empleado', '=', 'empleados.id_empleado')
+            ->select('articulos.descripcion as Articulo', 'empleados.nombre as Nombre','empleados.apellido as Apellido', 'salidas_detalles.cantidad as Cantidad')
+            ->get();
+        return Response::json($detalles);
+    }
+
+    public function getDetallesAutorizaciones($id){
+        $detalles=DB::table('autorizaciones_detalles')
+            ->where('id_master', '=', $id )
+            ->join('articulos', 'autorizaciones_detalles.id_articulo', '=', 'articulos.id_articulo')
+            ->join('empleados', 'autorizaciones_detalles.id_empleado', '=', 'empleados.id_empleado')
+            ->select('articulos.descripcion as Articulo', 'empleados.nombre as Nombre','empleados.apellido as Apellido', 'autorizaciones_detalles.cantidad as Cantidad')
+            ->get();
+        return Response::json($detalles);
+    }
 }

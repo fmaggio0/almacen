@@ -10,6 +10,8 @@ use App\Http\Controllers\Controller;
 use App\SalidasMaster;
 use App\SalidasDetalles;
 use App\AutorizacionesMaster;
+use Validator;
+use Exception;
 
 
 class MovimientosController extends Controller
@@ -21,58 +23,78 @@ class MovimientosController extends Controller
 
 	public function store(Request $request){
 
-       
-
         DB::beginTransaction();
 
-        try {
+        try 
+        {
+            //Validaciones
+            $validator = Validator::make($request->all(), [
+                'tipo_retiro' => 'required|max:60',
+                'destino' => 'required|integer',
+                'usuario' => 'required|integer',
+                'cantidad*' => 'required'
+            ]);
 
+            if ($validator->fails()) {
+                return redirect()
+                            ->back()
+                            ->withErrors($validator)
+                            ->withInput();
+            }
+
+            //Cargar datos en la tabla salida master
             $master = new SalidasMaster;
+            $master->tipo_retiro = $request->tipo_retiro;
+            $master->id_subarea = $request->destino;
+            $master->id_usuario = $request->usuario;
 
-            $post = $request->all();
-
-            $master->tipo_retiro = $post['tipo_retiro'];
-            $master->id_subarea = $post['destino'];
-            $master->id_usuario = $post['usuario'];
-
-           if ( $master->tipo_retiro == "Autorizacion de recursos" || $master->tipo_retiro == "Autorizacion de elementos de seguridad")
+            //Si es una autorizacion, cambiamos el estado de la autorizacion a 1(Autorizado)
+            if ( $master->tipo_retiro == "Autorizacion de recursos" || $master->tipo_retiro == "Autorizacion de elementos de seguridad")
             {
-                $id = $post['id_autorizacion'];
+                $id = $request->id_autorizacion;
                 $update = AutorizacionesMaster::findOrFail($id);
                 $update->estado = 1;
                 $update->save();
                
             }
 
+            //Guardamos salidas master
             $master->save();
 
-            $j = $master->id_master;
+            //Obtenemos el id 
+            $id = $master->id_master;
 
-            if($j > 0)
+
+            //Cargamos datos en la tabla salida detalles
+            if($id > 0)
             {
-                for($i=0;$i <count($post['articulos1']);$i++)
+                for($i=0;$i <count($request->articulos);$i++)
                 {
                     $detalles = array(
-                                        'id_master' => $j,
-                                        'id_articulo'=> $post['articulos1'][$i],
-                                        'id_empleado'  => $post['empleados1'][$i],
-                                        'cantidad' => $post['cantidad1'][$i]
-                                        );
+                                    'id_master' => $id,
+                                    'id_articulo'=> $request->articulos[$i],
+                                    'id_empleado'  => $request->empleados[$i],
+                                    'cantidad' => $request->cantidad[$i]
+                                    );
                     SalidasDetalles::create($detalles);
                 }    
             }
-            /*$errors = "Se autorizó correctamente la solicitud";*/
-        }
-        // Ha ocurrido un error, devolvemos la BD a su estado previo y hacemos lo que queramos con esa excepción
-        catch (\Exception $e)
-        {
-                DB::rollback();
-                // no se... Informemos con un echo por ejemplo
-                /*$errors = 'ERROR(' . $e->getCode() . '): ' . $e->getMessage().'<br>Copie este texto y contacte con informática';   */
+
+            //Commit y redirect con success
+            DB::commit();
+            return redirect()
+                ->back()
+                ->with('status', 'Salida procesada correctamente');
         }
 
-        // Hacemos los cambios permanentes ya que no han habido errores
-        DB::commit();
-        return redirect()->back()/*->withErrors($errors)*/;
+        catch (Exception $e)
+        {
+            //Rollback y redirect con error
+            DB::rollback();
+            return redirect()
+                ->back()
+                ->withErrors('Se ha producido un errro: ( ' . $e->getCode() . ' ): ' . $e->getMessage().' - Copie este texto y envielo a informática');
+        }
 	}
+
 }
