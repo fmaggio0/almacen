@@ -38,9 +38,9 @@
 
 
     <!-- Datatables Salidas Master -->
-    <div class="box tabla-articulos">
+    <div class="box">
         <div class="box-body no-padding">
-            <table id="tabla-movimientos" class="table table-striped table-bordered"  cellspacing="0" width="100%">
+            <table id="tabla-ingresostock" class="table table-striped table-bordered"  cellspacing="0" width="100%">
                 <thead>
                     <tr>
                         <th></th>
@@ -76,7 +76,7 @@
 
         //Script Datatable Salidas Master y detalles
         var table = 
-        $("#tabla-movimientos").DataTable({
+        $("#tabla-ingresostock").DataTable({
             "processing": true,
             "serverSide": true,
             "ajax": "/datatables/salidas",
@@ -107,7 +107,7 @@
                 url: "{!! asset('/plugins/datatables/lenguajes/spanish.json') !!}"
             }
         });
-        $("#tabla-movimientos tbody").on("click", "td.details-control", function () {
+        $("#tabla-ingresostock tbody").on("click", "td.details-control", function () {
             var tr = $(this).closest('tr');
             var row = table.row(tr);
             var tableId = row.data().id_tabla;
@@ -147,54 +147,22 @@
             });
         }
 
-
         //Activar modal salidas de stock
         $('#addsalida').click(function(){
-            $("#salidastock").modal(); 
+            $("#ingresostock").modal(); 
         });
 
-        //Activar modal crear articulo
-        $('#addarticulo').click(function(){
-            $("#creararticulo").modal(); 
+        //Cerrar modal ingreso de stock
+        $("#cerraringreso").click(function() {
+            $('#ingresostock').modal('hide');
         });
+
+       
         
 
-        //Cerrar modal salidas de stock
-        $(".close").click(function() {
-            $('#salidastock').modal('hide');
-        });
 
 
         //Plugins select para modal de salida
-        $("#empleados").select2({
-            minimumInputLength: 2,
-            minimumResultsForSearch: 10,
-            language: "es",
-            placeholder: "Seleccione un empleado",
-            allowClear: true,
-            tokenSeparators: [','],
-            ajax:   
-            {
-                url: "/ajax/empleados",
-                dataType: 'json',
-                delay: 300,
-                data: function(params) {
-                    return {
-                        term: params.term
-                    }
-                },
-                processResults: function (data) {
-                     data = data.map(function (item) {
-                        return {
-                            id: item.id,
-                            text: item.text+", "+item.nombre,
-                        };
-                    });
-                    return { results: data };
-                },
-                cache: true
-            }
-        });
         $("#articulos").select2({
             minimumInputLength: 2,
             minimumResultsForSearch: 10,
@@ -227,40 +195,10 @@
                 cache: true
             }
         });
-        $("#destinos").select2({
-            minimumInputLength: 2,
-            minimumResultsForSearch: 10,
-            language: "es",
-            placeholder: "Seleccione un destino",
-            allowClear: true,
-            tokenSeparators: [','],
-            ajax:   
-            {
-                url: "/ajax/subareas",
-                dataType: 'json',
-                delay: 300,
-                data: function(params) {
-                    return {
-                        term: params.term
-                    }
-                },
-                processResults: function (data) {
-                     data = data.map(function (item) {
-                        return {
-                            id: item.id,
-                            text: item.text,
-                        };
-                    });
-                    return { results: data };
-                },
-                cache: true
-            }
-            });  
-        });
-
 
         //Focus accesibilidad
-        $('#salidastock').on('shown.bs.modal', function() {
+
+        /*$('#ingresostock').on('shown.bs.modal', function() {
             $(".tipo_retiro").focus();
         });
         $("#destinos").on("select2:select", function(e) {
@@ -271,11 +209,10 @@
         });
         $("#empleados").on("select2:select", function(e) {
             $("#cantidad").focus();
-        });
-
+        });*/
 
         //Datatable para modal salidas de stock(Articulos agregados)
-        $("#tabla-salidastock").DataTable({
+        $("#tabla-ingresostock").DataTable({
             language: {
                 url: "{!! asset('/plugins/datatables/lenguajes/spanish.json') !!}"
             },
@@ -296,58 +233,37 @@
         $("#agregar").on( 'click', function () {
             var articulos = $("#articulos :selected").text();
             var articulosid = $("#articulos :selected").val();
-            var empleados = $("#empleados :selected").text();
-            var empleadosid = $("#empleados :selected").val();
             var cantidad = $("#cantidad").val();
-            var stock = $("#cantidad").data('stock');
-            var cero = 0;
 
             //Validaciones antes de agregar articulos a la tabla
-            if(cantidad <= stock && cantidad > 0 && empleados.length != 0 && empleadosid.length != 0 && articulos.length != 0 && articulosid.length != 0)
+            if(cantidad > 0 && articulos.length != 0 && articulosid.length != 0)
             {
-                var stockrestante = stock - cantidad;
-                
-
-                    
-                $("#tabla-salidastock").DataTable().row.add( [
+                $("#tabla-ingresostock").DataTable().row.add( [
                     contador,
                     articulos+"<input type='hidden' name='articulos[]' value='"+articulosid+"'>",
                     cantidad+"<input type='hidden' name='cantidad[]' value='"+cantidad+"'>",
-                    empleados+"<input type='hidden' name='empleados[]' value='"+empleadosid+"'>",
-
                     "<a class='btn botrojo btn-xs' href='#'><i class='glyphicon glyphicon-trash delete'></i></a>"
                 ] ).draw( false );
                 contador++;
                 $("#articulos").select2("val", "");
-                $("#empleados").select2("val", "");
                 $("#cantidad").val("");
                 $("#articulos").select2("open");
-                $("#cantidad_error").attr('class', 'form-group');
             }
-            else if(cantidad > stock)
+            else
             {
-                $("#cantidad_error").attr('class', 'form-group has-error');
-                $("#cantidad").focus();
-                $("#cantidad").val("");
-            }
-            else if(cantidad <= cero)
-            {
-                $("#cantidad_error").attr('class', 'form-group has-error');
-                $("#cantidad").focus();
-                $("#cantidad").val("");
-            }
-            else{
-                alert("No se ha podido agregar el articulo, intente nuevamente.")
+                alert("No se ha podido agregar el articulo, intente nuevamente.");
             }         
         });
 
 
         //Eliminar articulos ingresados en la datatable
-        $("#tabla-salidastock tbody").on( "click", ".delete", function () {
-            $("#tabla-salidastock").DataTable()
+        $("#tabla-ingresostock tbody").on( "click", ".delete", function () {
+            $("#tabla-ingresostock").DataTable()
                 .row( $(this).parents("tr") )
                 .remove()
                 .draw();
         });
+
+    });
     </script>
 @endsection

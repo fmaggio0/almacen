@@ -1,4 +1,4 @@
-<div class="modal fade" id="salidastock" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div class="modal fade" id="ingresostock" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 
 <div class="modal-dialog modal-lg">
 
@@ -8,7 +8,7 @@
 
 		<!--HEADER MODAL -->
 		<div class="modal-header" style="background: #4682B4; color: #FFFFFF;">
-			<button type="button" class="close" date-dismiss='modal' aria-hidden='true'>&times;</button>
+			<button type="button" class="close" id="cerraringreso" date-dismiss='modal' aria-hidden='true'>&times;</button>
 			<h4 class="modal-title"> Ingreso de Stock</h4> 
 		</div>
 
@@ -60,7 +60,7 @@
 
 					</div>
 					<div class="col-sm-2">
-					{!! Form::button('+', array('id' => 'addarticulo', 'style' =>"float:left", 'class'=>'btn btn-success')) 
+					{!! Form::button('+', array('id' => 'nuevo', 'style' =>"float:left", 'class'=>'btn btn-success')) 
                         !!}
 					{!! Form::label(null, 'Cantidad:', array('class' => 'control-label','style' =>"float:right")) !!}
 					</div>

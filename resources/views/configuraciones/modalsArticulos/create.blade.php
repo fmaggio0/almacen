@@ -5,7 +5,7 @@
 		{!! Form::open(['route' => 'addarticulos', 'method' => 'POST', 'class' => 'form-horizontal' ]) !!}
 
 				<div class="modal-header" style="background: #4682B4; color: #FFFFFF;">
-					<button type="button" class="close" date-dismiss='modal' aria-hidden='true'>&times;</button>
+					<button type="button" class="close" id="cerrarcreararticulo" date-dismiss='modal' aria-hidden='true'>&times;</button>
 					<h4 class="modal-title">Nuevo articulo</h4> 
 				</div>
 
@@ -43,9 +43,74 @@
 				</div>
 
 				<div class="modal-footer">
-					{{ Form::submit('Guardar', ['class'=>'btn btn btn-primary'])}}
+					{{ Form::submit('Guardar', ['id' => 'submitarticulo', 'class'=>'btn btn btn-primary'])}}
 					{!! Form::close() !!}
 				</div>
 		</div>
 	</div>
 </div>
+
+<script>
+	//ABRIR Y CERRAR MODAL
+		$('#nuevo').click(function(){
+            $('#creararticulo').modal();
+        });
+         //Cerrar modal agregar articulo
+        $("#cerrarcreararticulo").click(function() {
+            $('#creararticulo').modal('hide');
+        });
+    //FIN ABRIR Y CERRAR MODAL
+	//SELECT2---------------------------------------------
+            //select2 Unidades de medida
+        $(".unidades").select2({
+            language: "es",
+        });
+        //select2 rubros
+        $.getJSON("/ajax/rubros", function (json) { //para modal edit y add
+            $(".completarrubros").select2({
+                data: json,
+                language: "es",
+            });
+        });
+        //select2 subrubros
+        $.getJSON("/ajax/subrubros" , function (json) { //solo modal edit
+          $(".completarsubrubros").select2({
+                data: json,
+                language: "es",
+
+            });
+        });
+    //FIN SELECT2-------------------------------------------
+    //FIN SELECT2 SUBFAMILIA
+         $(".subrubros").prop("disabled", true);
+         $('.completarrubros').on("select2:select", function(e) { 
+            id = $(".completarrubros").val();
+            $(".subrubros").select2();
+            $(".subrubros").select2().empty();
+            $.getJSON("ajax/subrubros/" + id, function (json) {
+              $(".subrubros").select2({
+                    data: json,
+                    language: "es",
+
+                });
+            });
+            $(".subrubros").prop("disabled", false);
+        });
+    //FIN SELECT2 FAMILIA-SUBFAMILIA------------------------
+    //SUBMIT AJAX-------------------------------------------
+    $('#submitarticulo').on('submit', function(e) {
+        e.preventDefault(); 
+          var name = $('.desc').val();
+          var message = $('.unidades').val();
+          var postid = $('.completarrubros').val();
+          /*var postid = $('.subrubros').val();*/
+          $.ajax({
+                type: "POST",
+                url: host+'/articulos/addarticulo',
+                data: {name:name, message:message, post_id:postid}
+               /* success: function( msg ) {
+                alert( msg );
+                }*/
+            });
+       });
+</script>

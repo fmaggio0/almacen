@@ -80,44 +80,6 @@
                 });
             //FIN DATATABLE
 
-                //SELECT2-------------------------------------------
-                //select2 Unidades de medida
-                $(".unidades").select2({
-                    language: "es",
-                });
-                //select2 rubros
-                $.getJSON("/ajax/rubros", function (json) { //para modal edit y add
-                    $(".completarrubros").select2({
-                        data: json,
-                        language: "es",
-                    });
-                });
-                //select2 subrubros
-                $.getJSON("/ajax/subrubros" , function (json) { //solo modal edit
-                  $(".completarsubrubros").select2({
-                        data: json,
-                        language: "es",
-
-                    });
-                });
-                //FIN SELECT2-------------------------------------------
-
-                 $(".subrubros").prop("disabled", true);
-                 $('.completarrubros').on("select2:select", function(e) { 
-                    id = $(".completarrubros").val();
-                    $(".subrubros").select2();
-                    $(".subrubros").select2().empty();
-                    $.getJSON("ajax/subrubros/" + id, function (json) {
-                      $(".subrubros").select2({
-                            data: json,
-                            language: "es",
-
-                        });
-                    });
-                    $(".subrubros").prop("disabled", false);
-                });
-                //FIN SELECT2 FAMILIA-SUBFAMILIA
-
                 //ESPERAR HASTA QUE CARGUE LA TABLA
                  $('#articulos').on('draw.dt', function () {
 
@@ -207,10 +169,7 @@
 
                 //MODAL ADD ARTICULOS -----------------------------------------------------------------------
 
-                $('#nuevo').click(function(){
-                    $('#creararticulo').modal();
-                });
-                    //focus accesibilidad
+                    /*//focus accesibilidad
                     $('#creararticulo').on('shown.bs.modal', function() {
                         $(".desc").focus();
                         $(".unidades").on("select2:select", function(e) {
@@ -223,13 +182,12 @@
                             $(".btn-primary").focus();
                         });
                     });
-                    //fin focus accesibilidad
+                    //fin focus accesibilidad*/
 
                 //FIN MODAL ADD ARTICULOS -----------------------------------------------------------------------
                 
                 //CERRAR TODOS LOS MODALES
                 $('.close').click(function() {
-                    $('#creararticulo').modal('hide');
                     $('#editar').modal('hide');
                     $('#delete').modal('hide');
                 });
