@@ -13,13 +13,9 @@
 <script src="{{ asset('/plugins/datatables/datatables.min.js') }}" type="text/javascript"></script>
 <!-- Bootstrap-select-->
 <script src="{{ asset('/plugins/select2/js/select2.min.js') }}"></script>
-<script src="{{ asset('/plugins/select2/js/es.js') }}"></script>
+<script src="{{ asset('/plugins/select2/js/i18n/es.js') }}"></script>
 
 <!--handlebars-->
 <script src="{{ asset('/js/handlebars-v4.0.5.js') }}" type="text/javascript"></script>
 <!--icheck-->
 <script src="{{ asset('/plugins/iCheck/icheck.min.js') }}" type="text/javascript"></script>
-<!-- Optionally, you can add Slimscroll and FastClick plugins.
-      Both of these plugins are recommended to enhance the
-      user experience. Slimscroll is required when using the
-      fixed layout. -->

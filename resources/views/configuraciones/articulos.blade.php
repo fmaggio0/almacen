@@ -208,10 +208,10 @@
                 //MODAL ADD ARTICULOS -----------------------------------------------------------------------
 
                 $('#nuevo').click(function(){
-                    $('#myModal').modal();
+                    $('#creararticulo').modal();
                 });
                     //focus accesibilidad
-                    $('#myModal').on('shown.bs.modal', function() {
+                    $('#creararticulo').on('shown.bs.modal', function() {
                         $(".desc").focus();
                         $(".unidades").on("select2:select", function(e) {
                             $(".completarrubros").select2("open");
@@ -229,7 +229,7 @@
                 
                 //CERRAR TODOS LOS MODALES
                 $('.close').click(function() {
-                    $('#myModal').modal('hide');
+                    $('#creararticulo').modal('hide');
                     $('#editar').modal('hide');
                     $('#delete').modal('hide');
                 });

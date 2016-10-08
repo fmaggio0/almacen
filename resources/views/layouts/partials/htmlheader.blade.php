@@ -17,10 +17,7 @@
     {!! Html::style('/plugins/datatables/dataTables.bootstrap.css') !!}
     <!-- Estilos personalizados -->
     {!! Html::style('/css/estilos.css') !!}
-    <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
-          page. However, you can choose any other skin. Make sure you
-          apply the skin class to the body tag so the changes take effect.
-    -->
+    <!-- AdminLTE Skins -->
     {!! Html::style('/css/skins/skin-blue.css') !!}
     <!-- iCheck -->
     {!! Html::style('/plugins/iCheck/square/blue.css') !!}

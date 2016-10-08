@@ -16,12 +16,21 @@ use Exception;
 
 class MovimientosController extends Controller
 {
-	public function index(){
+    public function indexingresos(){
 
-		return view('movimientos.salidas');
+        return view('movimientos.ingresos');
+    }
+    
+	public function indexegresos(){
+
+		return view('movimientos.egresos');
 	}
+    
+    public function storeingreso(Request $request){
 
-	public function store(Request $request){
+    }
+
+	public function storeegreso(Request $request){
 
         DB::beginTransaction();
 
@@ -96,5 +105,6 @@ class MovimientosController extends Controller
                 ->withErrors('Se ha producido un errro: ( ' . $e->getCode() . ' ): ' . $e->getMessage().' - Copie este texto y envielo a informática');
         }
 	}
+    
 
 }

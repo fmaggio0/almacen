@@ -39,8 +39,8 @@
             <li class="treeview">
                 <a href="#"><i class='fa fa-exchange'></i> <span>Gestionar stock</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
-                    <li><a href="#">Entradas</a></li>
-                    <li><a href="/salidas">Salidas</a></li>
+                    <li><a href="/ingresos">Ingreso de Stock</a></li>
+                    <li><a href="/egresos">Egreso de Stock</a></li>
                 </ul>
             </li>
 

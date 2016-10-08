@@ -6,11 +6,21 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
-//ALMACEN
+//GESTIONAR AUTORIZACIONES
 
 Route::get('/autorizaciones', ['uses' => 'AutorizacionesController@index']);
 
-Route::get('/salidas', ['uses' => 'MovimientosController@index']);
+//GESTIONAR STOCK
+
+Route::get('/egresos', ['uses' => 'MovimientosController@indexegresos']);
+
+Route::get('/ingresos', ['uses' => 'MovimientosController@indexingresos']);
+
+Route::post('/movimientos/addsalida', ['as' => 'addsalida', 'uses' => 'MovimientosController@storeegreso']);
+
+Route::post('/movimientos/addingreso', ['as' => 'addingreso', 'uses' => 'MovimientosController@storeingreso']);
+
+//CONFIGURACIONES - ARTICULOS
 
 Route::get('/articulos', ['uses' => 'ArticulosController@index']);
 
@@ -22,7 +32,6 @@ Route::post('/articulos/activar', ['as' => 'activar', 'uses' => 'ArticulosContro
 
 Route::post('/articulos/edit', ['as' => 'edit', 'uses' => 'ArticulosController@edit']);
 
-Route::post('/movimientos/addsalida', ['as' => 'addsalida', 'uses' => 'MovimientosController@store']);
 
 //PARA EL USUARIO NORMAL
 
