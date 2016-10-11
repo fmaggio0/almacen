@@ -96,21 +96,25 @@
             });
             $(".subrubros").prop("disabled", false);
         });
-    //FIN SELECT2 FAMILIA-SUBFAMILIA------------------------
+    //FIN SELECT2 FAMILIA-SUBFAMILIA-----------------------
     //SUBMIT AJAX-------------------------------------------
-    $('#submitarticulo').on('submit', function(e) {
-        e.preventDefault(); 
-          var name = $('.desc').val();
-          var message = $('.unidades').val();
-          var postid = $('.completarrubros').val();
-          /*var postid = $('.subrubros').val();*/
-          $.ajax({
-                type: "POST",
-                url: host+'/articulos/addarticulo',
-                data: {name:name, message:message, post_id:postid}
-               /* success: function( msg ) {
-                alert( msg );
-                }*/
-            });
-       });
+    $('#sumitarticulo').on('submit',function(e){
+      $.ajaxSetup({
+          header:$('meta[name="_token"]').attr('content')
+      })
+      e.preventDefault(e);
+      $.ajax({
+
+        type:"POST",
+        url:'/articulos/addarticulo',
+        data:$(this).serialize(),
+        dataType: 'json',
+        success: function(data){
+            console.log(data);
+        },
+        error: function(data){
+
+        }
+      })
+    });
 </script>

@@ -35,7 +35,10 @@ class ArticulosController extends Controller
         }
         
         $articulo->create($request->all());
-        return back()->withInput();
+        /*return back()->withInput();*/
+       /* return back()
+                ->with('status', 'Salida procesada correctamente');*/
+        /*return response()->with('status', 'Salida procesada correctamente');*/
 	}
 
     public function baja(Request $request)
