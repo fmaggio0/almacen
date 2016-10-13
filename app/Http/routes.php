@@ -32,6 +32,18 @@ Route::post('/articulos/activar', ['as' => 'activar', 'uses' => 'ArticulosContro
 
 Route::post('/articulos/edit', ['as' => 'edit', 'uses' => 'ArticulosController@edit']);
 
+//CONFIGURACIONES - PROVEEDORES
+
+Route::get('/proveedores', ['uses' => 'ProveedoresController@index']);
+
+Route::post('/proveedores/addproveedor', ['as' => 'addproveedor','uses' => 'ProveedoresController@store']);
+
+Route::post('/proveedores/dardebaja', ['as' => 'dardebaja', 'uses' => 'ProveedoresController@baja']);
+
+Route::post('/proveedores/activar', ['as' => 'activar', 'uses' => 'ProveedoresController@activar']);
+
+Route::post('/proveedores/edit', ['as' => 'edit', 'uses' => 'ProveedoresController@edit']);
+
 
 //PARA EL USUARIO NORMAL
 
