@@ -43,7 +43,7 @@
 				</div>
 
 				<div class="modal-footer">
-					{{ Form::submit('Editar', ['class'=>'btn btn-primary'])}}
+					{{ Form::submit('Editar', ['class'=>'btn btn btn-primary'])}}
 					{!! Form::close() !!}
 				</div>
 		</div>

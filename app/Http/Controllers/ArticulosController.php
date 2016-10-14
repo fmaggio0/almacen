@@ -22,7 +22,7 @@ class ArticulosController extends Controller
      
         $v = \Validator::make($request->all(), [
             
-            'descripcion' => 'required|max:255|unique',
+            'descripcion' => 'required|max:255',
             'unidad' => 'required|max:20',
             'id_usuario'    => 'required', //modificar cuando cambie la tabla
             'id_rubro' => 'required|numeric',
@@ -39,7 +39,6 @@ class ArticulosController extends Controller
        /* return back()
                 ->with('status', 'Salida procesada correctamente');*/
         /*return response()->with('status', 'Salida procesada correctamente');*/
-         return response()->json(['msg' => 'Success!']);
 	}
 
     public function baja(Request $request)

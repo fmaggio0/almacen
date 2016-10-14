@@ -43,7 +43,7 @@
 				</div>
 
 				<div class="modal-footer">
-					{!! Form::button('Guardar', array('class'=>'send-btn btn btn-primary')) !!}
+					{{ Form::submit('Guardar', ['id' => 'submitarticulo', 'class'=>'btn btn btn-primary'])}}
 					{!! Form::close() !!}
 				</div>
 		</div>
@@ -51,8 +51,6 @@
 </div>
 
 <script>
-    //Desabilitar opciones si es ajuste de stock
-
 	//ABRIR Y CERRAR MODAL
 		$('#nuevo').click(function(){
             $('#creararticulo').modal();
@@ -100,19 +98,22 @@
         });
     //FIN SELECT2 FAMILIA-SUBFAMILIA-----------------------
     //SUBMIT AJAX-------------------------------------------
-    $('.send-btn').click(function(e){
-      e.preventDefault();   
+    $('#sumitarticulo').on('submit',function(e){
       $.ajaxSetup({
           header:$('meta[name="_token"]').attr('content')
       })
+      e.preventDefault(e);
       $.ajax({
+
         type:"POST",
         url:'/articulos/addarticulo',
-        data: {'descripcion':$('.desc').val(), 'unidad':$('input[name=id_usuario]').val(),'id_rubro':$('.completarrubros').val(),'id_subrubro':$('.subrubros').val(), 'id_usuario':$('input[name=id_usuario]').val(),'_token': $('input[name=_token]').val()},
+        data:$(this).serialize(),
         dataType: 'json',
-        success: function(data)
-        {
-            $('#creararticulo').modal('hide');
+        success: function(data){
+            console.log(data);
+        },
+        error: function(data){
+
         }
       })
     });

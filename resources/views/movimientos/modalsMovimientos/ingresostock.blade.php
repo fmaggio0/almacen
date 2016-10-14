@@ -17,12 +17,12 @@
 			<div class="form-group">
 				{!! Form::label(null, 'Tipo de ingreso:', array('class' => 'control-label col-sm-2')) !!}
 				<div class="col-sm-4">
-					{!! Form::select('tipo_ingreso', array( 'Ingreso por facturacion' => 'Ingreso por facturacion', 'Ajuste de stock' => 'Ajuste de stock',), null ,array('class'=>'tipo_ingreso form-control', 'style' => 'width: 100%', 'required' => 'required')) 
+					{!! Form::select('tipo_ingreso', array( 'Ingreso por facturacion' => 'Ingreso por facturacion', 'Ajuste de stock' => 'Ajuste de stock',), null ,array('class'=>'tipo_retiro form-control', 'style' => 'width: 100%', 'required' => 'required')) 
                 !!}
 				</div>
 				{!! Form::label(null, 'Tipo de comprobante:', array('class' => 'control-label col-sm-2')) !!}
 				<div class="col-sm-4">
-					{!! Form::select('tipo_comprobante', array('Factura' => 'Factura', 'Remito' => 'Remito', 'TIcket' => 'Ticket'), null ,array('class'=>' form-control tipo_comprobante', 'style' => 'width: 100%')) 
+					{!! Form::select('tipo_comprobante', array('Factura' => 'Factura', 'Remito' => 'Remito', 'TIcket' => 'Ticket'), null ,array('class'=>' form-control', 'style' => 'width: 100%')) 
                     !!}
 				</div>
 					
@@ -77,14 +77,15 @@
        		</fieldset>
 
        	 	<!-- DATATABLE ARTICULOS-->
-	       	<div class="box">
-	            <div class="box-body">
-	                <table id="tabla-articulos" class="table table-striped table-bordered"  cellspacing="0" width="100%">
+	       	<div class="box tabla-articulos">
+	            <div class="box-body no-padding">
+	                <table id="tabla-salidastock" class="table table-striped table-bordered"  cellspacing="0" width="100%">
 	                    <thead>
 	                        <tr>
 	                            <th>Nro Item</th>
 	                            <th>Articulo</th>
 	                            <th>Cantidad</th>
+	                            <th>Retirado por</th>
 	                            <th>Acciones</th>
 	                        </tr>
 	                    </thead>
@@ -105,61 +106,3 @@
 </div>
 
 </div>
-
-<script>
-	//BLOQUEAR INPUTS SI SE SELECCIONA AJUSTE DE STOCK
-	$(".tipo_ingreso").change(function() {
-    	if ($(this).val() == "Ajuste de stock") 
-	    {
-	        $(".tipo_comprobante").attr("disabled",true);
-	        $("input[name=nro_comprobante]").attr("disabled",true);
-	    }
-	    else
-	    {
-	    	$(".tipo_comprobante").attr("disabled",false);
-	        $("input[name=nro_comprobante]").attr("disabled",false);
-	    }
-	});
-
-    $("#tabla-articulos").DataTable({
-	    language: {
-	        url: "{!! asset('/plugins/datatables/lenguajes/spanish.json') !!}"
-	    },
-	    "paging":   false,
-    });	
-
-	//Agregar articulos a datatable
-    var contador = 1;
-    $("#agregar").on( 'click', function () {
-        var articulos = $("#articulos :selected").text();
-        var articulosid = $("#articulos :selected").val();
-        var cantidad = $("#cantidad").val();
-
-        //Validaciones antes de agregar articulos a la tabla
-        if(cantidad > 0 && articulos.length != 0 && articulosid.length != 0)
-        {
-            $("#tabla-articulos").DataTable().row.add( [
-                contador,
-                articulos+"<input type='hidden' name='articulos[]' value='"+articulosid+"'>",
-                cantidad+"<input type='hidden' name='cantidad[]' value='"+cantidad+"'>",
-                "<a class='btn botrojo btn-xs' href='#'><i class='glyphicon glyphicon-trash delete'></i></a>"
-            ] ).draw( false );
-            contador++;
-            $("#articulos").select2("val", "");
-            $("#cantidad").val("");
-            $("#articulos").select2("open");
-        }
-        else
-        {
-            alert("No se ha podido agregar el articulo, intente nuevamente.");
-        }         
-    });
-
-    //Eliminar articulos ingresados en la datatable
-    $("#tabla-articulos tbody").on( "click", ".delete", function () {
-        $("#tabla-articulos").DataTable()
-            .row( $(this).parents("tr") )
-            .remove()
-            .draw();
-    });
-</script>
