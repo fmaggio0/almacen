@@ -39,7 +39,7 @@
 
     <!-- Datatables Salidas Master -->
     <div class="box">
-        <div class="box-body no-padding">
+        <div class="box-body">
             <table id="tabla-ingresostock" class="table table-striped table-bordered"  cellspacing="0" width="100%">
                 <thead>
                     <tr>
@@ -157,11 +157,6 @@
             $('#ingresostock').modal('hide');
         });
 
-       
-        
-
-
-
         //Plugins select para modal de salida
         $("#articulos").select2({
             minimumInputLength: 2,
@@ -212,56 +207,12 @@
         });*/
 
         //Datatable para modal salidas de stock(Articulos agregados)
-        $("#tabla-ingresostock").DataTable({
-            language: {
-                url: "{!! asset('/plugins/datatables/lenguajes/spanish.json') !!}"
-            },
-            "paging":   false,
-        });
-
 
         //Imprimir stock disponible en el placeholder del input cantidad
         $("#articulos").on("select2:select", function(e) { 
             data=$("#articulos").select2('data')[0];
             $("#cantidad").attr('placeholder', data.stock+" "+data.unidad+"es disponibles" );
             $("#cantidad").attr('data-stock', data.stock);
-        });
-
-
-        //Agregar articulos a datatable
-        var contador = 1;
-        $("#agregar").on( 'click', function () {
-            var articulos = $("#articulos :selected").text();
-            var articulosid = $("#articulos :selected").val();
-            var cantidad = $("#cantidad").val();
-
-            //Validaciones antes de agregar articulos a la tabla
-            if(cantidad > 0 && articulos.length != 0 && articulosid.length != 0)
-            {
-                $("#tabla-ingresostock").DataTable().row.add( [
-                    contador,
-                    articulos+"<input type='hidden' name='articulos[]' value='"+articulosid+"'>",
-                    cantidad+"<input type='hidden' name='cantidad[]' value='"+cantidad+"'>",
-                    "<a class='btn botrojo btn-xs' href='#'><i class='glyphicon glyphicon-trash delete'></i></a>"
-                ] ).draw( false );
-                contador++;
-                $("#articulos").select2("val", "");
-                $("#cantidad").val("");
-                $("#articulos").select2("open");
-            }
-            else
-            {
-                alert("No se ha podido agregar el articulo, intente nuevamente.");
-            }         
-        });
-
-
-        //Eliminar articulos ingresados en la datatable
-        $("#tabla-ingresostock tbody").on( "click", ".delete", function () {
-            $("#tabla-ingresostock").DataTable()
-                .row( $(this).parents("tr") )
-                .remove()
-                .draw();
         });
 
     });
