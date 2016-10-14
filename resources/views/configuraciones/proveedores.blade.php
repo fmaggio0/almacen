@@ -69,9 +69,9 @@
                         {data: 'telefono', name: 'proveedores.telefono'},
                         {data: 'observaciones', name: 'proveedores.observaciones'},
                         {data: 'rubros', name: 'proveedores.rubros'},
-                        {data: 'updated_at', name: 'articulos.updated_at'},
+                        {data: 'updated_at', name: 'proveedores.updated_at'},
                         {data: 'usuario', name: 'users.name'},
-                        {data: 'estado', name: 'articulos.estado'},
+                        {data: 'estado', name: 'proveedores.estado'},
                         {data: 'action', name: 'action' , orderable: false, searchable: false},
                     ],
                     "language":{

@@ -55,6 +55,8 @@ Route::post('/usuario/autorizar', ['as' => 'autorizar', 'uses' => 'Autorizacione
 
 Route::get('/ajax/rubros', ['uses' => 'AjaxController@getRubros']);
 
+Route::get('/ajax/rubros2', ['uses' => 'AjaxController@getRubros2']);
+
 Route::get('/ajax/subrubros', ['uses' => 'AjaxController@getSubrubros']);
 
 Route::get('/ajax/subrubros/{id}', ['uses' => 'AjaxController@getSubrubrosxid_rubro']);

@@ -20,6 +20,14 @@ class AjaxController extends Controller
     	return Response::json($rubros);
     }
 
+    public function getRubros2() {
+        $rubros=DB::table('rubros')
+            ->select('descripcion AS id', 'descripcion AS text' )
+            ->get();
+
+        return Response::json($rubros);
+    }
+
     public function getSubrubros(){
 		$subrubros=DB::table('subrubros')
 			->select('id_subrubro AS id', 'descripcion AS text' )
