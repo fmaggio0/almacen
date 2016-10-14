@@ -2,7 +2,7 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 
-		{!! Form::open(['route' => 'addarticulos', 'method' => 'POST', 'class' => 'form-horizontal' ]) !!}
+		{!! Form::open(['route' => 'addproveedor', 'method' => 'POST', 'class' => 'form-horizontal' ]) !!}
 
 				<div class="modal-header" style="background: #4682B4; color: #FFFFFF;">
 					<button type="button" class="close" id="cerrarcrearproveedor" date-dismiss='modal' aria-hidden='true'>&times;</button>
@@ -46,6 +46,7 @@
                                 <select name="rubros" class="completarrubros" multiple="multiple" style="width: 100%" required></select>
 							</div>
 					</div>
+                    {!! Form::hidden('id_usuario', Auth::user()->id ) !!}
 				</div>
 
 				<div class="modal-footer">
@@ -78,7 +79,7 @@
       $.ajax({
         type:"POST",
         url:'/proveedores/addproveedor',
-        data: {'nombre':$('input[name=nombre').val(), 'direccion':$('input[name=direccion]').val(),'email':$('input[name=email]').val(),'telefono':$('input[name=telefono]').val(), 'observaciones':$('input[name=observaciones]').val(), 'rubros':$('input[name=rubros]').val(),'_token': $('input[name=_token]').val()},
+        data: {'nombre':$('input[name=nombre').val(), 'direccion':$('input[name=direccion]').val(),'email':$('input[name=email]').val(),'telefono':$('input[name=telefono]').val(), 'observaciones':$('input[name=observaciones]').val(), 'rubros':$('input[name=rubros]').val(),'id_usuario':$('input[name=id_usuario]').val(),'_token': $('input[name=_token]').val()},
         dataType: 'json',
         success: function(data)
         {

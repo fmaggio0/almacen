@@ -23,19 +23,19 @@
         </div>
     @endif
 
-        <div class="box tabla-articulos">
-            <div class="box-body no-padding"> 
+        <div class="box tabla-proveedores">
+            <div class="box-body"> 
 
-                <table class="table table-striped table-bordered accionstyle"  cellspacing="0" width="100%" id="articulos">
+                <table class="table table-striped table-bordered accionstyle"  cellspacing="0" width="100%" id="proveedores">
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Articulo</th>
-                            <th>Unidad</th>
-                            <th>Stock minimo</th>
-                            <th>Stock actual</th>
-                            <th>Rubro</th>
-                            <th>Subrubro</th>
+                            <th>Proveedor</th>
+                            <th>Dirección</th>
+                            <th>E-Mail</th>
+                            <th>Telefono</th>
+                            <th>Observaciones</th>
+                            <th>Rubros</th>
                             <th>Modificado</th>
                             <th>Usuario</th>
                             <th>Estado</th>
@@ -54,21 +54,21 @@
         <script>
             $(document).ready(function(){
             //DATATABLE
-                $('#articulos').DataTable({
+                $('#proveedores').DataTable({
                     "processing": true,
                     "serverSide": true,
-                    "ajax": "/datatables/articulos",
+                    "ajax": "/datatables/proveedores",
                     "error": function () {
                         alert( 'Custom error' );
                       },
                     "columns":[
-                        {data: 'id_articulo', name: 'articulos.id_articulo', visible: false},
-                        {data: 'descripcion', name: 'articulos.descripcion'},
-                        {data: 'unidad', name: 'articulos.unidad'},
-                        {data: 'stock_minimo', name: 'articulos.stock_minimo'},
-                        {data: 'stock_actual', name: 'articulos.stock_actual'},
-                        {data: 'descripcionrubro', name: 'rubros.descripcion'},
-                        {data: 'descripcionsubrubro', name: 'subrubros.descripcion'},
+                        {data: 'id_proveedor', name: 'proveedores.id_proveedor', visible: false},
+                        {data: 'nombre', name: 'proveedores.nombre'},
+                        {data: 'direccion', name: 'proveedores.direccion'},
+                        {data: 'email', name: 'proveedores.email'},
+                        {data: 'telefono', name: 'proveedores.telefono'},
+                        {data: 'observaciones', name: 'proveedores.observaciones'},
+                        {data: 'rubros', name: 'proveedores.rubros'},
                         {data: 'updated_at', name: 'articulos.updated_at'},
                         {data: 'usuario', name: 'users.name'},
                         {data: 'estado', name: 'articulos.estado'},
@@ -81,85 +81,45 @@
             //FIN DATATABLE
 
                 //ESPERAR HASTA QUE CARGUE LA TABLA
-                 $('#articulos').on('draw.dt', function () {
-
+                 $('#proveedores').on('draw.dt', function () {
                     //MODAL DELETE -----------------------------------------------------------------------
                     $('.delete').click(function() {
                         $('#delete').modal();
                         var id = $(this).attr('value');
-                        $("input[name='id_articulo']").val(id);
+                        $("input[name='id_proveedor']").val(id);
                     });
                     //FIN MODAL DELETE -------------------------------------------------------------------
-
                     //MODAL ACTIVAR -----------------------------------------------------------------------
                     $('.activar').click(function() {
                         $('#activar').modal();
                         var id = $(this).attr('value');
-                        $("input[name='id_articulo']").val(id);
+                        $("input[name='id_proveedor']").val(id);
                     });
                     //FIN MODAL ACTIVAR -------------------------------------------------------------------
-
 
                     //MODAL EDIT --------------------------------------------------------------------------
                     $('.edit').click(function(){
                         $('#editar').modal();
 
                         //tomo las variables y las paso al modal edit
-                        var unidad = $(this).data('selectunidad');
-                        var rubro = $(this).data('selectrubro');
-                        var subrubro = $(this).data('selectsubrubro');
-                        var desc = $(this).data('desc');
+                        var nombre = $(this).data('nombre');
+                        var direccion = $(this).data('direccion');
+                        var email = $(this).data('email');
+                        var telefono = $(this).data('telefono');
                         var id = $(this).attr('value');
-                        var estado = $(this).data('estado');
-
-                         $("#selectsubrubroedit").prop("readonly", true); //desabilitar subrubro hasta que se elija rubro **CORREJIR** Si lo desabilito que seria lo corecto, el usuario vera toda la lista de subrubros.
-
-                        $('#selectrubroedit').on("select2:select", function(e) { //si elijo un rubro...
-                            
-                            idrubro = $("#selectrubroedit").val(); //tomar id
-
-                            $("#selectsubrubroedit").select2().empty(); // vaciar select subrubros
-
-                            $.getJSON("/ajax/subrubros/" + idrubro, function (json) { //completar select subrubros con la query que responda al id del rubro
-                              $("#selectsubrubroedit").select2({
-                                    data: json,
-                                    language: "es",
-
-                                });
-                            });
-
-                            $("#selectsubrubroedit").prop("readonly", false); // habilitar subrubro una vez que se eligio rubro
-                        });
+                        var observaciones = $(this).data('observaciones');
+                        var rubros = $(this).data('rubros');
                     
                         //Modificar atributos con el item seleccionado
 
-                        $("#descedit").val( desc ).trigger("change");
-                        $("#selectunidadedit").val( unidad ).trigger("change");
-                        $("#selectrubroedit").val( rubro ).trigger("change");
-                        $("#selectsubrubroedit").val( subrubro ).trigger("change");
-                        $("input[name='id_articulo']").val(id);
-                        if (estado == 0)
-                        {
-                           $("#estado").val(false); 
-                           $('#estado').prop('checked', false);
-                        }
-                        else
-                        {
-                            $("#estado").val(true);
-                            $('#estado').prop('checked', true);
-                        }
+                        $("input[name='nombre']").val( nombre ).trigger("change");
+                        $("input[name='direccion']").val( direccion ).trigger("change");
+                        $("input[name='email']").val( email ).trigger("change");
+                        $("input[name='telefono']").val( telefono ).trigger("change");
+                        $("input[name='observaciones']").val( observaciones ).trigger("change");
+                        $("input[name='rubros']").val( rubros ).trigger("change");
+                        $("input[name='id_proveedor']").val(id);
                     });   
-
-                        //focus accesibilidad EDIT
-                        $('#editar').on('shown.bs.modal', function() {
-                            $("#descedit").focus();
-                        });
-                        $("#selectunidadedit").on("select2:select", function(e) {
-                            $("#selectrubroedit").select2("open");
-                        });
-                        $("#selectrubroedit").on("select2:select", function(e) {
-                            $("#selectsubrubroedit").select2("open");
-                        });
                     //FIN MODAL EDIT -----------------------------------------------------------------------
 
                 });

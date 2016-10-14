@@ -38,11 +38,11 @@ Route::get('/proveedores', ['uses' => 'ProveedoresController@index']);
 
 Route::post('/proveedores/addproveedor', ['as' => 'addproveedor','uses' => 'ProveedoresController@store']);
 
-Route::post('/proveedores/dardebaja', ['as' => 'dardebaja', 'uses' => 'ProveedoresController@baja']);
+Route::post('/proveedores/dardebaja', ['as' => 'dardebajaproveedor', 'uses' => 'ProveedoresController@baja']);
 
-Route::post('/proveedores/activar', ['as' => 'activar', 'uses' => 'ProveedoresController@activar']);
+Route::post('/proveedores/activar', ['as' => 'activarproveedor', 'uses' => 'ProveedoresController@activar']);
 
-Route::post('/proveedores/edit', ['as' => 'edit', 'uses' => 'ProveedoresController@edit']);
+Route::post('/proveedores/edit', ['as' => 'editproveedor', 'uses' => 'ProveedoresController@edit']);
 
 
 //PARA EL USUARIO NORMAL
@@ -80,6 +80,8 @@ Route::get('/datatables/autorizar-detalles/{id}', ['uses' => 'DatatablesControll
 Route::get('/datatables/salidas', ['uses' =>'DatatablesController@salidastable']);
 
 Route::get('/datatables/articulos', ['uses' => 'DatatablesController@articulostable']);
+
+Route::get('/datatables/proveedores', ['uses' => 'DatatablesController@proveedorestable']);
 
 Route::get('/datatables/autorizaciones', ['uses' => 'DatatablesController@autorizacionesadmin']);
 

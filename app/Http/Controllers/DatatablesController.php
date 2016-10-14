@@ -56,6 +56,38 @@ class DatatablesController extends Controller
             ->make(true);
 	}
 
+    public function proveedorestable()
+    {
+        $articulos = DB::table('proveedores')
+            ->join('users', 'proveedores.id_usuario', '=', 'users.id')
+            ->select(['proveedores.id_proveedor', 'proveedores.nombre', 'proveedores.direccion', 'users.name as usuario', 'proveedores.estado', 'proveedores.updated_at', 'proveedores.rubros', 'proveedores.email', 'proveedores.telefono', 'proveedores.observaciones']);
+
+        return Datatables::of($articulos)
+            ->addColumn('action', function ($articulos) {
+
+                if($articulos->estado == false)
+                {
+                    return '<a href="#" value="'.$articulos->id_proveedor.'" class="btn btn-xs btn-primary activar"><i class="glyphicon glyphicon-ok">';
+                }
+                else
+                {
+                    return '<a href="#" value="'.$articulos->id_proveedor.'" data-nombre="'.$articulos->nombre.'" data-direccion="'.$articulos->direccion.'" data-email="'.$articulos->email.'" data-telefono="'.$articulos->telefono.'" data-observaciones="'.$articulos->observaciones.'" data-rubros="'.$articulos->rubros.'" data-estado="'.$articulos->estado.'" class="btn btn-xs btn-primary edit"><i class="glyphicon glyphicon-edit edit"></i></a><a href="#" value="'.$articulos->id_proveedor.'" class="btn btn-xs btn-danger delete"><i class="glyphicon glyphicon-remove"></i></a>';
+                }
+            })
+            ->editColumn('estado', function($articulos){
+                if( $articulos->estado == false )
+                {
+                    return "<span class='label label-danger'>Inactivo</span>";
+                }
+                else
+                {
+                    return "<span class='label label-success'>Activo</span>";
+                }
+
+            })
+            ->make(true);
+    }
+
     public function salidastable()
     {
         $salidas = DB::table('salidas_master')

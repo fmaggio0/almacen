@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
+use App\Proveedores;
+
 class ProveedoresController extends Controller
 {
     public function index(){
@@ -15,15 +17,17 @@ class ProveedoresController extends Controller
 
 	public function store(Request $request)
 	{
-        $articulo = new Articulos;
+        $articulo = new Proveedores;
      
         $v = \Validator::make($request->all(), [
             
-            'descripcion' => 'required|max:255|unique',
-            'unidad' => 'required|max:20',
-            'id_usuario'    => 'required', //modificar cuando cambie la tabla
-            'id_rubro' => 'required|numeric',
-            'id_subrubro' => ''
+            'nombre' => 'required|max:60|unique:proveedores',
+            'direccion' => 'max:60',
+            'email'    => 'max:60',
+            'telefono' => 'max:60',
+            'id_usuario'    => 'required',
+            'observaciones' => 'max:255',
+            'rubros' => 'max:255',
         ]);
  
         if ($v->fails())
@@ -32,17 +36,13 @@ class ProveedoresController extends Controller
         }
         
         $articulo->create($request->all());
-        /*return back()->withInput();*/
-       /* return back()
-                ->with('status', 'Salida procesada correctamente');*/
-        /*return response()->with('status', 'Salida procesada correctamente');*/
          return response()->json(['msg' => 'Success!']);
 	}
 
     public function baja(Request $request)
     {
-        $id = $request->id_articulo;
-        $update = Articulos::findOrFail($id);
+        $id = $request->id_proveedor;
+        $update = Proveedores::findOrFail($id);
         $update->estado = false;
         $update->save();
         return back()->withInput();
@@ -50,8 +50,8 @@ class ProveedoresController extends Controller
 
      public function activar(Request $request)
     {
-        $id = $request->id_articulo;
-        $update = Articulos::findOrFail($id);
+        $id = $request->id_proveedor;
+        $update = Proveedores::findOrFail($id);
         $update->estado = true;
         $update->save();
         return back()->withInput();
@@ -60,12 +60,13 @@ class ProveedoresController extends Controller
     public function edit(Request $request)
     {
         $v = \Validator::make($request->all(), [
-            
-            'descripcion' => 'required|max:255|min:4',
-            'unidad' => 'required|max:20',
-            'id_usuario'    => 'required', //modificar cuando cambie la tabla
-            'id_rubro' => 'required|numeric',
-            'id_subrubro' => ''
+            'nombre' => 'required|max:60',
+            'direccion' => 'max:60',
+            'email'    => 'max:60',
+            'telefono' => 'max:60',
+            'id_usuario'    => 'required',
+            'observaciones' => 'max:255',
+            'rubros' => 'max:255',
         ]);
  
         if ($v->fails())
@@ -73,13 +74,15 @@ class ProveedoresController extends Controller
             return redirect()->back()->withInput()->withErrors($v->errors());
         }
 
-        $id = $request->id_articulo;
-        $update = Articulos::findOrFail($id);
-        $update->descripcion         = $request->descripcion;
-        $update->unidad              = $request->unidad;
-        $update->id_rubro            = $request->id_rubro;
-        $update->id_subrubro         = $request->id_subrubro;
-        $update->id_usuario             = $request->id_usuario;
+        $id = $request->id_proveedor;
+        $update = Proveedores::findOrFail($id);
+        $update->nombre             = $request->nombre;
+        $update->direccion          = $request->direccion;
+        $update->email              = $request->email;
+        $update->telefono           = $request->telefono;
+        $update->observaciones      = $request->observaciones;
+        $update->rubros             = $request->rubros;
+        $update->id_usuario         = $request->id_usuario;
         $update->save();
         return back()->withInput();
     }
