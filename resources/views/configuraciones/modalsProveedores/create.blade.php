@@ -50,7 +50,7 @@
 				</div>
 
 				<div class="modal-footer">
-					{!! Form::button('Guardar', array('class'=>'send-btn btn btn-primary')) !!}
+					{!! Form::button('Guardar', array('class'=>'btn btn-primary', 'id' => 'crearguardar')) !!}
 					{!! Form::close() !!}
 				</div>
 		</div>
@@ -71,28 +71,25 @@
     //FIN ABRIR Y CERRAR MODAL
 
     //SUBMIT AJAX-------------------------------------------
-    $('.send-btn').click(function(e){
+    $('#crearguardar').click(function(e){
       e.preventDefault();   
-      $.ajaxSetup({
-          header:$('meta[name="_token"]').attr('content')
-      })
       $.ajax({
         type:"POST",
         url:'/proveedores/addproveedor',
-        data: {'nombre':$('input[name=nombre').val(), 'direccion':$('input[name=direccion]').val(),'email':$('input[name=email]').val(),'telefono':$('input[name=telefono]').val(), 'observaciones':$('input[name=observaciones]').val(), 'rubros':$('.completarrubros').select2().val().join(", "), 'id_usuario':$('input[name=id_usuario]').val(),'_token': $('input[name=_token]').val()},
+        data: {'nombre':$('input[name=nombre').val(), 'direccion':$('input[name=direccion]').val(),'email':$('input[name=email]').val(),'telefono':$('input[name=telefono]').val(), 'observaciones':$('input[name=observaciones]').val(), 'rubros' : $('.completarrubros').select2().val().join(", "), 'id_usuario':$('input[name=id_usuario]').val(),'_token': $('input[name=_token]').val()},
         dataType: 'json',
         success: function(data)
         {
             $('#crearproveedor').modal('hide');
+            $('#proveedores').DataTable().ajax.reload();
         }
       })
     });
 
     //select2 rubros
-    $.getJSON("/ajax/rubros2", function (json) { //para modal edit y add
+    $.getJSON("/ajax/rubros2", function (json) {
         $(".completarrubros").select2({
-            tags: true,
-            tokenSeparators: [",", " "],
+            theme: "classic",
             data: json,
             language: "es",
             placeholder: "Seleccionar rubros"

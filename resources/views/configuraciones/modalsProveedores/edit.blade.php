@@ -1,8 +1,8 @@
-<div class="modal fade" id="editar" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="editarproveedor" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 		
-		{!! Form::open(['route' => 'editproveedor', 'method'=>'POST', 'class' => 'form-horizontal']) !!}		
+		{!! Form::open(['route' => 'editproveedor', 'method'=>'POST', 'class' => 'form-horizontal', 'id' => 'editform']) !!}		
 
 				<div class="modal-header" style="background: #4682B4; color: #FFFFFF;">
 					<button type="button" class="close" date-dismiss='modal' aria-hidden='true'>&times;</button>
@@ -53,10 +53,30 @@
 				</div>
 
 				<div class="modal-footer">
-					{{ Form::submit('Editar', ['class'=>'btn btn-primary'])}}
+					{!! Form::button('Guardar', array('class'=>'btn btn-primary', 'id' => 'editguardar')) !!}
 					{!! Form::close() !!}
 				</div>
 		</div>
 
 	</div>
 </div>
+<script>
+	//SUBMIT AJAX-------------------------------------------
+    $('#editguardar').click(function(e){
+      e.preventDefault();   
+      $.ajax({
+        type:"POST",
+        url:'/proveedores/addproveedor',
+        data: {'nombre':$('input[name=nombre').val(), 'direccion':$('input[name=direccion]').val(),'email':$('input[name=email]').val(),'telefono':$('input[name=telefono]').val(), 'observaciones':$('input[name=observaciones]').val(), 'rubros' : 'hola', 'id_proveedor':$('input[name=id_proveedor]').val(), 'id_usuario':$('input[name=id_usuario]').val(),'_token': $('input[name=_token]').val()},
+        dataType: 'json',
+        success: function(data)
+        {
+            $('#editarproveedor').modal('hide');
+            $('#proveedores').DataTable().ajax.reload();
+        }
+        error: function(){
+        	alert("error");
+        }
+      })
+    });
+</script>

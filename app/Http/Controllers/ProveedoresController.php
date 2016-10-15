@@ -36,7 +36,7 @@ class ProveedoresController extends Controller
         }
         
         $articulo->create($request->all());
-         return response()->json(['msg' => 'Success!']);
+        return response()->json(['msg' => 'Success!']);
 	}
 
     public function baja(Request $request)
@@ -84,6 +84,6 @@ class ProveedoresController extends Controller
         $update->rubros             = $request->rubros;
         $update->id_usuario         = $request->id_usuario;
         $update->save();
-        return back()->withInput();
+        return response()->json(['msg' => 'Success!']);
     }
 }

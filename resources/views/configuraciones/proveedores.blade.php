@@ -74,6 +74,7 @@
                         {data: 'estado', name: 'proveedores.estado'},
                         {data: 'action', name: 'action' , orderable: false, searchable: false},
                     ],
+                    "order": [ 7, "desc" ],
                     "language":{
                         url: "{!! asset('/plugins/datatables/lenguajes/spanish.json') !!}"
                     }
@@ -99,7 +100,7 @@
 
                     //MODAL EDIT --------------------------------------------------------------------------
                     $('.edit').click(function(){
-                        $('#editar').modal();
+                        $('#editarproveedor').modal();
 
                         //tomo las variables y las paso al modal edit
                         var nombre = $(this).data('nombre');
@@ -127,7 +128,7 @@
                 
                 //CERRAR TODOS LOS MODALES
                 $('.close').click(function() {
-                    $('#editar').modal('hide');
+                    $('#editarproveedor').modal('hide');
                     $('#delete').modal('hide');
                 });
                 //FIN CERRAR TODOS LOS MODALES
