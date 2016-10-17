@@ -5,7 +5,7 @@
 		{!! Form::open(['route' => 'addarticulos', 'method' => 'POST', 'class' => 'form-horizontal' ]) !!}
 
 				<div class="modal-header" style="background: #4682B4; color: #FFFFFF;">
-					<button type="button" class="close" id="cerrarcreararticulo" date-dismiss='modal' aria-hidden='true'>&times;</button>
+					<button type="button" class="close" id="close-add-articulo" date-dismiss='modal' aria-hidden='true'>&times;</button>
 					<h4 class="modal-title">Nuevo articulo</h4> 
 				</div>
 
@@ -53,15 +53,6 @@
 <script>
     //Desabilitar opciones si es ajuste de stock
 
-	//ABRIR Y CERRAR MODAL
-		$('#nuevo').click(function(){
-            $('#creararticulo').modal();
-        });
-         //Cerrar modal agregar articulo
-        $("#cerrarcreararticulo").click(function() {
-            $('#creararticulo').modal('hide');
-        });
-    //FIN ABRIR Y CERRAR MODAL
 	//SELECT2---------------------------------------------
             //select2 Unidades de medida
         $(".unidades").select2({
@@ -108,7 +99,7 @@
       $.ajax({
         type:"POST",
         url:'/articulos/addarticulo',
-        data: {'descripcion':$('.desc').val(), 'unidad':$('input[name=id_usuario]').val(),'id_rubro':$('.completarrubros').val(),'id_subrubro':$('.subrubros').val(), 'id_usuario':$('input[name=id_usuario]').val(),'_token': $('input[name=_token]').val()},
+        data: {'descripcion':$('.desc').val(), 'unidad':$('.unidades').val(),'id_rubro':$('.completarrubros').val(),'id_subrubro':$('.subrubros').val(), 'id_usuario':$('input[name=id_usuario]').val(),'_token': $('input[name=_token]').val()},
         dataType: 'json',
         success: function(data)
         {

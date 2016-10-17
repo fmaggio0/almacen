@@ -6,11 +6,11 @@
 
 @section ('contentheader_title') 
     <div class="titulo_header">
-        GESTION DE ARTICULOS
+        GESTION DE PROVEEDORES
     </div>
         <div class="boton_titulo">
-        <a id="nuevo" class="btn btn-success" href="#">
-        <i class="fa fa-plus"></i> Nuevo articulo</a>
+        <a id="add-proveedor" class="btn btn-success" href="#">
+        <i class="fa fa-plus"></i> Nuevo proveedor</a>
     </div>
 @stop
 
@@ -102,25 +102,25 @@
                     $('.edit').click(function(){
                         $('#editarproveedor').modal();
 
-                        //tomo las variables y las paso al modal edit
                         var nombre = $(this).data('nombre');
                         var direccion = $(this).data('direccion');
                         var email = $(this).data('email');
                         var telefono = $(this).data('telefono');
                         var id = $(this).attr('value');
                         var observaciones = $(this).data('observaciones');
-                        var rubros = $(this).data('rubros').split(', ');
-                        
-                        console.log(rubros);
-                        //Modificar atributos con el item seleccionado
+                        var rubros = $(this).data('rubros');
 
-                        $("input[name='nombre']").val( nombre ).trigger("change");
-                        $("input[name='direccion']").val( direccion ).trigger("change");
-                        $("input[name='email']").val( email ).trigger("change");
-                        $("input[name='telefono']").val( telefono ).trigger("change");
-                        $(".observacionesedit").val( observaciones ).trigger("change");
-                        $(".completarrubros").val(rubros).trigger("change");
-                        $("input[name='id_proveedor']").val(id);
+                        if(rubros){
+                            var rubros2 = rubros.split(', ');
+                        }     
+
+                        $(".edit-nombre").val( nombre ).trigger("change");
+                        $(".edit-direccion").val( direccion ).trigger("change");
+                        $(".edit-email").val( email ).trigger("change");
+                        $(".edit-telefono").val( telefono ).trigger("change");
+                        $(".edit-observaciones").val( observaciones ).trigger("change");
+                        $(".edit-rubros").val(rubros2).trigger("change");
+                        $(".edit-id_proveedor").val(id);
                     });   
                     //FIN MODAL EDIT -----------------------------------------------------------------------
 

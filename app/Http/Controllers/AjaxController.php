@@ -86,6 +86,17 @@ class AjaxController extends Controller
         return Response::json($tags);
     }
 
+    public function getProveedores(Request $request)
+    {
+        $term = $request->term ?: '';
+        $tags = DB::table ('proveedores')
+            ->where('nombre', 'like', $term.'%')
+            ->select('nombre AS text', 'id_proveedor AS id')
+            ->get();
+
+        return Response::json($tags);
+    }
+
     public function getDetallesSalidas($id){
         $detalles=DB::table('salidas_detalles')
             ->where('id_master', '=', $id )

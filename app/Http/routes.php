@@ -8,7 +8,9 @@ Route::get('/', function () {
 
 //GESTIONAR AUTORIZACIONES
 
-Route::get('/autorizaciones', ['uses' => 'AutorizacionesController@index']);
+Route::group(['middleware' => ['role:administrador']], function() {
+    Route::get('/autorizaciones', ['uses' => 'AutorizacionesController@index']);
+});
 
 //GESTIONAR STOCK
 
@@ -68,6 +70,8 @@ Route::get('/ajax/subareas', ['uses' => 'AjaxController@getSubareas']);
 Route::get('/ajax/subareas/{id}', ['uses' => 'AjaxController@getSubareasxid_area']);
 
 Route::get('/ajax/articulos', ['uses' => 'AjaxController@getArticulos']);
+
+Route::get('/ajax/proveedores', ['uses' => 'AjaxController@getProveedores']);
 
 Route::get('/ajax/salidastabledetails/{id}', ['uses' => 'AjaxController@getDetallesSalidas']);
 

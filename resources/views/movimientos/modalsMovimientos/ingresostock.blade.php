@@ -44,9 +44,12 @@
 			</div>
 			<div class="form-group">
 				{!! Form::label(null, 'Proveedor:', array('class' => 'control-label col-sm-2')) !!}
-				<div class="col-sm-4" id="articulos_error">
-					{!! Form::select('', array('' => ''), null ,array('id' => 'proveedor', 'class'=>' form-control', 'style' => 'width: 100%')) 
+				<div class="col-sm-4">
+					{!! Form::select('', array('' => ''), null ,array('id' => 'proveedores', 'class'=>' form-control', 'style' => 'width: 100%')) 
 	                !!}
+				</div>
+				<div class="col-sm-2">
+					{!! Form::button('+', array('id' => 'add-proveedor', 'style' =>"float:left", 'class'=>'btn btn-success')) !!}
 				</div>
 			</div>
 
@@ -54,18 +57,16 @@
              	<legend>Detalles</legend>
                 <div class="form-group">
 					{!! Form::label(null, 'Articulo:', array('class' => 'control-label col-sm-2')) !!}
-					<div class="col-sm-4" id="articulos_error">
-						{!! Form::select('', array('' => ''), null ,array('id' => 'articulos', 'class'=>' form-control', 'style' => 'width: 100%', 'tabindex' => '3')) 
-                        !!}
+					<div class="col-sm-4">
+						{!! Form::select('', array('' => ''), null ,array('id' => 'articulos', 'class'=>' form-control', 'style' => 'width: 100%', 'tabindex' => '3')) !!}
 
 					</div>
 					<div class="col-sm-2">
-					{!! Form::button('+', array('id' => 'nuevo', 'style' =>"float:left", 'class'=>'btn btn-success')) 
-                        !!}
-					{!! Form::label(null, 'Cantidad:', array('class' => 'control-label','style' =>"float:right")) !!}
+						{!! Form::button('+', array('id' => 'add-articulo', 'style' =>"float:left", 'class'=>'btn btn-success')) !!}
+						{!! Form::label(null, 'Cantidad:', array('class' => 'control-label','style' =>"float:right")) !!}
 					</div>
 					<div class="col-sm-4">
-					{!! Form::number('',  null, array('id' => 'cantidad', 'class' => 'form-control', 'placeholder' => 'Stock actual', 'min' => '1', 'data-stock' => '')) !!}
+						{!! Form::number('',  null, array('id' => 'cantidad', 'class' => 'form-control', 'placeholder' => 'Stock actual', 'min' => '1', 'data-stock' => '')) !!}
 					</div>
 				</div>
 				<div class="form-group">
@@ -107,17 +108,39 @@
 </div>
 
 <script>
+
+	$("#add-proveedor").click(function(){
+        $("#crearproveedor").modal(); 
+    });
+
+	$("#add-articulo").click(function(){
+        $("#creararticulo").modal();
+    });
+
+    $("#close-add-articulo").click(function(){
+        $("#creararticulo").modal("hide");
+    });
+
+    $("#close-add-proveedor").click(function(){
+        $("#crearproveedor").modal("hide");
+    });
+
 	//BLOQUEAR INPUTS SI SE SELECCIONA AJUSTE DE STOCK
 	$(".tipo_ingreso").change(function() {
     	if ($(this).val() == "Ajuste de stock") 
 	    {
 	        $(".tipo_comprobante").attr("disabled",true);
-	        $("input[name=nro_comprobante]").attr("disabled",true);
+	        $("input[name=nro_comprobante]").attr("disabled", true);
+	        $("#proveedores").attr("disabled", true);
+	        $("#add-proveedor").attr("disabled", true);
 	    }
 	    else
 	    {
 	    	$(".tipo_comprobante").attr("disabled",false);
 	        $("input[name=nro_comprobante]").attr("disabled",false);
+	        $("#proveedores").attr("disabled", false);
+	        $("#add-proveedor").attr("disabled", false);
+
 	    }
 	});
 
@@ -135,7 +158,6 @@
         var articulosid = $("#articulos :selected").val();
         var cantidad = $("#cantidad").val();
 
-        //Validaciones antes de agregar articulos a la tabla
         if(cantidad > 0 && articulos.length != 0 && articulosid.length != 0)
         {
             $("#tabla-articulos").DataTable().row.add( [
@@ -161,5 +183,67 @@
             .row( $(this).parents("tr") )
             .remove()
             .draw();
+    });
+
+    //Plugins select para modal de salida
+    $("#articulos").select2({
+        minimumInputLength: 2,
+        minimumResultsForSearch: 10,
+        language: "es",
+        placeholder: "Seleccione un articulo",
+        allowClear: true,
+        ajax:   
+        {
+            url: "/ajax/articulos",
+            dataType: 'json',
+            delay: 300,
+            data: function(params) {
+                return {
+                    term: params.term
+                }
+            },
+            processResults: function (data) {
+                 data = data.map(function (item) {
+                    return {
+                        id: item.id,
+                        text: item.text,
+                        stock: item.stock_actual,
+                        unidad: item.unidad
+
+                    };
+                });
+                return { results: data };
+            },
+            cache: true
+        }
+    });
+
+    $("#proveedores").select2({
+        minimumInputLength: 2,
+        minimumResultsForSearch: 10,
+        language: "es",
+        placeholder: "Seleccione un proveedor",
+        allowClear: true,
+        ajax:   
+        {
+            url: "/ajax/proveedores",
+            dataType: 'json',
+            delay: 300,
+            data: function(params) {
+                return {
+                    term: params.term
+                }
+            },
+            processResults: function (data) {
+                 data = data.map(function (item) {
+                    return {
+                        id: item.id,
+                        text: item.text,
+                    };
+                });
+                return { results: data };
+            },
+            cache: true
+        }
     });
 </script>

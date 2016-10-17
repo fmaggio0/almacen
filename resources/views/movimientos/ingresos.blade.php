@@ -63,6 +63,8 @@
 
     <!-- Crear nuevo articulo -->
     @include('configuraciones.modalsArticulos.create')
+    <!-- Crear nuevo proveedor -->
+    @include('configuraciones.modalsProveedores.create')
 
     <script>
 
@@ -156,55 +158,6 @@
         $("#cerraringreso").click(function() {
             $('#ingresostock').modal('hide');
         });
-
-        //Plugins select para modal de salida
-        $("#articulos").select2({
-            minimumInputLength: 2,
-            minimumResultsForSearch: 10,
-            language: "es",
-            placeholder: "Seleccione un articulo",
-            allowClear: true,
-            tokenSeparators: [','],
-            ajax:   
-            {
-                url: "/ajax/articulos",
-                dataType: 'json',
-                delay: 300,
-                data: function(params) {
-                    return {
-                        term: params.term
-                    }
-                },
-                processResults: function (data) {
-                     data = data.map(function (item) {
-                        return {
-                            id: item.id,
-                            text: item.text,
-                            stock: item.stock_actual,
-                            unidad: item.unidad
-
-                        };
-                    });
-                    return { results: data };
-                },
-                cache: true
-            }
-        });
-
-        //Focus accesibilidad
-
-        /*$('#ingresostock').on('shown.bs.modal', function() {
-            $(".tipo_retiro").focus();
-        });
-        $("#destinos").on("select2:select", function(e) {
-            $("#articulos").select2("open");
-        });
-        $("#articulos").on("select2:select", function(e) {
-            $("#empleados").select2("open");
-        });
-        $("#empleados").on("select2:select", function(e) {
-            $("#cantidad").focus();
-        });*/
 
         //Datatable para modal salidas de stock(Articulos agregados)
 
