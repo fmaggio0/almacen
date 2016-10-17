@@ -37,7 +37,7 @@
                     <div class="form-group">
                             {!! Form::label(null, 'Observaciones:', array('class' => 'control-label col-sm-4')) !!}
                             <div class="col-sm-8">
-                            {!! Form::textarea('observaciones', null, array('class' => 'form-control', 'rows' => '2', 'style' => 'width: 100%')) !!}
+                            {!! Form::textarea('observaciones', null, array('class' => 'form-control observacionesadd', 'rows' => '2', 'style' => 'width: 100%')) !!}
                             </div>
                     </div>
 					<div class="form-group">
@@ -76,7 +76,7 @@
       $.ajax({
         type:"POST",
         url:'/proveedores/addproveedor',
-        data: {'nombre':$('input[name=nombre').val(), 'direccion':$('input[name=direccion]').val(),'email':$('input[name=email]').val(),'telefono':$('input[name=telefono]').val(), 'observaciones':$('input[name=observaciones]').val(), 'rubros' : $('.completarrubros').select2().val().join(", "), 'id_usuario':$('input[name=id_usuario]').val(),'_token': $('input[name=_token]').val()},
+        data: {'nombre':$('input[name=nombre').val(), 'direccion':$('input[name=direccion]').val(),'email':$('input[name=email]').val(),'telefono':$('input[name=telefono]').val(), 'observaciones':$('.observacionesadd').val(), 'rubros' : $('.completarrubros').select2().val().join(", "), 'id_usuario':$('input[name=id_usuario]').val(),'_token': $('input[name=_token]').val()},
         dataType: 'json',
         success: function(data)
         {

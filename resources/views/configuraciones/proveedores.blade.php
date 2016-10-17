@@ -109,16 +109,17 @@
                         var telefono = $(this).data('telefono');
                         var id = $(this).attr('value');
                         var observaciones = $(this).data('observaciones');
-                        var rubros = $(this).data('rubros');
-                    
+                        var rubros = $(this).data('rubros').split(', ');
+                        
+                        console.log(rubros);
                         //Modificar atributos con el item seleccionado
 
                         $("input[name='nombre']").val( nombre ).trigger("change");
                         $("input[name='direccion']").val( direccion ).trigger("change");
                         $("input[name='email']").val( email ).trigger("change");
                         $("input[name='telefono']").val( telefono ).trigger("change");
-                        $("input[name='observaciones']").val( observaciones ).trigger("change");
-                        $("input[name='rubros']").val( rubros ).trigger("change");
+                        $(".observacionesedit").val( observaciones ).trigger("change");
+                        $(".completarrubros").val(rubros).trigger("change");
                         $("input[name='id_proveedor']").val(id);
                     });   
                     //FIN MODAL EDIT -----------------------------------------------------------------------
