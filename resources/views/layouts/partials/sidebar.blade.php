@@ -69,7 +69,11 @@
                 </ul>
             </li>
 
-            <li><a href="/usuario"><i class='fa fa-link'></i> <span>Autorizaciones***</span></a></li>
+            
+            @role(['administrator'])
+                <li><a href="/usuario"><i class='fa fa-link'></i> <span>Autorizaciones</span></a></li>
+            @endrole
+
         </ul><!-- /.sidebar-menu -->
     </section>
     <!-- /.sidebar -->

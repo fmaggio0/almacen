@@ -3,6 +3,8 @@ namespace App;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\UserInfo;
 use Zizaco\Entrust\HasRole;
+use Zizaco\Entrust\Traits\EntrustUserTrait;
+use App\Role;
 
 class User extends Authenticatable
 {
@@ -11,6 +13,9 @@ class User extends Authenticatable
      *
      * @var array
      */
+
+    use EntrustUserTrait;
+
     protected $fillable = [
         'name', 'email', 'password',
     ];

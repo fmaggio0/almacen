@@ -74,6 +74,7 @@
             });
         });
     //FIN SELECT2-------------------------------------------
+    
     //FIN SELECT2 SUBFAMILIA
          $(".subrubros").prop("disabled", true);
          $('.completarrubros').on("select2:select", function(e) { 
@@ -90,6 +91,7 @@
             $(".subrubros").prop("disabled", false);
         });
     //FIN SELECT2 FAMILIA-SUBFAMILIA-----------------------
+
     //SUBMIT AJAX-------------------------------------------
     $('.send-btn').click(function(e){
       e.preventDefault();   
