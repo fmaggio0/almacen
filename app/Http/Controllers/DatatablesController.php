@@ -88,6 +88,52 @@ class DatatablesController extends Controller
             ->make(true);
     }
 
+    public function ingresostable()
+    {
+        $ingresos = DB::table('ingresos_master')
+            ->join('ingresos_detalles', 'ingresos_master.id_master', '=', 'ingresos_detalles.id_master')
+            ->join('articulos', 'articulos.id_articulo', '=', 'ingresos_detalles.id_articulo')
+            ->join('proveedores', 'ingresos_master.id_proveedor', '=', 'proveedores.id_proveedor')
+            ->join('users', 'ingresos_master.id_usuario', '=', 'users.id')
+            ->select(['ingresos_master.id_master as id_master', 'ingresos_master.tipo_ingreso', 'ingresos_master.tipo_comprobante', 'ingresos_master.nro_comprobante','ingresos_master.descripcion', 'proveedores.nombre as proveedor', 'ingresos_master.updated_at', 'users.name', 'ingresos_master.estado as estado'])
+            ->distinct();
+
+        return Datatables::of($ingresos)
+            ->addColumn('id_tabla', function ($ingresos) {
+                return $ingresos->id_master;
+            })
+            ->addColumn('action', function ($ingresos) {
+
+                if($ingresos->estado == true)
+                {
+                    return '<a href="#" class="btn btn-xs botgris edit"><i class="glyphicon glyphicon-print"></i></a>';
+                }
+            })
+            ->editColumn('estado', function($ingresos){
+                if( $ingresos->estado == false )
+                {
+                    return "<span class='label label-danger'>No registrado</span>";
+                }
+                else
+                {
+                    return "<span class='label label-success'>Registrado</span>";
+                }
+
+            })
+            /*->editColumn('id_master', function($ingresos){
+                if( $ingresos->tipo_retiro == "Elementos de seguridad" || $ingresos->tipo_retiro == "Salida de recursos" )
+                {
+                    return "MSA-".$ingresos->id_master;
+                }
+                else
+                {
+                    return "AUT-".$ingresos->id_master;
+                }
+
+            })*/
+            ->make(true);
+    }
+
     public function salidastable()
     {
         $salidas = DB::table('salidas_master')

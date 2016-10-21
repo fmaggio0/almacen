@@ -45,7 +45,7 @@
 			<div class="form-group">
 				{!! Form::label(null, 'Proveedor:', array('class' => 'control-label col-sm-2')) !!}
 				<div class="col-sm-4">
-					{!! Form::select('', array('' => ''), null ,array('id' => 'proveedores', 'class'=>' form-control', 'style' => 'width: 100%')) 
+					{!! Form::select('id_proveedor', array('' => ''), null ,array('id' => 'proveedores', 'class'=>' form-control', 'style' => 'width: 100%')) 
 	                !!}
 				</div>
 				<div class="col-sm-2">
@@ -58,7 +58,7 @@
                 <div class="form-group">
 					{!! Form::label(null, 'Articulo:', array('class' => 'control-label col-sm-2')) !!}
 					<div class="col-sm-4">
-						{!! Form::select('', array('' => ''), null ,array('id' => 'articulos', 'class'=>' form-control', 'style' => 'width: 100%', 'tabindex' => '3')) !!}
+						{!! Form::select('', array('' => ''), null ,array('id' => 'articulos', 'class'=>' form-control', 'style' => 'width: 100%')) !!}
 
 					</div>
 					<div class="col-sm-2">
@@ -94,6 +94,8 @@
 			</div>
 
 		</div><!-- fin modal body -->
+
+        {!! Form::hidden('id_usuario', Auth::user()->id) !!}
 
 		<!-- MODAL FOOTER-->
 		<div class="modal-footer">
@@ -209,7 +211,6 @@
                         text: item.text,
                         stock: item.stock_actual,
                         unidad: item.unidad
-
                     };
                 });
                 return { results: data };

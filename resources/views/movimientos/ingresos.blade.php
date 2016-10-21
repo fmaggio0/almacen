@@ -47,7 +47,9 @@
                         <th>Nro documento</th>
                         <th>Tipo de ingreso</th>
                         <th>Tipo de comprobante</th>
-                        <th>Motivo del ingreso</th>
+                        <th>Nro de comprobante</th>
+                        <th>Descripcion</th>
+                        <th>Proveedor</th>
                         <th>Fecha que registra</th>
                         <th>Usuario</th>
                         <th>Estado</th>
@@ -81,7 +83,7 @@
         $("#tabla-ingresostock").DataTable({
             "processing": true,
             "serverSide": true,
-            "ajax": "/datatables/salidas",
+            "ajax": "/datatables/ingresos",
             "error": function () {
                 alert("Custom error");
             },
@@ -93,18 +95,20 @@
                     data: null,
                     defaultContent: ""
                 },
-                {data: 'id_master', name: 'salidas_master.id_master'},
-                {data: 'tipo_retiro', name: 'salidas_master.tipo_retiro'},
-                {data: 'descripcion_area', name: 'areas.descripcion_area'},
-                {data: 'subarea', name: 'subareas.descripcion_subarea'},
-                {data: 'updated_at', name: 'salidas_master.updated_at'},
+                {data: 'id_master', name: 'ingresos_master.id_master'},
+                {data: 'tipo_ingreso', name: 'ingresos_master.tipo_ingreso'},
+                {data: 'tipo_comprobante', name: 'ingresos_master.tipo_comprobante'},
+                {data: 'nro_comprobante', name: 'ingresos_master.nro_comprobante'},
+                {data: 'descripcion', name: 'ingresos_master.descripcion'},
+                {data: 'proveedor', name: 'proveedores.nombre'},
+                {data: 'updated_at', name: 'ingresos_master.updated_at'},
                 {data: 'name', name: 'users.name'},
-                {data: 'estado', name: 'salidas_master.estado'},
+                {data: 'estado', name: 'ingresos_master.estado'},
                 {data: 'action', name: 'action' , orderable: false, searchable: false},
                 //Add column extra para obtener el id de la salida en limpio
-                {data: 'id_tabla', name: 'salidas_master.id_master', visible: false},
+                {data: 'id_tabla', name: 'ingresos_master.id_master', visible: false},
             ],
-            "order": [ 5, "desc" ],
+            "order": [ 7, "desc" ],
             "language":{
                 url: "{!! asset('/plugins/datatables/lenguajes/spanish.json') !!}"
             }
@@ -123,7 +127,7 @@
         });
         function format(callback, $tableId) {
             $.ajax({
-                url: "/ajax/salidastabledetails/" + $tableId,
+                url: "/ajax/ingresostabledetails/" + $tableId,
                 dataType: "json",
                 beforeSend: function(){
                     callback($('<div align="center">Cargando...</div>')).show();
@@ -133,12 +137,11 @@
                     var thead = '',  tbody = '';
                     thead += '<th>#</th>';
                     thead += '<th>Articulo</th>'; 
-                    thead += '<th>Empleado</th>'; 
-                    thead += '<th>Cantidad</th>'; 
+                    thead += '<th>Cantidad ingresada</th>'; 
 
                     count = 1;
                     $.each(data, function (i, d) {
-                        tbody += '<tr><td>'+ count +'</td><td>' + d.Articulo + '</td><td>' + d.Apellido + ', '+ d.Nombre+ '</td><td>'+ d.Cantidad+'</td></tr>';
+                        tbody += '<tr><td>'+ count +'</td><td>' + d.Articulo + '</td><td>'+ d.Cantidad+'</td></tr>';
                         count++;
                     });
                     callback($('<table class="table table-hover">' + thead + tbody + '</table>')).show();

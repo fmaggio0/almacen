@@ -97,6 +97,15 @@ class AjaxController extends Controller
         return Response::json($tags);
     }
 
+    public function getDetallesIngresos($id){
+        $detalles=DB::table('ingresos_detalles')
+            ->where('id_master', '=', $id )
+            ->join('articulos', 'ingresos_detalles.id_articulo', '=', 'articulos.id_articulo')
+            ->select('articulos.descripcion as Articulo', 'ingresos_detalles.cantidad as Cantidad')
+            ->get();
+        return Response::json($detalles);
+    }
+
     public function getDetallesSalidas($id){
         $detalles=DB::table('salidas_detalles')
             ->where('id_master', '=', $id )

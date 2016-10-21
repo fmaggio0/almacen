@@ -8,9 +8,7 @@ Route::get('/', function () {
 
 //GESTIONAR AUTORIZACIONES
 
-Route::group(['middleware' => ['role:administrador']], function() {
-    Route::get('/autorizaciones', ['uses' => 'AutorizacionesController@index']);
-});
+Route::get('/autorizaciones', ['uses' => 'AutorizacionesController@index']);
 
 //GESTIONAR STOCK
 
@@ -21,6 +19,7 @@ Route::get('/ingresos', ['uses' => 'MovimientosController@indexingresos']);
 Route::post('/movimientos/addsalida', ['as' => 'addsalida', 'uses' => 'MovimientosController@storeegreso']);
 
 Route::post('/movimientos/addingreso', ['as' => 'addingreso', 'uses' => 'MovimientosController@storeingreso']);
+
 
 //CONFIGURACIONES - ARTICULOS
 
@@ -46,12 +45,25 @@ Route::post('/proveedores/activar', ['as' => 'activarproveedor', 'uses' => 'Prov
 
 Route::post('/proveedores/edit', ['as' => 'editproveedor', 'uses' => 'ProveedoresController@edit']);
 
-
 //PARA EL USUARIO NORMAL
 
-Route::get('/usuario', ['uses' => 'AutorizacionesController@indexUsuario']);
+Route::group(['middleware' => ['role:developers|user']], function() {
 
-Route::post('/usuario/autorizar', ['as' => 'autorizar', 'uses' => 'AutorizacionesController@store']);
+	Route::get('/usuario', ['uses' => 'AutorizacionesController@indexUsuario']);
+	Route::post('/usuario/autorizar', ['as' => 'autorizar', 'uses' => 'AutorizacionesController@store']);
+
+});
+
+//GESTIONES DE RRHH
+
+Route::group(['middleware' => ['role:developers|personal']], function() {
+
+	Route::get('/empleados', ['uses' => 'PersonalController@index']);
+
+	Route::get('/empleados/nuevo', ['uses' => 'PersonalController@nuevo']);
+	
+});
+
 
 //RESPUESTAS AJAX JSON/ARRAY
 
@@ -73,6 +85,8 @@ Route::get('/ajax/articulos', ['uses' => 'AjaxController@getArticulos']);
 
 Route::get('/ajax/proveedores', ['uses' => 'AjaxController@getProveedores']);
 
+Route::get('/ajax/ingresostabledetails/{id}', ['uses' => 'AjaxController@getDetallesIngresos']);
+
 Route::get('/ajax/salidastabledetails/{id}', ['uses' => 'AjaxController@getDetallesSalidas']);
 
 Route::get('/ajax/autorizacionestabledetails/{id}', ['uses' => 'AjaxController@getDetallesAutorizaciones']);
@@ -82,6 +96,8 @@ Route::get('/ajax/autorizacionestabledetails/{id}', ['uses' => 'AjaxController@g
 Route::get('/datatables/autorizar', ['uses' => 'DatatablesController@autorizacionestabla']);
 
 Route::get('/datatables/autorizar-detalles/{id}', ['uses' => 'DatatablesController@autorizacionesdetallestabla']);
+
+Route::get('/datatables/ingresos', ['uses' =>'DatatablesController@ingresostable']);
 
 Route::get('/datatables/salidas', ['uses' =>'DatatablesController@salidastable']);
 
