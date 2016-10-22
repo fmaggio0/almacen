@@ -26,7 +26,7 @@
         <div class="box tabla-proveedores">
             <div class="box-body"> 
 
-                <table class="table table-striped table-bordered accionstyle"  cellspacing="0" width="100%" id="proveedores">
+                <table class="table table-striped table-bordered accionstyle"  cellspacing="0" width="100%" id="tabla-proveedores">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -54,7 +54,7 @@
         <script>
             $(document).ready(function(){
             //DATATABLE
-                $('#proveedores').DataTable({
+                $('#tabla-proveedores').DataTable({
                     "processing": true,
                     "serverSide": true,
                     "ajax": "/datatables/proveedores",
@@ -82,7 +82,7 @@
             //FIN DATATABLE
 
                 //ESPERAR HASTA QUE CARGUE LA TABLA
-                 $('#proveedores').on('draw.dt', function () {
+                 $('#tabla-proveedores').on('draw.dt', function () {
                     //MODAL DELETE -----------------------------------------------------------------------
                     $('.delete').click(function() {
                         $('#delete').modal();

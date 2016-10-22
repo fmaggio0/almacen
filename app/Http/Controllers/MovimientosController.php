@@ -7,6 +7,7 @@ use App\Http\Requests;
 use Illuminate\Http\RedirectResponse;
 use DB;
 use App\Http\Controllers\Controller;
+use App\Articulos;
 use App\SalidasMaster;
 use App\SalidasDetalles;
 use App\IngresosMaster;
@@ -73,6 +74,14 @@ class MovimientosController extends Controller
                                     'cantidad' => $request->cantidad[$i]
                                     );
                     IngresosDetalles::create($detalles);
+
+                    $id_articulo = $request->articulos[$i];
+                    $cantidad = $request->cantidad[$i];
+
+                    $update = Articulos::findOrFail($id_articulo);
+                    $update->increment('stock_actual', $cantidad);
+                    $update->save();
+
                 }    
             }
 
@@ -148,6 +157,13 @@ class MovimientosController extends Controller
                                     'cantidad' => $request->cantidad[$i]
                                     );
                     SalidasDetalles::create($detalles);
+
+                    $id_articulo = $request->articulos[$i];
+                    $cantidad = $request->cantidad[$i];
+
+                    $update = Articulos::findOrFail($id_articulo);
+                    $update->decrement('stock_actual', $cantidad);
+                    $update->save();
                 }    
             }
 

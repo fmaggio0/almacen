@@ -120,17 +120,17 @@ class DatatablesController extends Controller
                 }
 
             })
-            /*->editColumn('id_master', function($ingresos){
-                if( $ingresos->tipo_retiro == "Elementos de seguridad" || $ingresos->tipo_retiro == "Salida de recursos" )
+            ->editColumn('id_master', function($ingresos){
+                if( $ingresos->tipo_ingreso == "Ajuste de stock")
                 {
-                    return "MSA-".$ingresos->id_master;
+                    return "ADS-".$ingresos->id_master;
                 }
                 else
                 {
-                    return "AUT-".$ingresos->id_master;
+                    return "IPF-".$ingresos->id_master;
                 }
 
-            })*/
+            })
             ->make(true);
     }
 
@@ -160,7 +160,7 @@ class DatatablesController extends Controller
             ->editColumn('estado', function($salidas){
                 if( $salidas->estado == true )
                 {
-                    return "<span class='label label-danger'>estado</span>";
+                    return "<span class='label label-danger'>No registrado</span>";
                 }
                 else
                 {
