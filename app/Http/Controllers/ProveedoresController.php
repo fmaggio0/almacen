@@ -19,6 +19,8 @@ class ProveedoresController extends Controller
 	{
         $articulo = new Proveedores;
      
+     //VALIDACIONES DEL LADO DEL SERVIDOR
+
         $v = \Validator::make($request->all(), [
             
             'nombre' => 'required|max:60|unique:proveedores',

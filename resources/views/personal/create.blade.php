@@ -40,6 +40,7 @@
 					
 				
 			</div>
+
 			<div class="form-group">
 				{!! Form::label(null, 'Funcion base:', array('class' => 'control-label col-sm-2')) !!}
 				<div class="col-sm-4">
@@ -68,6 +69,7 @@
 
 				</div>
 
+
 				{!! Form::label(null, 'Lugar de trabajo:', array('class' => 'control-label col-sm-2')) !!}
 				<div class="col-sm-4">	
 					{!! Form::select('lugar_trabajo', 
@@ -87,6 +89,18 @@
 								), null ,array('class'=>' form-control', 'style' => 'width: 100%')) 
 	                !!}
 				</div>
+			</div>
+			<div class="form-group">
+
+				{!! Form::label(null, 'Nombre/s:', array('class' => 'control-label col-sm-2')) !!}
+				<div class="col-sm-4">
+					{!! Form::text('nombres', null ,array('class'=>' form-control', 'style' => 'width: 100%')) !!}
+				</div>
+				{!! Form::label(null, 'Apellido/s:', array('class' => 'control-label col-sm-2')) !!}
+				<div class="col-sm-4">
+					{!! Form::text('apellidos', null ,array('class'=>' form-control', 'style' => 'width: 100%')) !!}
+				</div>		
+
 			</div>
 
        		{!! Form::hidden('id_usuario', Auth::user()->id) !!}

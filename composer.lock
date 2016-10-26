@@ -605,20 +605,20 @@
         },
         {
             "name": "league/flysystem",
-            "version": "1.0.28",
+            "version": "1.0.32",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "a9663643ff2d16d7f66ed1e0d3212c5491bc9044"
+                "reference": "1b5c4a0031697f46e779a9d1b309c2e1b24daeab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/a9663643ff2d16d7f66ed1e0d3212c5491bc9044",
-                "reference": "a9663643ff2d16d7f66ed1e0d3212c5491bc9044",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/1b5c4a0031697f46e779a9d1b309c2e1b24daeab",
+                "reference": "1b5c4a0031697f46e779a9d1b309c2e1b24daeab",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.4.0"
+                "php": ">=5.5.9"
             },
             "conflict": {
                 "league/flysystem-sftp": "<1.0.6"
@@ -684,7 +684,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2016-10-07 12:20:37"
+            "time": "2016-10-19 20:38:46"
         },
         {
             "name": "league/fractal",
@@ -1211,16 +1211,16 @@
         },
         {
             "name": "proai/laravel-handlebars",
-            "version": "1.3.1",
+            "version": "1.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ProAI/laravel-handlebars.git",
-                "reference": "3abb6bd85ef9903ff355b0185c01278b55896fe0"
+                "reference": "aeb02aff0a1335979b81cb0a4243f092d6ce41df"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ProAI/laravel-handlebars/zipball/3abb6bd85ef9903ff355b0185c01278b55896fe0",
-                "reference": "3abb6bd85ef9903ff355b0185c01278b55896fe0",
+                "url": "https://api.github.com/repos/ProAI/laravel-handlebars/zipball/aeb02aff0a1335979b81cb0a4243f092d6ce41df",
+                "reference": "aeb02aff0a1335979b81cb0a4243f092d6ce41df",
                 "shasum": ""
             },
             "require": {
@@ -1250,6 +1250,10 @@
                 {
                     "name": "Markus J. Wetzel",
                     "email": "markuswetzel@gmx.net"
+                },
+                {
+                    "name": "Manuel Wieser",
+                    "email": "office@manuelwieser.com"
                 }
             ],
             "description": "A Laravel 5 wrapper for LightnCandy for using the Handlebars (and Mustache) template engine.",
@@ -1261,20 +1265,20 @@
                 "mustache",
                 "template engine"
             ],
-            "time": "2016-10-06 10:34:13"
+            "time": "2016-10-14 15:22:57"
         },
         {
             "name": "psr/log",
-            "version": "1.0.1",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/log.git",
-                "reference": "5277094ed527a1c4477177d102fe4c53551953e0"
+                "reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/5277094ed527a1c4477177d102fe4c53551953e0",
-                "reference": "5277094ed527a1c4477177d102fe4c53551953e0",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
+                "reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
                 "shasum": ""
             },
             "require": {
@@ -1308,7 +1312,7 @@
                 "psr",
                 "psr-3"
             ],
-            "time": "2016-09-19 16:02:08"
+            "time": "2016-10-10 12:19:37"
         },
         {
             "name": "psy/psysh",
@@ -2366,16 +2370,16 @@
         },
         {
             "name": "yajra/laravel-datatables-oracle",
-            "version": "v6.19.0",
+            "version": "v6.21.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yajra/laravel-datatables.git",
-                "reference": "818c2fc6186ad081c5ad3a8956acce8c39fb08c2"
+                "reference": "899014480a8c7d7fe8d135425d85b791c5fcf687"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yajra/laravel-datatables/zipball/818c2fc6186ad081c5ad3a8956acce8c39fb08c2",
-                "reference": "818c2fc6186ad081c5ad3a8956acce8c39fb08c2",
+                "url": "https://api.github.com/repos/yajra/laravel-datatables/zipball/899014480a8c7d7fe8d135425d85b791c5fcf687",
+                "reference": "899014480a8c7d7fe8d135425d85b791c5fcf687",
                 "shasum": ""
             },
             "require": {
@@ -2386,7 +2390,7 @@
                 "illuminate/support": "~5.0",
                 "illuminate/view": "~5.0",
                 "laravelcollective/html": "~5.0",
-                "league/fractal": "~0.12",
+                "league/fractal": "~0.14",
                 "maatwebsite/excel": "^2.0",
                 "php": ">=5.5.9"
             },
@@ -2422,7 +2426,7 @@
                 "laravel4",
                 "laravel5"
             ],
-            "time": "2016-09-24 02:58:13"
+            "time": "2016-10-22 01:24:42"
         },
         {
             "name": "zizaco/entrust",
