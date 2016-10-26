@@ -90,15 +90,28 @@
 	                !!}
 				</div>
 			</div>
+
+					<div class="form-group">
+
+				{!! Form::label(null, 'Categoria:', array('class' => 'control-label col-sm-2')) !!}
+				<div class="col-sm-4">
+					{!! Form::number('categoria', null ,array('class'=>' form-control', 'style' => 'width: 100%')) !!}
+				</div>
+				{!! Form::label(null, 'Adicional que posee:', array('class' => 'control-label col-sm-2')) !!}
+				<div class="col-sm-4">
+					{!! Form::text('adicional', null ,array('class'=>' form-control', 'style' => 'width: 100%')) !!}
+				</div>		
+
+			</div>
 			<div class="form-group">
 
-				{!! Form::label(null, 'Nombre/s:', array('class' => 'control-label col-sm-2')) !!}
+				{!! Form::label(null, 'Fecha de nacimiento:', array('class' => 'control-label col-sm-2')) !!}
 				<div class="col-sm-4">
-					{!! Form::text('nombres', null ,array('class'=>' form-control', 'style' => 'width: 100%')) !!}
+					{!! Form::date('fnacimiento', null ,array('class'=>' form-control', 'style' => 'width: 100%')) !!}
 				</div>
-				{!! Form::label(null, 'Apellido/s:', array('class' => 'control-label col-sm-2')) !!}
+				{!! Form::label(null, 'Fecha de ingreso:', array('class' => 'control-label col-sm-2')) !!}
 				<div class="col-sm-4">
-					{!! Form::text('apellidos', null ,array('class'=>' form-control', 'style' => 'width: 100%')) !!}
+					{!! Form::date('fingreso', null ,array('class'=>' form-control', 'style' => 'width: 100%')) !!}
 				</div>		
 
 			</div>
