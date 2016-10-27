@@ -95,7 +95,7 @@
 
 				{!! Form::label(null, 'Categoria:', array('class' => 'control-label col-sm-2')) !!}
 				<div class="col-sm-4">
-					{!! Form::number('categoria', null ,array('class'=>' form-control', 'style' => 'width: 100%')) !!}
+					{!! Form::number('categoria', null ,array('class'=>' form-control', 'min' => '11', 'max' => '23', 'style' => 'width: 100%')) !!}
 				</div>
 				{!! Form::label(null, 'Adicional que posee:', array('class' => 'control-label col-sm-2')) !!}
 				<div class="col-sm-4">
@@ -120,7 +120,7 @@
 
         </div>
         <div class="panel-footer">
-        	{!! Form::submit('Despachar', ['class'=>'btn btn btn-primary']) !!}
+        	{!! Form::submit('Crear', ['class'=>'btn btn btn-primary']) !!}
 			{!! Form::close() !!}
         </div>
     </div>
