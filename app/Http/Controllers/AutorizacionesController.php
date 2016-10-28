@@ -18,11 +18,7 @@ class AutorizacionesController extends Controller
 	}
 
     public function indexUsuario(){
-
-    	$id_area = Auth::user()->UserInfo->id_area;
-    	$desc_area = Areas::find($id_area);
-		return view('usuario.index')->with('desc_area', $desc_area);
-		
+		return view('usuario.index');
 	}
 	
 	public function store(Request $request){

@@ -58,25 +58,19 @@
                     <ul class="treeview-menu">
                         <li><a href="/articulos">Articulos</a></li>
                         <li><a href="/proveedores">Proveedores</a></li>
-                        <li><a href="#">Usuarios</a></li>
-                        <li><a href="#">Back Up</a></li>
                     </ul>
                 </li>
             @endrole
             
             @role(['developers', 'user'])
                 <li class="header">GESTIONES DE AREAS</li>
-                <li><a href="/usuario"><i class='fa fa-link'></i> <span>Autorizaciones</span></a></li>
-            @endrole
-
-            @role(['developers'])
-                <li class="header">GESTIONES DE RRHH</li>
-                <li><a href="/empleados"><i class='fa fa-link'></i> <span>Empleados</span></a></li>
+                <li><a href="/areas/autorizaciones"><i class='fa fa-link'></i> <span>Autorizaciones</span></a></li>
             @endrole
 
             @role(['developers'])
                 <li class="header">GESTIONES DEL CIL</li>
                 <li><a href="/usuario"><i class='fa fa-link'></i> <span>Roles de usuario</span></a></li>
+                <li><a href="/backup"><i class='fa fa-link'></i><span>Back Ups</span></a></li>
             @endrole
 
         </ul>

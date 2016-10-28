@@ -50,7 +50,7 @@
                         <th>Nro de comprobante</th>
                         <th>Descripcion</th>
                         <th>Proveedor</th>
-                        <th>Fecha que registra</th>
+                        <th>Fecha</th>
                         <th>Usuario</th>
                         <th>Estado</th>
                         <th>Acciones</th>

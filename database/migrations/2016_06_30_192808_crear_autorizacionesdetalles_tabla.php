@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Query\Expression;
 
 class CrearAutorizacionesdetallesTabla extends Migration
 {
@@ -13,13 +14,16 @@ class CrearAutorizacionesdetallesTabla extends Migration
     public function up()
     {
         Schema::create('autorizaciones_detalles', function (Blueprint $table) {
+
+            $db = DB::connection('personal')->getDatabaseName();
+
             $table->increments('id_detalles');
             $table->integer('id_master')->unsigned();
             $table->foreign('id_master')->references('id_master')->on('autorizaciones_master');
             $table->integer('id_articulo')->unsigned();
             $table->foreign('id_articulo')->references('id_articulo')->on('articulos');
             $table->integer('id_empleado')->unsigned();
-            $table->foreign('id_empleado')->references('Nro_Legajo')->on('personal_prod.tpersonal');
+            $table->foreign('id_empleado')->references('Nro_Legajo')->on($databaseName.'.tpersonal');
             $table->integer('cantidad');
             $table->timestamps();
         });

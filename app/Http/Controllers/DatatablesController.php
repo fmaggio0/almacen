@@ -17,8 +17,7 @@ class DatatablesController extends Controller
 	    $articulos = DB::table('articulos')
             ->join('rubros', 'articulos.id_rubro', '=', 'rubros.id_rubro')
             ->join('subrubros', 'articulos.id_subrubro', '=', 'subrubros.id_subrubro')
-            ->join('users', 'articulos.id_usuario', '=', 'users.id')
-            ->select(['articulos.id_articulo', 'articulos.descripcion', 'articulos.unidad', 'users.name as usuario', 'rubros.descripcion AS descripcionrubro', 'subrubros.descripcion AS descripcionsubrubro', 'articulos.estado', 'articulos.updated_at', 'articulos.id_rubro', 'articulos.id_subrubro', 'articulos.stock_actual', 'articulos.stock_minimo']);
+            ->select(['articulos.id_articulo', 'articulos.descripcion', 'articulos.unidad', 'rubros.descripcion AS descripcionrubro', 'subrubros.descripcion AS descripcionsubrubro', 'articulos.estado', 'articulos.updated_at', 'articulos.id_rubro', 'articulos.id_subrubro', 'articulos.stock_actual', 'articulos.stock_minimo']);
 
         return Datatables::of($articulos)
             ->addColumn('action', function ($articulos) {
@@ -59,8 +58,7 @@ class DatatablesController extends Controller
     public function proveedorestable()
     {
         $articulos = DB::table('proveedores')
-            ->join('users', 'proveedores.id_usuario', '=', 'users.id')
-            ->select(['proveedores.id_proveedor', 'proveedores.nombre', 'proveedores.direccion', 'users.name as usuario', 'proveedores.estado', 'proveedores.updated_at', 'proveedores.rubros', 'proveedores.email', 'proveedores.telefono', 'proveedores.observaciones']);
+            ->select(['proveedores.id_proveedor', 'proveedores.nombre', 'proveedores.direccion', 'proveedores.estado', 'proveedores.updated_at', 'proveedores.rubros', 'proveedores.email', 'proveedores.telefono', 'proveedores.observaciones']);
 
         return Datatables::of($articulos)
             ->addColumn('action', function ($articulos) {

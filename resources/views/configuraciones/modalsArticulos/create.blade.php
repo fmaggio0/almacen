@@ -13,27 +13,27 @@
 					<div class="form-group">
 							{!! Form::label('articulo', 'Articulo:', array('class' => 'control-label col-sm-4')) !!}
 							<div class="col-sm-8">
-							{!! Form::text('descripcion',  null, array('class' => 'form-control desc', 'placeholder' => 'Nombre del articulo', 'required' => 'required')) !!}
+							{!! Form::text('descripcion',  null, array('class' => 'form-control desc', 'placeholder' => 'Nombre del articulo', 'required' => 'required', 'tabindex' => '1')) !!}
 							</div>
 					</div>
 					<div class="form-group">
 							{!! Form::label(null, 'Unidad de medida:', array('class' => 'control-label col-sm-4')) !!}
 							<div class="col-sm-8">
-							{!! Form::select('unidad', array('Unidad' => 'Unidad', 'Metro' => 'Metro', 'Litro' => 'Litro'), null ,array('class'=>'unidades form-control', 'style' => 'width: 100%', 'required' => 'required')) 
+							{!! Form::select('unidad', array('Unidad' => 'Unidad', 'Metro' => 'Metro', 'Litro' => 'Litro'), null ,array('class'=>'unidades form-control', 'style' => 'width: 100%', 'required' => 'required', 'tabindex' => '2')) 
                             !!}
 							</div>
 					</div>
 					<div class="form-group">
 							{!! Form::label(null, 'Rubro:', array('class' => 'control-label col-sm-4')) !!}
 							<div class="col-sm-8">
-							{!! Form::select('id_rubro', array('' => 'Seleccione un rubro'), null ,array('class'=>'completarrubros form-control', 'style' => 'width: 100%', 'required' => 'required')) 
+							{!! Form::select('id_rubro', array('' => 'Seleccione un rubro'), null ,array('class'=>'completarrubros form-control', 'style' => 'width: 100%', 'required' => 'required', 'tabindex' => '3')) 
                             !!}
 							</div>
 					</div>
 					<div class="form-group">
 							{!! Form::label(null, 'SubRubro:', array('class' => 'control-label col-sm-4')) !!}
 							<div class="col-sm-8">
-							{!! Form::select('id_subrubro', array('' => 'Seleccione un subrubro'), null ,array('class'=>'subrubros form-control', 'style' => 'width: 100%'))
+							{!! Form::select('id_subrubro', array('' => 'Seleccione un subrubro'), null ,array('class'=>'subrubros form-control', 'style' => 'width: 100%', 'tabindex' => '3'))
 							!!}
 							{!! Form::token(); !!}
 							{!! Form::hidden('id_usuario', Auth::user()->id ) !!}
@@ -106,6 +106,10 @@
         success: function(data)
         {
             $('#creararticulo').modal('hide');
+
+            if($('#tabla-articulos').length > 0) {
+               $('#tabla-articulos').DataTable().ajax.reload();
+            }
         }
       })
     });

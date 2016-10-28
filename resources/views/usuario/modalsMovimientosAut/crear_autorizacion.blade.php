@@ -6,7 +6,7 @@
 
 				<div class="modal-header" style="background: #4682B4; color: #FFFFFF;">
 					<button type="button" class="close" date-dismiss='modal' aria-hidden='true'>&times;</button>
-					<h4 class="modal-title">Autorizacion para retiro en el almacen - {!! $desc_area->descripcion_area !!}</h4> 
+					<h4 class="modal-title">Autorizacion para retiro en el almacen</h4> 
 				</div>
 
 				@if($errors->has())
@@ -132,23 +132,6 @@
 
                		var contador = 1;
                		$("#agregar").on( 'click', function () {
-
-               			/*function isSession(selector) {
-						    $.ajax({
-						        type: "GET",
-						        url: '/ultimo',
-						        data: ({ issession : 1, selector: selector }),
-						        dataType: "html",
-						        success: function(data) {
-						            // Run the code here that needs
-						            //    to access the data returned
-						            return data;
-						        },
-						        error: function() {
-						            alert('Error occured');
-						        }
-						    });
-						}*/
 
                		 	var articulos = $("#articulos :selected").text();
                		 	var articulosid = $("#articulos :selected").val();

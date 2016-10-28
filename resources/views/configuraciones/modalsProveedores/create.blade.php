@@ -97,7 +97,6 @@
 
             if($('#tabla-proveedores').length > 0) {
                $('#tabla-proveedores').DataTable().ajax.reload();
-               console.log("proveedores");
             }
         }
       })

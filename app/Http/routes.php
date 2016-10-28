@@ -47,23 +47,12 @@ Route::post('/proveedores/edit', ['as' => 'editproveedor', 'uses' => 'Proveedore
 
 //PARA EL USUARIO NORMAL
 
-Route::group(['middleware' => ['role:developers|user']], function() {
+Route::group(['middleware' => ['role:developers|areas']], function() {
 
-	Route::get('/usuario', ['uses' => 'AutorizacionesController@indexUsuario']);
-	Route::post('/usuario/autorizar', ['as' => 'autorizar', 'uses' => 'AutorizacionesController@store']);
+	Route::get('/areas/autorizaciones', ['uses' => 'AutorizacionesController@indexUsuario']);
+	Route::post('/areas/autorizaciones/nueva', ['as' => 'autorizar', 'uses' => 'AutorizacionesController@store']);
 
 });
-
-//GESTIONES DE RRHH
-
-Route::group(['middleware' => ['role:developers|personal']], function() {
-
-	Route::get('/empleados', ['uses' => 'PersonalController@index']);
-
-	Route::get('/empleados/nuevo', ['uses' => 'PersonalController@nuevo']);
-	
-});
-
 
 //RESPUESTAS AJAX JSON/ARRAY
 

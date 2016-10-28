@@ -19,8 +19,8 @@
         </div>
     @endif
 
-        <div class="box tabla-articulos">
-            <div class="box-body no-padding">
+        <div class="box">
+            <div class="box-body">
                 <table id="tabla-movimientos" class="table table-striped table-bordered"  cellspacing="0" width="100%">
                     <thead>
                         <tr>

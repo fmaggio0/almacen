@@ -80,7 +80,7 @@
        	 	<!-- DATATABLE ARTICULOS-->
 	       	<div class="box">
 	            <div class="box-body">
-	                <table id="tabla-articulos" class="table table-striped table-bordered"  cellspacing="0" width="100%">
+	                <table id="tabla-articulos-ingresados" class="table table-striped table-bordered"  cellspacing="0" width="100%">
 	                    <thead>
 	                        <tr>
 	                            <th>Nro Item</th>
@@ -146,7 +146,7 @@
 	    }
 	});
 
-    $("#tabla-articulos").DataTable({
+    $("#tabla-articulos-ingresados").DataTable({
 	    language: {
 	        url: "{!! asset('/plugins/datatables/lenguajes/spanish.json') !!}"
 	    },
@@ -162,7 +162,7 @@
 
         if(cantidad > 0 && articulos.length != 0 && articulosid.length != 0)
         {
-            $("#tabla-articulos").DataTable().row.add( [
+            $("#tabla-articulos-ingresados").DataTable().row.add( [
                 contador,
                 articulos+"<input type='hidden' name='articulos[]' value='"+articulosid+"'>",
                 cantidad+"<input type='hidden' name='cantidad[]' value='"+cantidad+"'>",
@@ -180,8 +180,8 @@
     });
 
     //Eliminar articulos ingresados en la datatable
-    $("#tabla-articulos tbody").on( "click", ".delete", function () {
-        $("#tabla-articulos").DataTable()
+    $("#tabla-articulos-ingresados tbody").on( "click", ".delete", function () {
+        $("#tabla-articulos-ingresados").DataTable()
             .row( $(this).parents("tr") )
             .remove()
             .draw();

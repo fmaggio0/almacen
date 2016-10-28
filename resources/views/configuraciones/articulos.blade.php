@@ -9,7 +9,7 @@
         GESTION DE ARTICULOS
     </div>
         <div class="boton_titulo">
-        <a id="nuevo" class="btn btn-success" href="#">
+        <a id="add-articulo" class="btn btn-success" href="#">
         <i class="fa fa-plus"></i> Nuevo articulo</a>
     </div>
 @stop
@@ -23,10 +23,9 @@
         </div>
     @endif
 
-        <div class="box tabla-articulos">
-            <div class="box-body no-padding"> 
-
-                <table class="table table-striped table-bordered accionstyle"  cellspacing="0" width="100%" id="articulos">
+        <div class="box">
+            <div class="box-body"> 
+                <table class="table table-striped table-bordered accionstyle"  cellspacing="0" width="100%" id="tabla-articulos">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -37,7 +36,6 @@
                             <th>Rubro</th>
                             <th>Subrubro</th>
                             <th>Modificado</th>
-                            <th>Usuario</th>
                             <th>Estado</th>
                             <th>Acciones</th>
                         </tr>
@@ -54,7 +52,7 @@
         <script>
             $(document).ready(function(){
             //DATATABLE
-                $('#articulos').DataTable({
+                $('#tabla-articulos').DataTable({
                     "processing": true,
                     "serverSide": true,
                     "ajax": "/datatables/articulos",
@@ -62,7 +60,7 @@
                         alert( 'Custom error' );
                       },
                     "columns":[
-                        {data: 'id_articulo', name: 'articulos.id_articulo', visible: false},
+                        {data: 'id_articulo', name: 'articulos.id_articulo', visible: false, orderable: false, searchable: false},
                         {data: 'descripcion', name: 'articulos.descripcion'},
                         {data: 'unidad', name: 'articulos.unidad'},
                         {data: 'stock_minimo', name: 'articulos.stock_minimo'},
@@ -70,10 +68,10 @@
                         {data: 'descripcionrubro', name: 'rubros.descripcion'},
                         {data: 'descripcionsubrubro', name: 'subrubros.descripcion'},
                         {data: 'updated_at', name: 'articulos.updated_at'},
-                        {data: 'usuario', name: 'users.name'},
                         {data: 'estado', name: 'articulos.estado'},
                         {data: 'action', name: 'action' , orderable: false, searchable: false},
                     ],
+                    "order": [ 7, "desc" ],
                     "language":{
                         url: "{!! asset('/plugins/datatables/lenguajes/spanish.json') !!}"
                     }
@@ -81,7 +79,7 @@
             //FIN DATATABLE
 
                 //ESPERAR HASTA QUE CARGUE LA TABLA
-                 $('#articulos').on('draw.dt', function () {
+                 $('#tabla-articulos').on('draw.dt', function () {
 
                     //MODAL DELETE -----------------------------------------------------------------------
                     $('.delete').click(function() {
@@ -183,6 +181,10 @@
                         });
                     });
                     //fin focus accesibilidad*/
+
+                $("#add-articulo").click(function(){
+                    $("#creararticulo").modal();
+                });
 
                 //FIN MODAL ADD ARTICULOS -----------------------------------------------------------------------
                 

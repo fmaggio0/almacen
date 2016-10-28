@@ -14,7 +14,7 @@ class CrearSalidadetallesTabla extends Migration
     {
         Schema::create('salidas_detalles', function (Blueprint $table) {
 
-            $databaseName = DB::connection('another_database')->getDatabaseName();
+            $databaseName = DB::connection('personal')->getDatabaseName();
 
             $table->increments('id_detalles');
             $table->integer('id_master')->unsigned();
@@ -22,7 +22,7 @@ class CrearSalidadetallesTabla extends Migration
             $table->integer('id_articulo')->unsigned();
             $table->foreign('id_articulo')->references('id_articulo')->on('articulos');
             $table->integer('id_empleado')->unsigned();
-            $table->foreign('id_empleado')->references('Nro_Legajo')->on($databaseName.'.Nro_Legajo');
+            $table->foreign('id_empleado')->references('Nro_Legajo')->on($databaseName.'.tpersonal');
             $table->integer('cantidad');
             $table->timestamps();
         });

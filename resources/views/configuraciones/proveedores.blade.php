@@ -25,7 +25,6 @@
 
         <div class="box tabla-proveedores">
             <div class="box-body"> 
-
                 <table class="table table-striped table-bordered accionstyle"  cellspacing="0" width="100%" id="tabla-proveedores">
                     <thead>
                         <tr>
@@ -37,7 +36,6 @@
                             <th>Observaciones</th>
                             <th>Rubros</th>
                             <th>Modificado</th>
-                            <th>Usuario</th>
                             <th>Estado</th>
                             <th>Acciones</th>
                         </tr>
@@ -62,7 +60,7 @@
                         alert( 'Custom error' );
                       },
                     "columns":[
-                        {data: 'id_proveedor', name: 'proveedores.id_proveedor', visible: false},
+                        {data: 'id_proveedor', name: 'proveedores.id_proveedor', visible: false, orderable: false, searchable: false},
                         {data: 'nombre', name: 'proveedores.nombre'},
                         {data: 'direccion', name: 'proveedores.direccion'},
                         {data: 'email', name: 'proveedores.email'},
@@ -70,9 +68,8 @@
                         {data: 'observaciones', name: 'proveedores.observaciones'},
                         {data: 'rubros', name: 'proveedores.rubros'},
                         {data: 'updated_at', name: 'proveedores.updated_at'},
-                        {data: 'usuario', name: 'users.name'},
                         {data: 'estado', name: 'proveedores.estado'},
-                        {data: 'action', name: 'action' , orderable: false, searchable: false},
+                        {data: 'action', name: 'action', orderable: false, searchable: false},
                     ],
                     "order": [ 7, "desc" ],
                     "language":{

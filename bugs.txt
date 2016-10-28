@@ -1,0 +1,4 @@
+--Listado de bugs que vamos encontrando--
+
+Vista ingreso de stock
+	Datatable no muestra los ajuste de stock, solo los ingresos por facturacion

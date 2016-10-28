@@ -72,7 +72,9 @@
         success: function(data)
         {
             $('#editarproveedor').modal('hide');
-            $('#proveedores').DataTable().ajax.reload();
+            if($('#tabla-proveedores').length > 0) {
+               $('#tabla-proveedores').DataTable().ajax.reload();
+            }
         }
       })
     });

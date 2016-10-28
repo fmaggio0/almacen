@@ -14,7 +14,7 @@ class CrearIngresomasterTabla extends Migration
     {
         Schema::create('ingresos_master', function (Blueprint $table) {
             $table->increments('id_master');
-            $table->string('tipo_ingreso', 60);
+            $table->string('tipo_ingreso', 60)->nullable();
             $table->string('tipo_comprobante', 60)->nullable();
             $table->string('nro_comprobante', 60)->nullable();
             $table->string('descripcion', 255)->nullable();

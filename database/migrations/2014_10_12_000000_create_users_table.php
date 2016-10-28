@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->integer('id_empleado')->unsigned();
-            $table->foreign('id_empleado')->references('Nro_Legajo')->on(new Expression($db . '.Nro_Legajo'));
+            $table->foreign('id_empleado')->references('Nro_Legajo')->on(new Expression($db . '.tpersonal'));
             $table->rememberToken();
             $table->timestamps();
         });
