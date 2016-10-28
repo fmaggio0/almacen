@@ -66,6 +66,17 @@ return [
             'engine' => null,
         ],
 
+        'personal' => [
+            'driver'    => 'mysql',
+            'host'      => 'localhost',
+            'database'  => 'personal_prod',
+            'username'  => 'root',
+            'password'  => '',
+            'charset'   => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix'    => '',
+        ],
+
         'pgsql' => [
             'driver' => 'pgsql',
             'host' => env('DB_HOST', 'localhost'),

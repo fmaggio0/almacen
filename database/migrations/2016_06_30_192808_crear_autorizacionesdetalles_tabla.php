@@ -19,7 +19,7 @@ class CrearAutorizacionesdetallesTabla extends Migration
             $table->integer('id_articulo')->unsigned();
             $table->foreign('id_articulo')->references('id_articulo')->on('articulos');
             $table->integer('id_empleado')->unsigned();
-            $table->foreign('id_empleado')->references('id_empleado')->on('empleados');
+            $table->foreign('id_empleado')->references('Nro_Legajo')->on('personal_prod.tpersonal');
             $table->integer('cantidad');
             $table->timestamps();
         });

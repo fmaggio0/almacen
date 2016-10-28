@@ -20,8 +20,6 @@ class CrearProveedoresTabla extends Migration
             $table->string('telefono', 60 );
             $table->string('observaciones', 255 );
             $table->string('rubros', 255 );
-            $table->integer('id_usuario')->unsigned()->required();
-            $table->foreign('id_usuario')->references('id')->on('users');
             $table->boolean('estado')->default(true);
             $table->timestamps();
         });

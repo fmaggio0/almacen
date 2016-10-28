@@ -46,8 +46,8 @@ class AjaxController extends Controller
 
     public function getEmpleados(Request  $request){
     	$term = $request->term ?: '';
-    	$empleados = Empleados::where('apellido', 'like', $term.'%')
-	    	->select('apellido AS text', 'id_empleado AS id', 'nombre')
+    	$empleados = Empleados::where('Apellido', 'like', $term.'%')
+	    	->select('Apellido AS text', 'Nro_Legajo AS id', 'Nombres as nombre')
 	   	 	->get();
 
     	return Response::json($empleados);
@@ -107,11 +107,11 @@ class AjaxController extends Controller
     }
 
     public function getDetallesSalidas($id){
-        $detalles=DB::table('salidas_detalles')
+        $detalles= DB::table('salidas_detalles')
             ->where('id_master', '=', $id )
             ->join('articulos', 'salidas_detalles.id_articulo', '=', 'articulos.id_articulo')
-            ->join('empleados', 'salidas_detalles.id_empleado', '=', 'empleados.id_empleado')
-            ->select('articulos.descripcion as Articulo', 'empleados.nombre as Nombre','empleados.apellido as Apellido', 'salidas_detalles.cantidad as Cantidad')
+            ->join('personal_prod.tpersonal as empleados', 'salidas_detalles.id_empleado', '=', 'empleados.Nro_Legajo')
+            ->select('articulos.descripcion as Articulo', 'empleados.Nombres as Nombre','empleados.Apellido as Apellido', 'salidas_detalles.cantidad as Cantidad')
             ->get();
         return Response::json($detalles);
     }
@@ -120,9 +120,15 @@ class AjaxController extends Controller
         $detalles=DB::table('autorizaciones_detalles')
             ->where('id_master', '=', $id )
             ->join('articulos', 'autorizaciones_detalles.id_articulo', '=', 'articulos.id_articulo')
-            ->join('empleados', 'autorizaciones_detalles.id_empleado', '=', 'empleados.id_empleado')
-            ->select('articulos.descripcion as Articulo', 'empleados.nombre as Nombre','empleados.apellido as Apellido', 'autorizaciones_detalles.cantidad as Cantidad')
+            ->join('personal_prod.tpersonal as empleados', 'autorizaciones_detalles.id_empleado', '=', 'empleados.Nro_Legajo')
+            ->select('articulos.descripcion as Articulo', 'empleados.Nombres as Nombre','empleados.Apellido as Apellido', 'autorizaciones_detalles.cantidad as Cantidad')
             ->get();
         return Response::json($detalles);
     }
+    /*public function getDetallesSalidas($id){
+        $detalles= DB::connection('personal')->table('tpersonal')
+            ->select('*')
+            ->get();
+        return Response::json($detalles);
+    }*/
 }
