@@ -68,7 +68,7 @@ class AjaxController extends Controller
         $term = $request->term ?: '';
         $tags = DB::table ('articulos')
             ->where('descripcion', 'like', $term.'%')
-            ->select('descripcion AS text', 'id_articulo AS id', 'stock_actual', 'unidad')
+            ->select('descripcion AS text', 'id_articulo AS id', 'stock_actual', 'unidad', 'stock_minimo')
             ->get();
 
         return Response::json($tags);

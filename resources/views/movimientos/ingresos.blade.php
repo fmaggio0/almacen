@@ -164,13 +164,6 @@
 
         //Datatable para modal salidas de stock(Articulos agregados)
 
-        //Imprimir stock disponible en el placeholder del input cantidad
-        $("#articulos").on("select2:select", function(e) { 
-            data=$("#articulos").select2('data')[0];
-            $("#cantidad").attr('placeholder', data.stock+" "+data.unidad+"es disponibles" );
-            $("#cantidad").attr('data-stock', data.stock);
-        });
-
     });
     </script>
 @endsection

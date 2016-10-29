@@ -68,10 +68,11 @@ class MovimientosController extends Controller
             {
                 for($i=0;$i <count($request->articulos);$i++)
                 {
+
                     $detalles = array(
                                     'id_master' => $id,
                                     'id_articulo'=> $request->articulos[$i],
-                                    'cantidad' => $request->cantidad[$i]
+                                    'cantidad' => $request->cantidad[$i],
                                     );
                     IngresosDetalles::create($detalles);
 
@@ -79,6 +80,7 @@ class MovimientosController extends Controller
                     $cantidad = $request->cantidad[$i];
 
                     $update = Articulos::findOrFail($id_articulo);
+                    $update->stock_minimo = $request->stock_minimo[$i];
                     $update->increment('stock_actual', $cantidad);
                     $update->save();
 

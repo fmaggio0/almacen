@@ -41,8 +41,8 @@
                         </tr>
                     </thead>
                 </table>
-            </div><!-- /.box-body -->
-        </div><!-- /.box -->
+            </div>
+        </div>
 
         @include('configuraciones.modalsArticulos.create')
         @include('configuraciones.modalsArticulos.edit')
@@ -95,71 +95,7 @@
                         var id = $(this).attr('value');
                         $("input[name='id_articulo']").val(id);
                     });
-                    //FIN MODAL ACTIVAR -------------------------------------------------------------------
-
-
-                    //MODAL EDIT --------------------------------------------------------------------------
-                    $('.edit').click(function(){
-                        $('#editar').modal();
-
-                        //tomo las variables y las paso al modal edit
-                        var unidad = $(this).data('selectunidad');
-                        var rubro = $(this).data('selectrubro');
-                        var subrubro = $(this).data('selectsubrubro');
-                        var desc = $(this).data('desc');
-                        var id = $(this).attr('value');
-                        var estado = $(this).data('estado');
-
-                         $("#selectsubrubroedit").prop("readonly", true); //desabilitar subrubro hasta que se elija rubro **CORREJIR** Si lo desabilito que seria lo corecto, el usuario vera toda la lista de subrubros.
-
-                        $('#selectrubroedit').on("select2:select", function(e) { //si elijo un rubro...
-                            
-                            idrubro = $("#selectrubroedit").val(); //tomar id
-
-                            $("#selectsubrubroedit").select2().empty(); // vaciar select subrubros
-
-                            $.getJSON("/ajax/subrubros/" + idrubro, function (json) { //completar select subrubros con la query que responda al id del rubro
-                              $("#selectsubrubroedit").select2({
-                                    data: json,
-                                    language: "es",
-
-                                });
-                            });
-
-                            $("#selectsubrubroedit").prop("readonly", false); // habilitar subrubro una vez que se eligio rubro
-                        });
-                    
-                        //Modificar atributos con el item seleccionado
-
-                        $("#descedit").val( desc ).trigger("change");
-                        $("#selectunidadedit").val( unidad ).trigger("change");
-                        $("#selectrubroedit").val( rubro ).trigger("change");
-                        $("#selectsubrubroedit").val( subrubro ).trigger("change");
-                        $("input[name='id_articulo']").val(id);
-                        if (estado == 0)
-                        {
-                           $("#estado").val(false); 
-                           $('#estado').prop('checked', false);
-                        }
-                        else
-                        {
-                            $("#estado").val(true);
-                            $('#estado').prop('checked', true);
-                        }
-                    });   
-
-                        //focus accesibilidad EDIT
-                        $('#editar').on('shown.bs.modal', function() {
-                            $("#descedit").focus();
-                        });
-                        $("#selectunidadedit").on("select2:select", function(e) {
-                            $("#selectrubroedit").select2("open");
-                        });
-                        $("#selectrubroedit").on("select2:select", function(e) {
-                            $("#selectsubrubroedit").select2("open");
-                        });
-                    //FIN MODAL EDIT -----------------------------------------------------------------------
-
+                    //FIN MODAL ACTIVAR ------------------------------------------------------------------
                 });
                 //FIN ESPERAR HASTA QUE CARGUE LA TABLA
 
@@ -190,7 +126,6 @@
                 
                 //CERRAR TODOS LOS MODALES
                 $('.close').click(function() {
-                    $('#editar').modal('hide');
                     $('#delete').modal('hide');
                 });
                 //FIN CERRAR TODOS LOS MODALES

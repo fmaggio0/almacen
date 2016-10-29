@@ -31,7 +31,7 @@ Route::post('/articulos/dardebaja', ['as' => 'dardebaja', 'uses' => 'ArticulosCo
 
 Route::post('/articulos/activar', ['as' => 'activar', 'uses' => 'ArticulosController@activar']);
 
-Route::post('/articulos/edit', ['as' => 'edit', 'uses' => 'ArticulosController@edit']);
+Route::post('/articulos/editar', ['uses' => 'ArticulosController@edit']);
 
 //CONFIGURACIONES - PROVEEDORES
 

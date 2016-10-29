@@ -38,7 +38,7 @@ class ArticulosController extends Controller
        /* return back()
                 ->with('status', 'Salida procesada correctamente');*/
         /*return response()->with('status', 'Salida procesada correctamente');*/
-         return response()->json(['msg' => 'Success!']);
+        return response()->json(['msg' => 'Success!']);
 	}
 
     public function baja(Request $request)
@@ -66,7 +66,8 @@ class ArticulosController extends Controller
             'descripcion' => 'required|max:255|min:4',
             'unidad' => 'required|max:20',
             'id_rubro' => 'required|numeric',
-            'id_subrubro' => ''
+            'id_subrubro' => '',
+            'stock_minimo' => ''
         ]);
  
         if ($v->fails())
@@ -80,7 +81,9 @@ class ArticulosController extends Controller
         $update->unidad              = $request->unidad;
         $update->id_rubro            = $request->id_rubro;
         $update->id_subrubro         = $request->id_subrubro;
+        $update->stock_minimo        = $request->stock_minimo;
         $update->save();
-        return back()->withInput();
+        
+        return response()->json(['msg' => 'Success!']);
     }
 }

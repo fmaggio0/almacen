@@ -70,6 +70,11 @@
 					</div>
 				</div>
 				<div class="form-group">
+                    {!! Form::label(null, 'Setear stock minimo:', array('class' => 'control-label col-sm-2')) !!}
+                    <div class="col-sm-4">
+                        {!! Form::number('', null ,array('class'=>' form-control', 'id' => 'stock_minimo', 'style' => 'width: 100%')) !!}
+
+                    </div>
 					<div class="col-sm-2" style="float:right">
 						{!! Form::button('Agregar', array('id' => 'agregar', 'style' =>"float:right", 'class'=>'btn btn-success')) 
                         !!}
@@ -86,6 +91,7 @@
 	                            <th>Nro Item</th>
 	                            <th>Articulo</th>
 	                            <th>Cantidad</th>
+                                <th>Stock minimo</th>
 	                            <th>Acciones</th>
 	                        </tr>
 	                    </thead>
@@ -159,6 +165,8 @@
         var articulos = $("#articulos :selected").text();
         var articulosid = $("#articulos :selected").val();
         var cantidad = $("#cantidad").val();
+        var stock_minimo = $("#stock_minimo").val();
+
 
         if(cantidad > 0 && articulos.length != 0 && articulosid.length != 0)
         {
@@ -166,6 +174,7 @@
                 contador,
                 articulos+"<input type='hidden' name='articulos[]' value='"+articulosid+"'>",
                 cantidad+"<input type='hidden' name='cantidad[]' value='"+cantidad+"'>",
+                stock_minimo+"<input type='hidden' name='stock_minimo[]' value='"+stock_minimo+"'>",
                 "<a class='btn botrojo btn-xs' href='#'><i class='glyphicon glyphicon-trash delete'></i></a>"
             ] ).draw( false );
             contador++;
@@ -185,6 +194,21 @@
             .row( $(this).parents("tr") )
             .remove()
             .draw();
+    });
+
+    //Imprimir stock disponible en el placeholder del input cantidad
+    $("#articulos").on("select2:select", function(e) { 
+        data=$("#articulos").select2('data')[0];
+        $("#cantidad").attr('placeholder', data.stock+" "+data.unidad+"es disponibles" );
+        $("#cantidad").attr('data-stock', data.stock);
+
+        if(data.stock_minimo == null){
+            $("#stock_minimo").attr('placeholder', 'No definido');
+        }
+        else{
+            $("#stock_minimo").attr('placeholder', 'Stock minimo: ' + data.stock_minimo);
+        }
+        
     });
 
     //Plugins select para modal de salida
@@ -210,7 +234,8 @@
                         id: item.id,
                         text: item.text,
                         stock: item.stock_actual,
-                        unidad: item.unidad
+                        unidad: item.unidad,
+                        stock_minimo: item.stock_minimo
                     };
                 });
                 return { results: data };
