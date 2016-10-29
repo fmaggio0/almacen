@@ -36,7 +36,6 @@
 							{!! Form::select('id_subrubro', array('' => 'Seleccione un subrubro'), null ,array('id' => 'selectsubrubroedit','class'=>'form-control completarsubrubros', 'style' => 'width: 100%'))
 							!!}
 							{!! Form::hidden('id_usuario', Auth::user()->id ) !!}
-							{!! Form::hidden('id_articulo', '') !!}
 
 							</div>
 					</div>

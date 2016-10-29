@@ -46,7 +46,6 @@
                                 <select name="rubros" class="add-rubros" multiple="multiple" style="width: 100%" required></select>
 							</div>
 					</div>
-                    {!! Form::hidden('id_usuario', Auth::user()->id , array('class' => 'add-id_usuario')) !!}
 				</div>
 
 				<div class="modal-footer">
@@ -89,7 +88,7 @@
       $.ajax({
         type:"POST",
         url:'/proveedores/addproveedor',
-        data: {'nombre':$('.add-nombre').val(), 'direccion':$('.add-direccion').val(),'email':$('.add-email').val(),'telefono':$('.add-telefono').val(), 'observaciones':$('.add-observaciones').val(), 'rubros' : $('.add-rubros').select2().val().join(", "), 'id_usuario':$('.add-id_usuario').val(),'_token': $('input[name=_token]').val()},
+        data: {'nombre':$('.add-nombre').val(), 'direccion':$('.add-direccion').val(),'email':$('.add-email').val(),'telefono':$('.add-telefono').val(), 'observaciones':$('.add-observaciones').val(), 'rubros' : $('.add-rubros').select2().val().join(", "), '_token': $('input[name=_token]').val()},
         dataType: 'json',
         success: function(data)
         {

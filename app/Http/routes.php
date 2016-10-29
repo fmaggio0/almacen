@@ -68,8 +68,6 @@ Route::get('/ajax/empleados', ['uses' => 'AjaxController@getEmpleados']);
 
 Route::get('/ajax/subareas', ['uses' => 'AjaxController@getSubareas']);
 
-Route::get('/ajax/subareas/{id}', ['uses' => 'AjaxController@getSubareasxid_area']);
-
 Route::get('/ajax/articulos', ['uses' => 'AjaxController@getArticulos']);
 
 Route::get('/ajax/proveedores', ['uses' => 'AjaxController@getProveedores']);

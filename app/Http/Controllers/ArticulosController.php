@@ -24,7 +24,6 @@ class ArticulosController extends Controller
             
             'descripcion' => 'required|max:255|unique:articulos',
             'unidad' => 'required|max:20',
-            'id_usuario'    => 'required', //modificar cuando cambie la tabla
             'id_rubro' => 'required|numeric',
             'id_subrubro' => ''
         ]);
@@ -66,7 +65,6 @@ class ArticulosController extends Controller
             
             'descripcion' => 'required|max:255|min:4',
             'unidad' => 'required|max:20',
-            'id_usuario'    => 'required', //modificar cuando cambie la tabla
             'id_rubro' => 'required|numeric',
             'id_subrubro' => ''
         ]);
@@ -82,7 +80,6 @@ class ArticulosController extends Controller
         $update->unidad              = $request->unidad;
         $update->id_rubro            = $request->id_rubro;
         $update->id_subrubro         = $request->id_subrubro;
-        $update->id_usuario             = $request->id_usuario;
         $update->save();
         return back()->withInput();
     }

@@ -63,18 +63,6 @@ class AjaxController extends Controller
         return Response::json($subareas);
     }
 
-    public function getSubareasxid_area(Request $request, $id){
-    	$term = $request->term ?: '';
-        $areaid = UserInfo::find($id)->id_area;   
-        $subareas=DB::table('subareas')
-            ->where('id_area', '=', $areaid )
-            ->where('descripcion_subarea', 'like', $term.'%')
-            ->select('id_subarea AS id', 'descripcion_subarea AS text' )
-            ->get();
-
-        return Response::json($subareas);
-    }
-
     public function getArticulos(Request $request)
     {
         $term = $request->term ?: '';

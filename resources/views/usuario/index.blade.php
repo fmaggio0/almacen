@@ -157,11 +157,9 @@
 
             $("#articulos").select2({
                 minimumInputLength: 2,
-                minimumResultsForSearch: 10,
                 language: "es",
                 placeholder: "Seleccione un articulo",
                 allowClear: true,
-                tokenSeparators: [','],
                 ajax:   
                     {
                         url: "/ajax/articulos",
@@ -188,18 +186,14 @@
                     }
             });
             
-
-            var iduser = $("#id_usuario").val();
             $("#destinos").select2({
                 minimumInputLength: 2,
-                minimumResultsForSearch: 10,
                 language: "es",
                 placeholder: "Seleccione un destino",
                 allowClear: true,
-                tokenSeparators: [','],
                 ajax:   
                     {
-                        url: "/ajax/subareas/"+iduser,
+                        url: "/ajax/subareas",
                         dataType: 'json',
                         delay: 300,
                         data: function(params) {

@@ -36,7 +36,6 @@
 							{!! Form::select('id_subrubro', array('' => 'Seleccione un subrubro'), null ,array('class'=>'subrubros form-control', 'style' => 'width: 100%', 'tabindex' => '3'))
 							!!}
 							{!! Form::token(); !!}
-							{!! Form::hidden('id_usuario', Auth::user()->id ) !!}
 
 							</div>
 					</div>
@@ -101,7 +100,7 @@
       $.ajax({
         type:"POST",
         url:'/articulos/addarticulo',
-        data: {'descripcion':$('.desc').val(), 'unidad':$('.unidades').val(),'id_rubro':$('.completarrubros').val(),'id_subrubro':$('.subrubros').val(), 'id_usuario':$('input[name=id_usuario]').val(),'_token': $('input[name=_token]').val()},
+        data: {'descripcion':$('.desc').val(), 'unidad':$('.unidades').val(),'id_rubro':$('.completarrubros').val(),'id_subrubro':$('.subrubros').val(), '_token': $('input[name=_token]').val()},
         dataType: 'json',
         success: function(data)
         {

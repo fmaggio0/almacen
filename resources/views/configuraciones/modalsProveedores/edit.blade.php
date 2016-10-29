@@ -48,7 +48,6 @@
 					</div>
 					
 					{!! Form::hidden('id_proveedor', '', array('class' => 'edit-id_proveedor')) !!}
-					{!! Form::hidden('id_usuario', Auth::user()->id , array('class' => 'edit-id_usuario')) !!}
 
 				</div>
 
@@ -67,7 +66,7 @@
       $.ajax({
         type:"POST",
         url:'/proveedores/edit',
-        data: {'nombre':$('.edit-nombre').val(), 'direccion':$('.edit-direccion').val(),'email':$('.edit-email').val(),'telefono':$('.edit-telefono').val(), 'observaciones':$('.edit-observaciones').val(), 'rubros' : $('.edit-rubros').select2().val().join(", "), 'id_proveedor':$('.edit-id_proveedor').val(), 'id_usuario':$('.edit-id_usuario').val(),'_token': $('input[name=_token]').val()},
+        data: {'nombre':$('.edit-nombre').val(), 'direccion':$('.edit-direccion').val(),'email':$('.edit-email').val(),'telefono':$('.edit-telefono').val(), 'observaciones':$('.edit-observaciones').val(), 'rubros' : $('.edit-rubros').select2().val().join(", "), 'id_proveedor':$('.edit-id_proveedor').val(), '_token': $('input[name=_token]').val()},
         dataType: 'json',
         success: function(data)
         {

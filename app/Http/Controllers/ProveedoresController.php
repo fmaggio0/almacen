@@ -27,7 +27,6 @@ class ProveedoresController extends Controller
             'direccion' => 'max:60',
             'email'    => 'max:60',
             'telefono' => 'max:60',
-            'id_usuario'    => 'required',
             'observaciones' => 'max:255',
             'rubros' => 'max:255',
         ]);
@@ -66,7 +65,6 @@ class ProveedoresController extends Controller
             'direccion' => 'max:60',
             'email'    => 'max:60',
             'telefono' => 'max:60',
-            'id_usuario'    => 'required',
             'observaciones' => 'max:255',
             'rubros' => 'max:255',
         ]);
@@ -84,7 +82,6 @@ class ProveedoresController extends Controller
         $update->telefono           = $request->telefono;
         $update->observaciones      = $request->observaciones;
         $update->rubros             = $request->rubros;
-        $update->id_usuario         = $request->id_usuario;
         $update->save();
         return response()->json(['msg' => 'Success!']);
     }
