@@ -138,7 +138,6 @@ class DatatablesController extends Controller
             ->join('salidas_detalles', 'salidas_master.id_master', '=', 'salidas_detalles.id_master')
             ->join('subareas', 'salidas_master.id_subarea', '=', 'subareas.id_subarea')
             ->join('articulos', 'articulos.id_articulo', '=', 'salidas_detalles.id_articulo')
-            ->join('empleados', 'salidas_detalles.id_empleado', '=', 'empleados.id_empleado')
             ->join('users', 'salidas_master.id_usuario', '=', 'users.id')
             ->join('areas', 'subareas.id_area', '=', 'areas.id_area')
             ->select(['salidas_master.id_master as id_master', 'salidas_master.tipo_retiro', 'subareas.descripcion_subarea as subarea', 'salidas_master.updated_at', 'users.name', 'salidas_master.estado as estado', 'areas.descripcion_area'])

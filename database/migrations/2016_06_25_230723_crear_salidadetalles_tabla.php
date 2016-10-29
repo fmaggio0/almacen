@@ -21,8 +21,7 @@ class CrearSalidadetallesTabla extends Migration
             $table->foreign('id_master')->references('id_master')->on('salidas_master');
             $table->integer('id_articulo')->unsigned();
             $table->foreign('id_articulo')->references('id_articulo')->on('articulos');
-            $table->integer('id_empleado')->unsigned();
-            $table->foreign('id_empleado')->references('Nro_Legajo')->on($databaseName.'.tpersonal');
+            $table->integer('id_empleado');
             $table->integer('cantidad');
             $table->timestamps();
         });
