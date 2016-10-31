@@ -1,11 +1,5 @@
 @extends('layouts.auth')
 
-@section('htmlheader_title')
-    Log in
-@endsection
-
-@include('layouts.partials.scripts')
-
 @section('content')
 <body class="hold-transition login-page">
     <div class="login-box">

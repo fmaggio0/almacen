@@ -54,7 +54,6 @@
 		</div>
 	</div>
 </div>
-
 <script>
 	$.getJSON("/ajax/rubros", function (json) { //para modal edit y add
         $("#edit-rubros").select2({
@@ -145,15 +144,4 @@
 		}
 		})
     });
-
-    /*//focus accesibilidad EDIT
-    $('#editar').on('shown.bs.modal', function() {
-        $("#descedit").focus();
-    });
-    $("#selectunidadedit").on("select2:select", function(e) {
-        $("#selectrubroedit").select2("open");
-    });
-    $("#selectrubroedit").on("select2:select", function(e) {
-        $("#edit-subrubros").select2("open");
-    });*/
 </script>

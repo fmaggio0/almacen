@@ -169,9 +169,6 @@
             </div>
 
         </div>
-
         @yield('js')
-        @yield('js-modals')
-
     </body>
 </html>

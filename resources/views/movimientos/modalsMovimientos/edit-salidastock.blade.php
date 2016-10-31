@@ -79,8 +79,6 @@
 		</div>
 	</div>
 </div>
-
-@section('js-modals')
 <script>
 	$("#tabla-salidas-modal-edit").DataTable({
 	    language: {
@@ -185,4 +183,3 @@
             .draw();
     });
 </script>
-@stop

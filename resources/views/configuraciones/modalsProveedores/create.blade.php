@@ -55,7 +55,6 @@
 		</div>
 	</div>
 </div>
-
 <script>
     //Desabilitar opciones si es ajuste de stock
 

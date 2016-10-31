@@ -1,9 +1,5 @@
 @extends('layouts.auth')
 
-@section('htmlheader_title')
-    Register
-@endsection
-
 @section('content')
 
     <body class="hold-transition register-page">

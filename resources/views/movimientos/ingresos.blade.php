@@ -1,9 +1,5 @@
 @extends('layouts.app')
 
-@section('htmlheader_title')
-    Home
-@endsection
-
 @section ('contentheader_title') 
     <div class="titulo_header">
         GESTION INGRESO DE STOCK
@@ -13,7 +9,6 @@
         <i class="fa fa-plus"></i> Nuevo ingreso</a>
     </div>
 @stop
-
 
 @section('main-content')
 
@@ -68,8 +63,9 @@
     <!-- Crear nuevo proveedor -->
     @include('configuraciones.modalsProveedores.create')
 
+@stop
+@section('js')
     <script>
-
     $(document).ready( function () {
 
         //Ocultar mensajes de error o success
@@ -166,4 +162,4 @@
 
     });
     </script>
-@endsection
+@stop

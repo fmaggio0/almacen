@@ -114,9 +114,7 @@
 </div>
 
 </div>
-
 <script>
-
 	$("#add-proveedor").click(function(){
         $("#crearproveedor").modal(); 
     });

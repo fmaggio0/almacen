@@ -1,18 +1,10 @@
 @extends('layouts.app')
 
-@section('htmlheader_title')
-    Server error
-@endsection
-
 @section('contentheader_title')
     500 Error Page
-@endsection
-
-@section('$contentheader_description')
-@endsection
+@stop
 
 @section('main-content')
-
     <div class="error-page">
         <h2 class="headline text-red">500</h2>
         <div class="error-content">
@@ -31,4 +23,4 @@
             </form>
         </div>
     </div><!-- /.error-page -->
-@endsection
+@stop
