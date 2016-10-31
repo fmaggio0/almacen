@@ -223,6 +223,8 @@ return [
         //Entrust
         'Entrust' => Zizaco\Entrust\EntrustFacade::class,
 
+        'Input'     => Illuminate\Support\Facades\Input::class,
+
     ],
 
 ];

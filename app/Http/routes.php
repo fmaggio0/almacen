@@ -94,5 +94,6 @@ Route::get('/datatables/proveedores', ['uses' => 'DatatablesController@proveedor
 
 Route::get('/datatables/autorizaciones', ['uses' => 'DatatablesController@autorizacionesadmin']);
 
-/*Route::get('/datatables/autorizaciones-detalles-modal/{id}', ['uses' => 'DatatablesController@autorizaciondetallesmodal']); SE SIGUE USANDO ???? */
+Route::get('/datatables/autorizaciones-detalles-modal/{id}', ['uses' => 'DatatablesController@autorizaciondetallesmodal']);
 
+Route::get('/datatables/salidas-modal-edit/{id}', ['uses' => 'DatatablesController@salidasmodaledit']);

@@ -47,6 +47,7 @@
 
 				<div class="modal-footer">
 					{{ csrf_field() }}
+					<input id="edit-id_articulo" name="id_articulo" type="hidden">
 					<button class="btn btn-primary" id="enviar-art">Guardar</button>
 				</div>
 			</form>		
@@ -109,7 +110,7 @@
 	        $("#edit-unidad").val( unidad ).trigger("change");
 	        $("#edit-rubros").val( rubro ).trigger("change");
 	        $("#edit-subrubros").val( subrubro ).trigger("change");
-	        $("input[name='id_articulo']").val(id);
+	        $("#edit-id_articulo").val(id);
 	        $("#edit-stock_minimo").val(stock_minimo);
 	        if (estado == 0)
 	        {
@@ -125,24 +126,24 @@
     }); 
     //SUBMIT AJAX-------------------------------------------
     $('#enviar-art').click(function(e){
-      e.preventDefault();   
-      $.ajaxSetup({
-          header:$('meta[name="_token"]').attr('content')
-      })
-      $.ajax({
-        type:"POST",
-        url:'/articulos/editar',
-        data: {'descripcion':$('#edit-desc').val(), 'unidad':$('#edit-unidad').val(),'id_rubro':$('#edit-rubros').val(),'id_subrubro':$('#edit-subrubros').val(), 'stock_minimo':$('#edit-stock_minimo').val(), '_token': $('input[name=_token]').val()},
-        dataType: 'json',
-        success: function(data)
-        {
-            $('#editar').modal('hide');
+		e.preventDefault();   
+		$.ajaxSetup({
+		  header:$('meta[name="_token"]').attr('content')
+		})
+		$.ajax({
+		type:"POST",
+		url:'/articulos/editar',
+		data: {'id_articulo':$('#edit-id_articulo').val(), 'descripcion':$('#edit-desc').val(), 'unidad':$('#edit-unidad').val(),'id_rubro':$('#edit-rubros').val(),'id_subrubro':$('#edit-subrubros').val(), 'stock_minimo':$('#edit-stock_minimo').val(), '_token': $('input[name=_token]').val()},
+		dataType: 'json',
+		success: function(data)
+		{
+		    $('#editar').modal('hide');
 
-            if($('#tabla-articulos').length > 0) {
-               $('#tabla-articulos').DataTable().ajax.reload();
-            }
-        }
-      })
+		    if($('#tabla-articulos').length > 0) {
+		       $('#tabla-articulos').DataTable().ajax.reload();
+		    }
+		}
+		})
     });
 
     /*//focus accesibilidad EDIT

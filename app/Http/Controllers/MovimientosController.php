@@ -15,6 +15,7 @@ use App\IngresosDetalles;
 use App\AutorizacionesMaster;
 use Validator;
 use Exception;
+use Input;
 
 
 class MovimientosController extends Controller
@@ -130,6 +131,10 @@ class MovimientosController extends Controller
             $master->tipo_retiro = $request->tipo_retiro;
             $master->id_subarea = $request->destino;
             $master->id_usuario = $request->usuario;
+
+            if(Input::get('pendiente')) {
+                $master->estado = 1;
+            }
 
             //Si proviene de una autorizacion, cambiamos el estado de la autorizacion a 1(Autorizado)
             if ( $master->tipo_retiro == "Autorizacion de recursos" || $master->tipo_retiro == "Autorizacion de elementos de seguridad")

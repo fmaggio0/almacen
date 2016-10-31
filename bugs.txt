@@ -2,3 +2,6 @@
 
 Vista ingreso de stock
 	Datatable no muestra los ajuste de stock, solo los ingresos por facturacion
+
+Vista egresos de stock
+	No se muestra los egresos debido a autorizaciones

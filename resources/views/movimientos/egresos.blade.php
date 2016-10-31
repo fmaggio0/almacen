@@ -1,9 +1,5 @@
 @extends('layouts.app')
 
-@section('htmlheader_title')
-    Home
-@endsection
-
 @section ('contentheader_title') 
     <div class="titulo_header">
         GESTION DE MOVIMIENTOS DE SALIDA
@@ -13,7 +9,6 @@
         <i class="fa fa-plus"></i> Nueva salida</a>
     </div>
 @stop
-
 
 @section('main-content')
 
@@ -58,8 +53,14 @@
         </div>
     </div>
 
-    <!-- Incluir Formulario -->
+    <!-- Incluir Formulario Salida de stock-->
     @include('movimientos.modalsMovimientos.salidastock')
+    <!-- Incluir Formulario Editar salida pendiente -->
+    @include('movimientos.modalsMovimientos.edit-salidastock')
+
+@stop
+
+@section('js')
 
     <script>
 
@@ -96,8 +97,9 @@
                 {data: 'name', name: 'users.name'},
                 {data: 'estado', name: 'salidas_master.estado'},
                 {data: 'action', name: 'action' , orderable: false, searchable: false},
-                //Add column extra para obtener el id de la salida en limpio
-                {data: 'id_tabla', name: 'salidas_master.id_master', visible: false},
+                //extra info columnas hidden
+                {data: 'id_tabla', name: 'salidas_master.id_tabla', visible: false},
+                {data: 'id_subarea', name: 'salidas_master.id_subarea', visible: false}
             ],
             "order": [ 5, "desc" ],
             "language":{
@@ -342,4 +344,4 @@
                 .draw();
         });
     </script>
-@endsection
+@stop

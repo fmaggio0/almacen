@@ -140,7 +140,7 @@ class DatatablesController extends Controller
             ->join('articulos', 'articulos.id_articulo', '=', 'salidas_detalles.id_articulo')
             ->join('users', 'salidas_master.id_usuario', '=', 'users.id')
             ->join('areas', 'subareas.id_area', '=', 'areas.id_area')
-            ->select(['salidas_master.id_master as id_master', 'salidas_master.tipo_retiro', 'subareas.descripcion_subarea as subarea', 'salidas_master.updated_at', 'users.name', 'salidas_master.estado as estado', 'areas.descripcion_area'])
+            ->select(['salidas_master.id_master as id_master', 'salidas_master.tipo_retiro', 'subareas.descripcion_subarea as subarea', 'salidas_master.updated_at', 'users.name', 'salidas_master.estado as estado', 'areas.descripcion_area', 'salidas_master.id_subarea'])
             ->distinct();
 
         return Datatables::of($salidas)
@@ -149,17 +149,25 @@ class DatatablesController extends Controller
             })
             ->addColumn('action', function ($salidas) {
 
-                if($salidas->estado == false)
+                if($salidas->estado === 0)
                 {
-                    return '<a href="#" class="btn btn-xs botgris edit"><i class="glyphicon glyphicon-print"></i></a>';
+                    return '<a href="#" class="btn btn-xs botgris"><i class="glyphicon glyphicon-print"></i></a>';
+                }
+                elseif($salidas->estado === 1)
+                {
+                    return "<a href='#' class='btn btn-xs btn-primary edit'><i class='glyphicon glyphicon-search edit'></i></a><a href='#' class='btn btn-xs botrojo'><i class='glyphicon glyphicon-remove remove'></i></a>";
                 }
             })
             ->editColumn('estado', function($salidas){
-                if( $salidas->estado == true )
+                if( $salidas->estado === 2 )
                 {
-                    return "<span class='label label-danger'>No registrado</span>";
+                    return "<span class='label label-danger'>Cancelado</span>";
                 }
-                else
+                elseif( $salidas->estado === 1 )
+                {
+                    return "<span class='label label-warning'>Pendiente</span>";
+                }
+                elseif( $salidas->estado === 0 )
                 {
                     return "<span class='label label-success'>Registrado</span>";
                 }
@@ -185,7 +193,6 @@ class DatatablesController extends Controller
             ->join('autorizaciones_detalles', 'autorizaciones_master.id_master', '=', 'autorizaciones_detalles.id_master')
             ->join('subareas', 'autorizaciones_master.id_subarea', '=', 'subareas.id_subarea')
             ->join('articulos', 'articulos.id_articulo', '=', 'autorizaciones_detalles.id_articulo')
-            ->join('empleados', 'autorizaciones_detalles.id_empleado', '=', 'empleados.id_empleado')
             ->join('users', 'autorizaciones_master.id_usuario', '=', 'users.id')
             ->select(['autorizaciones_master.id_master as id_master', 'autorizaciones_master.tipo_retiro', 'subareas.descripcion_subarea', 'autorizaciones_master.updated_at', 'users.name', 'autorizaciones_master.estado as estado'])
             ->distinct();
@@ -224,10 +231,8 @@ class DatatablesController extends Controller
             ->join('autorizaciones_detalles', 'autorizaciones_master.id_master', '=', 'autorizaciones_detalles.id_master')
             ->join('subareas', 'autorizaciones_master.id_subarea', '=', 'subareas.id_subarea')
             ->join('articulos', 'articulos.id_articulo', '=', 'autorizaciones_detalles.id_articulo')
-            ->join('empleados', 'autorizaciones_detalles.id_empleado', '=', 'empleados.id_empleado')
             ->join('users', 'autorizaciones_master.id_usuario', '=', 'users.id')
-            ->join('users_info', 'autorizaciones_master.id_usuario', '=', 'users_info.id_user')
-            ->join('areas', 'users_info.id_area', '=', 'areas.id_area')
+            ->join('areas', 'subareas.id_area', '=', 'areas.id_area')
             ->select(['autorizaciones_master.id_master as id_master', 'autorizaciones_master.tipo_retiro', 'subareas.descripcion_subarea', 'autorizaciones_master.updated_at', 'users.name', 'autorizaciones_master.estado as estado', 'areas.descripcion_area', 'autorizaciones_master.id_subarea'])
             ->distinct();
 
@@ -265,9 +270,19 @@ class DatatablesController extends Controller
         $detalles=DB::table('autorizaciones_detalles')
             ->where('id_master', '=', $id)
             ->join('articulos', 'articulos.id_articulo', '=', 'autorizaciones_detalles.id_articulo')
-            ->join('empleados', 'empleados.id_empleado', '=', 'autorizaciones_detalles.id_empleado')
-            ->select('articulos.id_articulo', 'articulos.descripcion','autorizaciones_detalles.id_empleado', 'empleados.nombre','empleados.apellido', 'autorizaciones_detalles.cantidad' )
+            ->join('personal_prod.tpersonal as empleados', 'empleados.Nro_Legajo', '=', 'autorizaciones_detalles.id_empleado')
+            ->select('articulos.id_articulo', 'articulos.descripcion','autorizaciones_detalles.id_empleado', 'empleados.Nombres','empleados.Apellido', 'autorizaciones_detalles.cantidad' )
             ->get();
         return Response::json($detalles);
     }
+    public function salidasmodaledit($id)
+    {
+        $detalles=DB::table('salidas_detalles')
+            ->where('id_master', '=', $id)
+            ->join('articulos', 'articulos.id_articulo', '=', 'salidas_detalles.id_articulo')
+            ->join('personal_prod.tpersonal as empleados', 'empleados.Nro_Legajo', '=', 'salidas_detalles.id_empleado')
+            ->select('articulos.id_articulo', 'articulos.descripcion','salidas_detalles.id_empleado', 'empleados.Nombres','empleados.Apellido', 'salidas_detalles.cantidad' )
+            ->get();
+        return Response::json($detalles);
+    }     
 }

@@ -65,9 +65,7 @@ class ArticulosController extends Controller
             
             'descripcion' => 'required|max:255|min:4',
             'unidad' => 'required|max:20',
-            'id_rubro' => 'required|numeric',
-            'id_subrubro' => '',
-            'stock_minimo' => ''
+            'id_rubro' => 'required|numeric'
         ]);
  
         if ($v->fails())
