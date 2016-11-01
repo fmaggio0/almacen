@@ -2,7 +2,7 @@
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 
-		{!! Form::open(['route' => 'addsalida', 'method' => 'POST', 'class' => 'form-horizontal' ]) !!}
+			<form method="POST" action="http://localhost:8000/movimientos/addsalida" accept-charset="UTF-8" class="form-horizontal">
 
 				<div class="modal-header" style="background: #4682B4; color: #FFFFFF;">
 					<button type="button" class="close" date-dismiss='modal' aria-hidden='true'>&times;</button>
@@ -12,87 +12,87 @@
 				@if($errors->has())
 		            <div class="alert alert-warning" role="alert">
 		               @foreach ($errors->all() as $error)
-		                  <div>{{ $error }}</div>
+		                  <div>
+		                  	{{ $error }}
+		                  </div>
 		              @endforeach
 		            </div>
-       			 @endif </br> 
+       			 @endif 
+       			 </br> 
 
 
 				<div class="modal-body">
 					<div class="form-group">
-							{!! Form::label('tipo_salida', 'Tipo de retiro:', array('class' => 'control-label col-sm-2')) !!}
-							<div class="col-sm-4">
-								{!! Form::text('tipo_retiro', null ,array('class'=>'tipo_retiro form-control', 'style' => 'width: 100%', 'required' => 'required', 'id' => 'tipo_retiro', 'readonly' => 'true')) 
-                            !!}
-							</div>
+						<label for="tipo_salida" class="control-label col-sm-2">Tipo de retiro:</label>
+						<div class="col-sm-4">
+							<input class="tipo_retiro form-control" style="width: 100%" required="required" id="tipo_retiro" readonly="true" name="tipo_retiro" type="text">	
+						</div>
 
-							{!! Form::label('articulo', Auth::user()->name , array('class' => 'control-label col-sm-6')) !!}
-							{!! Form::hidden('usuario', Auth::user()->id) !!}
-							{!! Form::hidden('id_autorizacion', '', array('id' => 'id_autorizacion')) !!}
+						
+						<label for="articulo" class="control-label col-sm-6">{{Auth::user()->name}}</label>
 
 					</div>
 					<div class="form-group">
-							{!! Form::label(null, 'Destino:', array('class' => 'control-label col-sm-2')) !!}
-							<div class="col-sm-4">
-								{!! Form::text('desc_subarea', null, array( 'readonly' => 'true', 'class'=>' form-control', 'id' => 'destinos', 'style' => 'width: 100%' ))
-	                            !!}
-	                            {!! Form::hidden('destino', '', array('id' => 'id_subarea')) !!}
-							</div>
-							{!! Form::label(null, 'Asignado a:', array('class' => 'control-label col-sm-2')) !!}
-							<div class="col-sm-4">
-								{!! Form::select('subdestino', array('' => 'Sin asignacion'), null ,array('id' => 'subdestinos', 'class'=>' form-control', 'style' => 'width: 100%', 'disabled' => 'disabled')) 
-	                            !!}
-							</div>
+						<label for="" class="control-label col-sm-2">Destino:</label>
+							
+						<div class="col-sm-4">
+							<input readonly="true" class=" form-control" id="destinos" style="width: 100%" name="desc_subarea" type="text">
+								
+						</div>
+						<label for="" class="control-label col-sm-2">Asignado a:</label>
+						<div class="col-sm-4">
+							<select id="subdestinos" class=" form-control" style="width: 100%" disabled="disabled" name="subdestino">
+								<option value="" selected="selected">Sin asignación</option>
+							</select>
+						</div>
 						
 					</div>
 
 					<fieldset>
                      <legend>Detalles</legend>
                         <div class="form-group">
-							{!! Form::label(null, 'Articulo:', array('class' => 'control-label col-sm-2')) !!}
+							<label class="control-label col-sm-2">Artículo:</label>
 							<div class="col-sm-4">
-								{!! Form::select('', array('' => ''), null ,array('id' => 'articulos', 'class'=>' form-control', 'style' => 'width: 100%', 'tabindex' => '3')) 
-	                            !!}
+								<span class="select2-selection__placeholder">Seleccione un artículo</span>
+								
 							</div>
-							{!! Form::label(null, 'Retirado por:', array('class' => 'control-label col-sm-2')) !!}
+							<label class="control-label col-sm-2">Retirado por:</label>
 							<div class="col-sm-4">
-								{!! Form::select('', array('' => ''), null ,array('id' => 'empleados', 'class'=>' form-control', 'style' => 'width: 100%')) 
-	                            !!}
+								<span class="select2-selection__placeholder">Seleccione un empleado</span>
 							</div>
 						</div>
 						<div class="form-group">
-							{!! Form::label(null, 'Cantidad:', array('class' => 'control-label col-sm-2')) !!}
-							<div class="col-sm-4">
-							{!! Form::number('',  null, array('id' => 'cantidad', 'class' => 'form-control', 'placeholder' => 'Stock actual', 'min' => '1')) !!}
+							<label class="control-label col-sm-2">Cantidad:</label>							<div class="col-sm-4">
+							<input id="cantidad" class="form-control" placeholder="Stock actual" min="1" name="" type="number">
 							</div>
 							<div class="col-sm-4">
-								{!! Form::button('Agregar', array('id' => 'agregar', 'class'=>'btn btn-success')) 
-	                            !!}
+							<button id="agregar" class="btn btn-success" type="button">Agregar</button>
 							</div>
 						</div>
                         
-               	 </fieldset>
+               	 	</fieldset>
 
-               	<div class="box">
-		            <div class="box-body">
-		                <table id="tabla-salidastock" class="table table-striped table-bordered"  cellspacing="0" width="100%">
-		                    <thead>
-		                        <tr>
-		                            <th>Articulo</th>
-		                            <th>Cantidad</th>
-		                            <th>Retirado por</th>
-		                            <th>Acciones</th>
-		                        </tr>
-		                    </thead>
-		                </table>
-           			</div><!-- /.box-body -->
-      			</div><!-- /.box -->
+	               	<div class="box">
+			            <div class="box-body">
+			                <table id="tabla-salidastock" class="table table-striped table-bordered"  cellspacing="0" width="100%">
+			                    <thead>
+			                        <tr>
+			                            <th>Articulo</th>
+			                            <th>Cantidad</th>
+			                            <th>Retirado por</th>
+			                            <th>Acciones</th>
+			                        </tr>
+			                    </thead>
+			                </table>
+	           			</div>
+	      			</div>
 				</div>
 
 				<div class="modal-footer">
-					{{ Form::submit('Despachar', ['class'=>'btn btn btn-primary', 'tabindex' => '1'])}}
-					{!! Form::close() !!}
+					{{ csrf_field() }}
+					<input class="btn btn btn-primary" type="submit" value="Despachar">
 				</div>
+			</form>
 		</div>
 	</div>
 </div>
