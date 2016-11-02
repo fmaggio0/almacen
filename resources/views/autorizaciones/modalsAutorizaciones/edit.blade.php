@@ -27,8 +27,6 @@
 						<div class="col-sm-4">
 							<input class="tipo_retiro form-control" style="width: 100%" required="required" id="tipo_retiro" readonly="true" name="tipo_retiro" type="text">	
 						</div>
-
-						
 						<label for="articulo" class="control-label col-sm-6">{{Auth::user()->name}}</label>
 
 					</div>
@@ -42,7 +40,6 @@
 						<label for="" class="control-label col-sm-2">Asignado a:</label>
 						<div class="col-sm-4">
 							<select id="subdestinos" class=" form-control" style="width: 100%" disabled="disabled" name="subdestino">
-								<option value="" selected="selected">Sin asignación</option>
 							</select>
 						</div>
 						
@@ -53,12 +50,13 @@
                         <div class="form-group">
 							<label class="control-label col-sm-2">Artículo:</label>
 							<div class="col-sm-4">
-								<span class="select2-selection__placeholder">Seleccione un artículo</span>
-								
+								<select id="articulos" class=" form-control" style="width: 100%">
+								</select>
 							</div>
 							<label class="control-label col-sm-2">Retirado por:</label>
 							<div class="col-sm-4">
-								<span class="select2-selection__placeholder">Seleccione un empleado</span>
+								<select id="empleados" class=" form-control" style="width: 100%">
+								</select>
 							</div>
 						</div>
 						<div class="form-group">
