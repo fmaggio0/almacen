@@ -18,6 +18,7 @@ class CrearIngresomasterTabla extends Migration
             $table->string('tipo_comprobante', 60)->nullable();
             $table->string('nro_comprobante', 60)->nullable();
             $table->string('descripcion', 255)->nullable();
+            $table->double('total_factura', 15, 2)->nullable();
             $table->integer('estado')->default(0); 
             $table->integer('id_proveedor')->unsigned()->nullable();
             $table->foreign('id_proveedor')->references('id_proveedor')->on('proveedores');

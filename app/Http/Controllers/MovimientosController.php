@@ -56,7 +56,9 @@ class MovimientosController extends Controller
             $master->descripcion = $request->descripcion;
             $master->id_proveedor = $request->id_proveedor;
             $master->id_usuario = $request->id_usuario;
+            $master->total_factura = $request->total_factura;
             $master->estado = 1;
+
 
             //Guardamos salidas master
             $master->save();
@@ -74,6 +76,7 @@ class MovimientosController extends Controller
                                     'id_master' => $id,
                                     'id_articulo'=> $request->articulos[$i],
                                     'cantidad' => $request->cantidad[$i],
+                                    'precio_unitario' => $request->precio_unitario[$i],
                                     );
                     IngresosDetalles::create($detalles);
 

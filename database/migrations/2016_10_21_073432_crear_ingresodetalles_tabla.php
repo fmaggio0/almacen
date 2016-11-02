@@ -19,7 +19,7 @@ class CrearIngresodetallesTabla extends Migration
             $table->integer('id_articulo')->unsigned();
             $table->foreign('id_articulo')->references('id_articulo')->on('articulos');
             $table->integer('cantidad');
-            $table->timestamps();
+            $table->double('precio_unitario', 15, 2)->nullable();
         });
     }
 

@@ -76,7 +76,10 @@
 				<div class="form-group">
                     {!! Form::label(null, 'Precio Unitario:', array('class' => 'control-label col-sm-2')) !!}
                     <div class="col-sm-4">
-                        <input class=" form-control" id="precio_unitario" style="width: 35%" type="number" placeholder="$">
+                        <div class="input-group"> 
+                            <span class="input-group-addon">$</span>
+                            <input type="number" min="0" style="width: 35%" class="form-control currency" id="precio_unitario">
+                        </div>
                     </div>
 					<div class="col-sm-2" style="float:right">
 						{!! Form::button('Agregar', array('id' => 'agregar', 'style' =>"float:right", 'class'=>'btn btn-success')) 
@@ -94,10 +97,16 @@
 	                            <th>Nro Item</th>
 	                            <th>Articulo</th>
 	                            <th>Cantidad</th>
-                                <th>Stock minimo</th>
+                                <th>Precio Unitario</th>
+                                <th>Importe</th>
 	                            <th>Acciones</th>
 	                        </tr>
 	                    </thead>
+                        <tfoot>
+                            <tr>    
+                                <th colspan="6" style="text-align:right"></th>
+                            </tr>
+                        </tfoot>
 	                </table>
 	   			</div>
 			</div>
@@ -158,6 +167,32 @@
 	        url: "{!! asset('/plugins/datatables/lenguajes/spanish.json') !!}"
 	    },
 	    "paging":   false,
+        "footerCallback": function ( row, data, start, end, display ) {
+            var api = this.api(), data;
+ 
+            // Remove the formatting to get integer data for summation
+            var intVal = function ( i ) {
+                return typeof i === 'string' ?
+                    i.replace(/[\$,]/g, '')*1 :
+                    typeof i === 'number' ?
+                        i : 0;
+            };
+ 
+            // Total over all pages
+            total = api
+                .column( 4 )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 );
+
+            console.log(total);
+ 
+            // Update footer
+            $( api.column( 5 ).footer() ).html(
+                "Total: $"+total+"<input type='hidden' name='total_factura' value='"+total+"'>"
+            );
+        }
     });	
 
 	//Agregar articulos a datatable
@@ -167,6 +202,7 @@
         var articulosid = $("#articulos :selected").val();
         var cantidad = $("#cantidad").val();
         var precio_unitario = $("#precio_unitario").val();
+        var importe = cantidad * precio_unitario;
 
 
         if(cantidad > 0 && articulos.length != 0 && articulosid.length != 0)
@@ -175,12 +211,14 @@
                 contador,
                 articulos+"<input type='hidden' name='articulos[]' value='"+articulosid+"'>",
                 cantidad+"<input type='hidden' name='cantidad[]' value='"+cantidad+"'>",
-                precio_unitario+" $" + "<input type='hidden' name='precio_unitario[]' value='"+precio_unitario+"'>",
+                precio_unitario + "<input type='hidden' name='precio_unitario[]' value='"+precio_unitario+"'>",
+                importe,
                 "<a class='btn botrojo btn-xs' href='#'><i class='glyphicon glyphicon-trash delete'></i></a>"
             ] ).draw( false );
             contador++;
             $("#articulos").select2("val", "");
             $("#cantidad").val("");
+            $("#precio_unitario").val("");
             $("#articulos").select2("open");
         }
         else

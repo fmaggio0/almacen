@@ -17,7 +17,6 @@ class CrearSubareasTabla extends Migration
             $table->integer('id_area')->unsigned();
             $table->foreign('id_area')->references('id_area')->on('areas');
             $table->string('descripcion_subarea', 60);
-            $table->timestamps();
         });
     }
 

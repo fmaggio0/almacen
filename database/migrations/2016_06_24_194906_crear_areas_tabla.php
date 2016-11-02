@@ -15,7 +15,6 @@ class CrearAreasTabla extends Migration
         Schema::create('areas', function (Blueprint $table) {
             $table->increments('id_area');
             $table->string('descripcion_area', 60);
-            $table->timestamps();
         });
     }
 
