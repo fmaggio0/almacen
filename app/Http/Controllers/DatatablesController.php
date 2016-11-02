@@ -58,7 +58,7 @@ class DatatablesController extends Controller
     public function proveedorestable()
     {
         $articulos = DB::table('proveedores')
-            ->select(['proveedores.id_proveedor', 'proveedores.nombre', 'proveedores.direccion', 'proveedores.estado', 'proveedores.updated_at', 'proveedores.rubros', 'proveedores.email', 'proveedores.telefono', 'proveedores.observaciones']);
+            ->select(['proveedores.id_proveedor', 'proveedores.nombre', 'proveedores.direccion', 'proveedores.estado', 'proveedores.updated_at', 'proveedores.rubros', 'proveedores.email', 'proveedores.telefono', 'proveedores.observaciones', 'proveedores.cuit']);
 
         return Datatables::of($articulos)
             ->addColumn('action', function ($articulos) {
@@ -69,7 +69,7 @@ class DatatablesController extends Controller
                 }
                 else
                 {
-                    return '<a href="#" value="'.$articulos->id_proveedor.'" data-nombre="'.$articulos->nombre.'" data-direccion="'.$articulos->direccion.'" data-email="'.$articulos->email.'" data-telefono="'.$articulos->telefono.'" data-observaciones="'.$articulos->observaciones.'" data-rubros="'.$articulos->rubros.'" data-estado="'.$articulos->estado.'" class="btn btn-xs btn-primary edit"><i class="glyphicon glyphicon-edit edit"></i></a><a href="#" value="'.$articulos->id_proveedor.'" class="btn btn-xs btn-danger delete"><i class="glyphicon glyphicon-remove"></i></a>';
+                    return '<a href="#" value="'.$articulos->id_proveedor.'" data-nombre="'.$articulos->nombre.'" data-direccion="'.$articulos->direccion.'" data-email="'.$articulos->email.'" data-telefono="'.$articulos->telefono.'" data-observaciones="'.$articulos->observaciones.'" data-rubros="'.$articulos->rubros.'" data-estado="'.$articulos->estado.'" data-cuit="'.$articulos->cuit.'" class="btn btn-xs btn-primary edit"><i class="glyphicon glyphicon-edit edit"></i></a><a href="#" value="'.$articulos->id_proveedor.'" class="btn btn-xs btn-danger delete"><i class="glyphicon glyphicon-remove"></i></a>';
                 }
             })
             ->editColumn('estado', function($articulos){

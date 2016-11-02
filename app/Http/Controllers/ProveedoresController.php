@@ -27,6 +27,7 @@ class ProveedoresController extends Controller
             'direccion' => 'max:60',
             'email'    => 'max:60',
             'telefono' => 'max:60',
+            'cuit' => 'max:60',
             'observaciones' => 'max:255',
             'rubros' => 'max:255',
         ]);
@@ -65,6 +66,7 @@ class ProveedoresController extends Controller
             'direccion' => 'max:60',
             'email'    => 'max:60',
             'telefono' => 'max:60',
+            'cuit' => 'max:60',
             'observaciones' => 'max:255',
             'rubros' => 'max:255',
         ]);
@@ -78,6 +80,7 @@ class ProveedoresController extends Controller
         $update = Proveedores::findOrFail($id);
         $update->nombre             = $request->nombre;
         $update->direccion          = $request->direccion;
+        $update->cuit               = $request->cuit;
         $update->email              = $request->email;
         $update->telefono           = $request->telefono;
         $update->observaciones      = $request->observaciones;

@@ -22,6 +22,12 @@
                             {!! Form::text('direccion', null, array('class' => 'form-control add-direccion', 'required' => 'required')) !!}
                             </div>
                     </div>
+                    <div class="form-group">
+                            {!! Form::label(null, 'CUIT:', array('class' => 'control-label col-sm-4')) !!}
+                            <div class="col-sm-8">
+                            {!! Form::text('cuit', null, array('class' => 'form-control add-cuit', 'required' => 'required')) !!}
+                            </div>
+                    </div>
 					<div class="form-group">
 							{!! Form::label(null, 'E-Mail:', array('class' => 'control-label col-sm-4')) !!}
 							<div class="col-sm-8">
@@ -64,6 +70,7 @@
 
             $(".add-nombre").val("");
             $(".add-direccion").val("");
+            $(".add-cuit").val("");
             $(".add-email").val("");
             $(".add-telefono").val("");
             $(".add-observaciones").val("");
@@ -87,7 +94,7 @@
       $.ajax({
         type:"POST",
         url:'/proveedores/addproveedor',
-        data: {'nombre':$('.add-nombre').val(), 'direccion':$('.add-direccion').val(),'email':$('.add-email').val(),'telefono':$('.add-telefono').val(), 'observaciones':$('.add-observaciones').val(), 'rubros' : $('.add-rubros').select2().val().join(", "), '_token': $('input[name=_token]').val()},
+        data: {'nombre':$('.add-nombre').val(), 'direccion':$('.add-direccion').val(),'email':$('.add-email').val(),'telefono':$('.add-telefono').val(), 'observaciones':$('.add-observaciones').val(), 'cuit':$('.add-cuit').val() , 'rubros' : $('.add-rubros').select2().val().join(", "), '_token': $('input[name=_token]').val()},
         dataType: 'json',
         success: function(data)
         {

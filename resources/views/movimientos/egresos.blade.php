@@ -182,6 +182,8 @@
                         return {
                             id: item.id,
                             text: item.text+", "+item.nombre,
+                            cargo: item.cargo,
+                            sector: item.sector
                         };
                     });
                     return { results: data };
@@ -283,6 +285,15 @@
             $("#cantidad").attr('placeholder', data.stock+" "+data.unidad+"es disponibles" );
             $("#cantidad").attr('data-stock', data.stock);
         });
+
+        $("#empleados").on("select2:select", function(e) { 
+            data=$("#empleados").select2('data')[0];
+            $("#cargo").empty();
+            $("#sector").empty();
+            $("#cargo").append("Cargo: "+ data.cargo);
+            $("#sector").append("Sector: "+ data.sector);
+        });
+
 
 
         //Agregar articulos a datatable

@@ -22,6 +22,12 @@
                             {!! Form::text('direccion', null, array('class' => 'form-control edit-direccion', 'required' => 'required')) !!}
                             </div>
                     </div>
+                    <div class="form-group">
+                            {!! Form::label(null, 'CUIT:', array('class' => 'control-label col-sm-4')) !!}
+                            <div class="col-sm-8">
+                            {!! Form::text('cuit', null, array('class' => 'form-control edit-cuit', 'required' => 'required')) !!}
+                            </div>
+                    </div>
 					<div class="form-group">
 							{!! Form::label(null, 'E-Mail:', array('class' => 'control-label col-sm-4')) !!}
 							<div class="col-sm-8">
@@ -66,7 +72,7 @@
       $.ajax({
         type:"POST",
         url:'/proveedores/edit',
-        data: {'nombre':$('.edit-nombre').val(), 'direccion':$('.edit-direccion').val(),'email':$('.edit-email').val(),'telefono':$('.edit-telefono').val(), 'observaciones':$('.edit-observaciones').val(), 'rubros' : $('.edit-rubros').select2().val().join(", "), 'id_proveedor':$('.edit-id_proveedor').val(), '_token': $('input[name=_token]').val()},
+        data: {'nombre':$('.edit-nombre').val(), 'direccion':$('.edit-direccion').val(),'email':$('.edit-email').val(),'telefono':$('.edit-telefono').val(), 'observaciones':$('.edit-observaciones').val(), 'cuit':$('.edit-cuit').val() , 'rubros' : $('.edit-rubros').select2().val().join(", "), 'id_proveedor':$('.edit-id_proveedor').val(), '_token': $('input[name=_token]').val()},
         dataType: 'json',
         success: function(data)
         {

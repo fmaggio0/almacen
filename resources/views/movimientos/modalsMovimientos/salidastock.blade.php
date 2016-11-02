@@ -50,6 +50,10 @@
 					<div class="col-sm-4" id="empleados_error">
 						{!! Form::select('', array('' => ''), null ,array('id' => 'empleados', 'class'=>' form-control', 'style' => 'width: 100%')) 
                         !!}
+                        <div style="position: absolute;">
+	                        <p class="help-block" id="sector"></p>
+	                        <p class="help-block" id="cargo"></p>
+                        </div>
 					</div>
 				</div>
 				<div class="form-group" id="cantidad_error">

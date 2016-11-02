@@ -57,7 +57,6 @@
 
     <!-- Incluir Formulario -->
     @include('movimientos.modalsMovimientos.ingresostock')
-
     <!-- Crear nuevo articulo -->
     @include('configuraciones.modalsArticulos.create')
     <!-- Crear nuevo proveedor -->

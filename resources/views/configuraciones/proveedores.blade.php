@@ -27,6 +27,7 @@
                             <th>ID</th>
                             <th>Proveedor</th>
                             <th>Dirección</th>
+                            <th>CUIT</th>
                             <th>E-Mail</th>
                             <th>Telefono</th>
                             <th>Observaciones</th>
@@ -61,6 +62,7 @@
                     {data: 'id_proveedor', name: 'proveedores.id_proveedor', visible: false, orderable: false, searchable: false},
                     {data: 'nombre', name: 'proveedores.nombre'},
                     {data: 'direccion', name: 'proveedores.direccion'},
+                    {data: 'cuit', name: 'proveedores.cuit'},
                     {data: 'email', name: 'proveedores.email'},
                     {data: 'telefono', name: 'proveedores.telefono'},
                     {data: 'observaciones', name: 'proveedores.observaciones'},
@@ -104,6 +106,7 @@
                     var id = $(this).attr('value');
                     var observaciones = $(this).data('observaciones');
                     var rubros = $(this).data('rubros');
+                    var cuit = $(this).data('cuit');
 
                     if(rubros){
                         var rubros2 = rubros.split(', ');
@@ -111,6 +114,7 @@
 
                     $(".edit-nombre").val( nombre ).trigger("change");
                     $(".edit-direccion").val( direccion ).trigger("change");
+                    $(".edit-cuit").val( cuit ).trigger("change");
                     $(".edit-email").val( email ).trigger("change");
                     $(".edit-telefono").val( telefono ).trigger("change");
                     $(".edit-observaciones").val( observaciones ).trigger("change");

@@ -47,7 +47,8 @@ class AjaxController extends Controller
     public function getEmpleados(Request  $request){
     	$term = $request->term ?: '';
     	$empleados = Empleados::where('Apellido', 'like', $term.'%')
-	    	->select('Apellido AS text', 'Nro_Legajo AS id', 'Nombres as nombre')
+            ->join('tfuncion', 'tpersonal.Cod_Funcion', '=', 'tfuncion.Cod_Funcion')
+	    	->select('Apellido AS text', 'Nro_Legajo AS id', 'Nombres as nombre', 'Grupos_Registracion as sector', 'tfuncion.Dsc_Funcion as cargo')
 	   	 	->get();
 
     	return Response::json($empleados);
