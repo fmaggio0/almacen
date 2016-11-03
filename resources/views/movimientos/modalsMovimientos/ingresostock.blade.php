@@ -185,9 +185,6 @@
                 .reduce( function (a, b) {
                     return intVal(a) + intVal(b);
                 }, 0 );
-
-            console.log(total);
- 
             // Update footer
             $( api.column( 5 ).footer() ).html(
                 "Total: $"+total+"<input type='hidden' name='total_factura' value='"+total+"'>"
@@ -212,7 +209,7 @@
                 articulos+"<input type='hidden' name='articulos[]' value='"+articulosid+"'>",
                 cantidad+"<input type='hidden' name='cantidad[]' value='"+cantidad+"'>",
                 precio_unitario + "<input type='hidden' name='precio_unitario[]' value='"+precio_unitario+"'>",
-                importe,
+                "$ "+importe,
                 "<a class='btn botrojo btn-xs' href='#'><i class='glyphicon glyphicon-trash delete'></i></a>"
             ] ).draw( false );
             contador++;

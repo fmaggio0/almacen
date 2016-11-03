@@ -91,7 +91,7 @@ class DatatablesController extends Controller
         $ingresos = DB::table('ingresos_master')
             ->join('ingresos_detalles', 'ingresos_master.id_master', '=', 'ingresos_detalles.id_master')
             ->join('articulos', 'articulos.id_articulo', '=', 'ingresos_detalles.id_articulo')
-            ->join('proveedores', 'ingresos_master.id_proveedor', '=', 'proveedores.id_proveedor')
+            ->leftJoin('proveedores', 'ingresos_master.id_proveedor', '=', 'proveedores.id_proveedor')
             ->join('users', 'ingresos_master.id_usuario', '=', 'users.id')
             ->select(['ingresos_master.id_master as id_master', 'ingresos_master.tipo_ingreso', 'ingresos_master.tipo_comprobante', 'ingresos_master.nro_comprobante','ingresos_master.descripcion', 'proveedores.nombre as proveedor', 'ingresos_master.updated_at', 'users.name', 'ingresos_master.estado as estado'])
             ->distinct();

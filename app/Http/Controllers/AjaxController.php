@@ -87,12 +87,24 @@ class AjaxController extends Controller
     }
 
     public function getDetallesIngresos($id){
-        $detalles=DB::table('ingresos_detalles')
+
+        $master = DB::table('ingresos_master')
+            ->where('id_master', '=', $id )
+            ->select('total_factura', 'tipo_ingreso')
+            ->get();
+
+        $detalles = DB::table('ingresos_detalles')
             ->where('id_master', '=', $id )
             ->join('articulos', 'ingresos_detalles.id_articulo', '=', 'articulos.id_articulo')
-            ->select('articulos.descripcion as Articulo', 'ingresos_detalles.cantidad as Cantidad')
+            ->select('articulos.descripcion as Articulo', 'ingresos_detalles.cantidad as Cantidad', 'precio_unitario')
             ->get();
-        return Response::json($detalles);
+
+        $data[] = array(
+           'master' => $master,
+           'detalles' => $detalles
+        );
+
+        return Response::json($data);
     }
 
     public function getDetallesSalidas($id){

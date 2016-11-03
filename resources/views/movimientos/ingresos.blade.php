@@ -128,25 +128,48 @@
                     callback($('<div align="center">Cargando...</div>')).show();
                 },
                 complete: function (response) {
-                    var data = JSON.parse(response.responseText);   
-                    var thead = '',  tbody = '';
-                    thead += '<th>#</th>';
-                    thead += '<th>Articulo</th>'; 
-                    thead += '<th>Cantidad ingresada</th>'; 
 
-                    count = 1;
-                    $.each(data, function (i, d) {
-                        tbody += '<tr><td>'+ count +'</td><td>' + d.Articulo + '</td><td>'+ d.Cantidad+'</td></tr>';
-                        count++;
-                    });
-                    callback($('<table class="table table-hover">' + thead + tbody + '</table>')).show();
+
+                    //METER IF PARA LOS AJUSTE DE STOCK
+
+                    var data = JSON.parse(response.responseText);
+
+                    if(data[0].master[0].tipo_ingreso == "Ajuste de stock"){
+                        var thead = '',  tbody = '';
+                        thead += '<th>#</th>';
+                        thead += '<th>Articulo</th>'; 
+                        thead += '<th>Cantidad ingresada</th>'; 
+
+                        count = 1;
+                        $.each(data[0].detalles, function (i, d) {
+                            var importe = d.Cantidad * d.precio_unitario;
+                            tbody += '<tr><td>'+ count +'</td><td>' + d.Articulo + '</td><td>'+ d.Cantidad+'</td></tr>';
+                            count++;
+                        });
+                        callback($('<div class="panel panel-default" style="width: 70%;margin: auto;"><div class="panel-heading"><h3 class="panel-title"><strong>Desglose del movimiento</strong></h3></div><div class="panel-body"><table class="table">' + thead + tbody + '</table></div></div>')).show();
+                    }
+                    else{
+                        var thead = '',  tbody = '';
+                        thead += '<th>#</th>';
+                        thead += '<th>Articulo</th>'; 
+                        thead += '<th>Cantidad ingresada</th>'; 
+                        thead += '<th>Precio unitario</th>';
+                        thead += '<th>Importe</th>';  
+
+                        count = 1;
+                        $.each(data[0].detalles, function (i, d) {
+                            var importe = d.Cantidad * d.precio_unitario;
+                            tbody += '<tr><td>'+ count +'</td><td>' + d.Articulo + '</td><td>'+ d.Cantidad+'</td><td> $ '+ d.precio_unitario+'</td><td> $ '+ importe+'</td></tr>';
+                            count++;
+                        });
+                        callback($('<div class="panel panel-default" style="width: 70%;margin: auto;"><div class="panel-heading"><h3 class="panel-title"><strong>Desglose del movimiento</strong></h3></div><div class="panel-body"><table class="table">' + thead + tbody + '<tr class="thick-line"><td></td><td></td><td></td><td><strong>Total:</strong></td><td>$ '+data[0].master[0].total_factura+'</td></tr></table></div></div>')).show();
+                    }
                 },
                 error: function () {
                     callback($('<div align="center">Ha ocurrido un error. Intente nuevamente y si persigue el error, contactese con informática.</div>')).show();
                 }
             });
         }
-
         //Activar modal salidas de stock
         $('#addsalida').click(function(){
             $("#ingresostock").modal(); 
@@ -156,8 +179,6 @@
         $("#cerraringreso").click(function() {
             $('#ingresostock').modal('hide');
         });
-
-        //Datatable para modal salidas de stock(Articulos agregados)
 
     });
     </script>
