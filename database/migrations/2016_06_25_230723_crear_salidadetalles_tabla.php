@@ -23,6 +23,7 @@ class CrearSalidadetallesTabla extends Migration
             $table->foreign('id_articulo')->references('id_articulo')->on('articulos');
             $table->integer('id_empleado');
             $table->integer('cantidad');
+            $table->timestamps();
         });
     }
 

@@ -112,10 +112,11 @@
                     thead += '<th>Articulo solicitado</th>'; 
                     thead += '<th>Empleado solicitante</th>'; 
                     thead += '<th>Cantidad solicitada</th>'; 
+                    thead += '<th>Ultima vez que se le entrego el mismo articulo</th>'; 
 
                     count = 1;
                     $.each(data, function (i, d) {
-                        tbody += '<tr><td>'+ count +'</td><td>' + d.Articulo + '</td><td>' + d.Apellido + ', '+ d.Nombre+ '</td><td>'+ d.Cantidad+'</td></tr>';
+                        tbody += '<tr><td>'+ count +'</td><td>' + d.Articulo + '</td><td>' + d.Apellido + ', '+ d.Nombre+ '</td><td>'+ d.Cantidad+'</td><td>'+ d.ultimo_entregado+'</td></tr>';
                         count++;
                     });
                     callback($('<table class="table table-hover">' + thead + tbody + '</table>')).show();
@@ -228,8 +229,9 @@
                         {
                             $("#tabla-salidastock").DataTable().row.add( [
                             json[i].descripcion+"<input type='hidden' name='articulos[]' value='"+json[i].id_articulo+"'>",
-                             json[i].cantidad+"<input type='hidden' name='cantidad[]' value='"+json[i].cantidad+"'>",
+                            json[i].cantidad+"<input type='hidden' name='cantidad[]' value='"+json[i].cantidad+"'>",
                             json[i].Apellido+", "+json[i].Nombres+"<input type='hidden' name='empleados[]' value='"+json[i].id_empleado+"'>",
+                            json[i].ultimo_entregado,
                             "<a class='btn botrojo btn-xs' href='#'><i class='glyphicon glyphicon-trash delete'></i></a>"
                             ] ).draw( false );
                         }
