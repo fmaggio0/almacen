@@ -45,8 +45,8 @@
                         <th>Nro de comprobante</th>
                         <th>Descripcion</th>
                         <th>Proveedor</th>
-                        <th>Fecha</th>
-                        <th>Usuario</th>
+                        <th>Fecha de la factura</th>
+                        <th>Fecha de registro</th>
                         <th>Estado</th>
                         <th>Acciones</th>
                     </tr>
@@ -96,8 +96,8 @@
                 {data: 'nro_comprobante', name: 'ingresos_master.nro_comprobante'},
                 {data: 'descripcion', name: 'ingresos_master.descripcion'},
                 {data: 'proveedor', name: 'proveedores.nombre'},
-                {data: 'updated_at', name: 'ingresos_master.updated_at'},
-                {data: 'name', name: 'users.name'},
+                {data: 'fecha_factura', name: 'ingresos_master.fecha_factura'},
+                {data: 'created_at', name: 'ingresos_master.created_at'},
                 {data: 'estado', name: 'ingresos_master.estado'},
                 {data: 'action', name: 'action' , orderable: false, searchable: false},
                 //Add column extra para obtener el id de la salida en limpio

@@ -36,7 +36,7 @@
 				</div>
 				{!! Form::label(null, 'Fecha de la Factura:', array('class' => 'control-label col-sm-2')) !!}
 				<div class="col-sm-4">
-                    <input name="fecha" class="form-control" min="2010-01-01" max="{{ \Carbon\Carbon::now()->toDateString() }}" style="width: 100%"  type="date">
+                    <input name="fecha" class="form-control" min="2010-01-01" max="{{ \Carbon\Carbon::now()->toDateString() }}" style="width: 100%"  type="date" required>
 				</div>
 					
 				

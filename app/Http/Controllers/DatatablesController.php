@@ -93,7 +93,7 @@ class DatatablesController extends Controller
             ->join('articulos', 'articulos.id_articulo', '=', 'ingresos_detalles.id_articulo')
             ->leftJoin('proveedores', 'ingresos_master.id_proveedor', '=', 'proveedores.id_proveedor')
             ->join('users', 'ingresos_master.id_usuario', '=', 'users.id')
-            ->select(['ingresos_master.id_master as id_master', 'ingresos_master.tipo_ingreso', 'ingresos_master.tipo_comprobante', 'ingresos_master.nro_comprobante','ingresos_master.descripcion', 'proveedores.nombre as proveedor', 'ingresos_master.updated_at', 'users.name', 'ingresos_master.estado as estado'])
+            ->select(['ingresos_master.id_master as id_master', 'ingresos_master.tipo_ingreso', 'ingresos_master.tipo_comprobante', 'ingresos_master.nro_comprobante','ingresos_master.descripcion', 'proveedores.nombre as proveedor', 'ingresos_master.created_at', 'ingresos_master.fecha_factura', 'ingresos_master.estado as estado'])
             ->distinct();
 
         return Datatables::of($ingresos)
@@ -273,7 +273,10 @@ class DatatablesController extends Controller
             ->join('personal_prod.tpersonal as empleados', 'empleados.Nro_Legajo', '=', 'autorizaciones_detalles.id_empleado')
             ->select('articulos.id_articulo', 'articulos.descripcion','autorizaciones_detalles.id_empleado', 'empleados.Nombres','empleados.Apellido', 'autorizaciones_detalles.cantidad' )
             ->get();
-        return Response::json($detalles);
+
+        $id =  $detalles;
+
+        return Response::json($id);
     }
     public function salidasmodaledit($id)
     {

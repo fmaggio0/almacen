@@ -57,6 +57,7 @@ class MovimientosController extends Controller
             $master->id_proveedor = $request->id_proveedor;
             $master->id_usuario = $request->id_usuario;
             $master->total_factura = $request->total_factura;
+            $master->fecha_factura = $request->fecha;
             $master->estado = 1;
 
 
