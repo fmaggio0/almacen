@@ -16,7 +16,7 @@
 
     <div class="box">
         <div class="box-body">
-            <table id="tabla-movimientos" class="table table-striped table-bordered"  cellspacing="0" width="100%">
+            <table id="tabla-movimientos" class="table table-bordered"  cellspacing="0" width="100%">
                 <thead>
                     <tr>
                         <th></th>
@@ -48,9 +48,6 @@
             "processing": true,
             "serverSide": true,
             "ajax": "/datatables/autorizaciones",
-            "error": function () {
-                alert( 'Custom error' );
-              },
             "columns":[
                 {
                     className:      'details-control',
@@ -72,8 +69,26 @@
 
             ],
             "order": [ 5, "desc" ],
-            language: {
+            "language": {
                 url: "{!! asset('/plugins/datatables/lenguajes/spanish.json') !!}"
+            },
+            "drawCallback": function ( settings ) {
+                var api = this.api();
+                var rows = api.rows( {page:'current'} ).nodes();
+                var last=null;
+     
+                api.column(4, {page:'current'} ).data().each( function ( group, i ) {
+                    if ( last !== group ) {
+                        $(rows).eq( i ).before(
+                            '<tr class="group"><td colspan="9" style="background-color: #bdbdbd;">'+group+'</td></tr>'
+                        );
+     
+                        last = group;
+                    }
+                });
+            },
+            "error": function () {
+                alert( 'Custom error' );
             }
         });
         //FIN DATATABLE MASTER-----------------------------------------------------------------------------------------
@@ -108,18 +123,21 @@
                 complete: function (response) {
                     var data = JSON.parse(response.responseText);   
                     var thead = '',  tbody = '';
-                    thead += '<th>#</th>';
                     thead += '<th>Articulo solicitado</th>'; 
                     thead += '<th>Empleado solicitante</th>'; 
                     thead += '<th>Cantidad solicitada</th>'; 
-                    thead += '<th>Ultima vez que se le entrego el mismo articulo</th>'; 
+                    thead += '<th>Ultima entrega del articulo</th>';
+                    thead += '<th>Autorizar o modificar</th>';
 
-                    count = 1;
                     $.each(data, function (i, d) {
-                        tbody += '<tr><td>'+ count +'</td><td>' + d.Articulo + '</td><td>' + d.Apellido + ', '+ d.Nombre+ '</td><td>'+ d.Cantidad+'</td><td>'+ d.ultimo_entregado+'</td></tr>';
-                        count++;
+                        if(d.ultimo_entregado){
+                            tbody += '<tr><td class="articulo" data-id="'+d.id_articulo+'">' + d.descripcion + '</td><td class="empleado">' + d.Apellido + ', '+ d.Nombres+ '</td><td class="cantidad">'+ d.cantidad+'</td><td class="ultimo_entregado">'+ d.ultimo_entregado+'</td><td> <input type="checkbox" name="autorizar" id="autorizar"><a href="#" class="btn btn-xs btn-primary editar_movimiento" style="float: right;"><i class="glyphicon glyphicon-edit edit"></i></a></td></tr>';
+                        }
+                        else{
+                            tbody += '<tr><td>' + d.descripcion + '</td><td>' + d.Apellido + ', '+ d.Nombres+ '</td><td>'+ d.cantidad+'</td><td> Nunca</td><td> <input type="checkbox" name="autorizar"><a href="#" class="btn btn-xs btn-primary editar_movimiento" style="float: right;"><i class="glyphicon glyphicon-edit edit"></i></a></td></tr>';
+                        }
                     });
-                    callback($('<table class="table table-hover">' + thead + tbody + '</table>')).show();
+                    callback($('<div class="panel panel-default" style="width: 70%;margin: auto;"><div class="panel-heading"><h3 class="panel-title"><strong>Desglose del movimiento</strong></h3></div><div class="panel-body"><table class="table">' + thead + tbody + '</table></div></div>')).show();
                 },
                 error: function () {
                     callback($('<div align="center">Ha ocurrido un error. Intente nuevamente y si persigue el error, contactese con informática.</div>')).show();
@@ -127,6 +145,67 @@
             });
         }
 
+        $(document).on('click', '.editar_movimiento', function(){
+
+            $fila = $(this).closest("tr");
+            $fila.css('text-decoration','line-through'); 
+
+            $articulo = $(this).closest("tr").find('td.articulo').html();
+            $id_articulo = $(this).closest("tr").find('td.articulo').data("id");
+            $empleado = $(this).closest("tr").find('td.empleado').html();
+            $cantidad = $(this).closest("tr").find('td.cantidad').html();
+            $ultimo_entregado = $(this).closest("tr").find('td.ultimo_entregado').html();
+
+            $('<tr><td><select class="articulos" style="width: 100%"></select></td><td>'+$empleado+'</td><td><input class="cantidad" class="form-control" placeholder="Stock actual" min="1" type="number"></td><td>'+$ultimo_entregado+'</td><td><input type="checkbox" name="autorizar" id="autorizar"></td></tr>').insertAfter($fila);
+            Iniciarselectarticulos();
+
+            $(".articulos").select2("trigger", "select", {
+                data: { id: $id_articulo, text: $articulo }
+            });
+        
+            $(".articulos").on("select2:selecting", function() {
+                alert("hola");
+            });
+        });
+        function Iniciarselectarticulos()
+        {
+            if($('.articulos').length) {
+                $(".articulos").select2({
+                    minimumInputLength: 2,
+                    minimumResultsForSearch: 10,
+                    language: "es",
+                    placeholder: "Seleccione un articulo",
+                    allowClear: true,
+                    tokenSeparators: [','],
+                    ajax:   
+                        {
+                            url: "/ajax/articulos",
+                            dataType: 'json',
+                            delay: 300,
+                            data: function(params) {
+                                return {
+                                    term: params.term
+                                }
+                            },
+                            processResults: function (data) {
+                                 data = data.map(function (item) {
+                                    return {
+                                        id: item.id,
+                                        text: item.text,
+                                        stock: item.stock_actual,
+                                        unidad: item.unidad
+
+                                    };
+                                });
+                                return { results: data };
+                            },
+                            cache: true
+                        }
+                });
+
+            }
+        } 
+        
         //FIN FUNCION INICIAR TABLA DETALLES---------------------------------------------------------------------------
            
         //MODAL EDIT---------------------------------------------------------------------------------------------------
@@ -174,38 +253,7 @@
                     }
             });
 
-            $("#articulos").select2({
-                minimumInputLength: 2,
-                minimumResultsForSearch: 10,
-                language: "es",
-                placeholder: "Seleccione un articulo",
-                allowClear: true,
-                tokenSeparators: [','],
-                ajax:   
-                    {
-                        url: "/ajax/articulos",
-                        dataType: 'json',
-                        delay: 300,
-                        data: function(params) {
-                            return {
-                                term: params.term
-                            }
-                        },
-                        processResults: function (data) {
-                             data = data.map(function (item) {
-                                return {
-                                    id: item.id,
-                                    text: item.text,
-                                    stock: item.stock_actual,
-                                    unidad: item.unidad
-
-                                };
-                            });
-                            return { results: data };
-                        },
-                        cache: true
-                    }
-            });
+            
 
             //fin select2 modal edit-----------------------------------------------------------------------------------
 
@@ -223,17 +271,29 @@
                     $("#tipo_retiro").val(filadata.tipo_retiro);
 
                     $ ("#view_autorizacion").modal();
-                    $.getJSON("/datatables/autorizaciones-detalles-modal/"+filadata.id_master, function (json) { //para modal edit y add
+                    $.getJSON("/ajax/autorizaciones-detalles-modal/"+filadata.id_master, function (json) { //para modal edit y add
                         $("#tabla-salidastock").DataTable().clear();
                         for (var i=0;i<json.length;++i)
                         {
-                            $("#tabla-salidastock").DataTable().row.add( [
-                            json[i].descripcion+"<input type='hidden' name='articulos[]' value='"+json[i].id_articulo+"'>",
-                            json[i].cantidad+"<input type='hidden' name='cantidad[]' value='"+json[i].cantidad+"'>",
-                            json[i].Apellido+", "+json[i].Nombres+"<input type='hidden' name='empleados[]' value='"+json[i].id_empleado+"'>",
-                            json[i].ultimo_entregado,
-                            "<a class='btn botrojo btn-xs' href='#'><i class='glyphicon glyphicon-trash delete'></i></a>"
-                            ] ).draw( false );
+                            if(json[i].ultimo_entregado){
+                                $("#tabla-salidastock").DataTable().row.add( [
+                                    json[i].descripcion+"<input type='hidden' name='articulos[]' value='"+json[i].id_articulo+"'>",
+                                    json[i].cantidad+"<input type='hidden' name='cantidad[]' value='"+json[i].cantidad+"'>",
+                                    json[i].Apellido+", "+json[i].Nombres+"<input type='hidden' name='empleados[]' value='"+json[i].id_empleado+"'>",
+                                    json[i].ultimo_entregado,
+                                    "<a class='btn botrojo btn-xs' href='#'><i class='glyphicon glyphicon-trash delete'></i></a>"
+                                ] ).draw( false );
+                            } 
+                            else{
+                                $("#tabla-salidastock").DataTable().row.add( [
+                                    json[i].descripcion+"<input type='hidden' name='articulos[]' value='"+json[i].id_articulo+"'>",
+                                    json[i].cantidad+"<input type='hidden' name='cantidad[]' value='"+json[i].cantidad+"'>",
+                                    json[i].Apellido+", "+json[i].Nombres+"<input type='hidden' name='empleados[]' value='"+json[i].id_empleado+"'>",
+                                    "Nunca",
+                                    "<a class='btn botrojo btn-xs' href='#'><i class='glyphicon glyphicon-trash delete'></i></a>"
+                                ] ).draw( false );
+                            }
+                            
                         }
                             
                     });

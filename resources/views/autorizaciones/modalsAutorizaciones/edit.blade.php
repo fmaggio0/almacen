@@ -78,7 +78,7 @@
 			                            <th>Articulo</th>
 			                            <th>Cantidad</th>
 			                            <th>Retirado por</th>
-			                            <th>Ultimo articulo entregado</th>
+			                            <th>Ultima entrega del articulo</th>
 			                            <th>Acciones</th>
 			                        </tr>
 			                    </thead>

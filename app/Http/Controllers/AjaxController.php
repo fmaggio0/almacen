@@ -75,6 +75,17 @@ class AjaxController extends Controller
         return Response::json($tags);
     }
 
+    public function getUltimoRetiroPorEmpleado($id_articulo, $id_empleado)
+    {
+        $asd=DB::table('salidas_detalles')
+            ->where('id_articulo', '=', $id_articulo)
+            ->where('id_empleado', '=', $id_empleado)
+            ->select('salidas_detalles.created_at')
+            ->orderBy('salidas_detalles.created_at', 'desc')
+            ->first();
+        return Response::json($asd);
+    }
+
     public function getProveedores(Request $request)
     {
         $term = $request->term ?: '';
@@ -122,9 +133,41 @@ class AjaxController extends Controller
             ->where('id_master', '=', $id )
             ->join('articulos', 'autorizaciones_detalles.id_articulo', '=', 'articulos.id_articulo')
             ->join('personal_prod.tpersonal as empleados', 'autorizaciones_detalles.id_empleado', '=', 'empleados.Nro_Legajo')
-            ->select('articulos.descripcion as Articulo', 'empleados.Nombres as Nombre','empleados.Apellido as Apellido', 'autorizaciones_detalles.cantidad as Cantidad')
+            ->select('articulos.id_articulo', 'articulos.descripcion','autorizaciones_detalles.id_empleado', 'empleados.Nombres','empleados.Apellido', 'autorizaciones_detalles.cantidad')
             ->get();
-        return Response::json($detalles);
+
+        foreach ($detalles as $detalle) {
+            $asd=DB::table('salidas_detalles')
+                ->where('id_articulo', '=', $detalle->id_articulo)
+                ->where('id_empleado', '=', $detalle->id_empleado)
+                ->select('salidas_detalles.created_at')
+                ->orderBy('salidas_detalles.created_at', 'desc')
+                ->first();
+
+            if($asd === null){
+                $data[] = array(
+                   'Apellido' => $detalle->Apellido,
+                   'Nombres' => $detalle->Nombres,
+                   'cantidad' => $detalle->cantidad,
+                   'descripcion' => $detalle->descripcion,
+                   'id_articulo' => $detalle->id_articulo,
+                   'id_empleado' => $detalle->id_empleado,
+                );
+            }
+            else{
+                $data[] = array(
+                   'Apellido' => $detalle->Apellido,
+                   'Nombres' => $detalle->Nombres,
+                   'cantidad' => $detalle->cantidad,
+                   'descripcion' => $detalle->descripcion,
+                   'id_articulo' => $detalle->id_articulo,
+                   'id_empleado' => $detalle->id_empleado,
+                   'ultimo_entregado' => $asd->created_at,
+                );
+            }  
+        }
+
+        return Response::json($data);
     }
     /*public function getDetallesSalidas($id){
         $detalles= DB::connection('personal')->table('tpersonal')

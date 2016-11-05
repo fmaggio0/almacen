@@ -70,6 +70,8 @@ Route::get('/ajax/subareas', ['uses' => 'AjaxController@getSubareas']);
 
 Route::get('/ajax/articulos', ['uses' => 'AjaxController@getArticulos']);
 
+Route::get('/ajax/articulos/{id}', ['uses' => 'AjaxController@getArticulosxid']);
+
 Route::get('/ajax/proveedores', ['uses' => 'AjaxController@getProveedores']);
 
 Route::get('/ajax/ingresostabledetails/{id}', ['uses' => 'AjaxController@getDetallesIngresos']);
@@ -77,6 +79,8 @@ Route::get('/ajax/ingresostabledetails/{id}', ['uses' => 'AjaxController@getDeta
 Route::get('/ajax/salidastabledetails/{id}', ['uses' => 'AjaxController@getDetallesSalidas']);
 
 Route::get('/ajax/autorizacionestabledetails/{id}', ['uses' => 'AjaxController@getDetallesAutorizaciones']);
+
+Route::get('/ajax/autorizaciones-detalles-modal/{id}', ['uses' => 'AjaxController@getDetallesAutorizaciones']);
 
 //RUTAS DATATABLES
 
@@ -93,7 +97,5 @@ Route::get('/datatables/articulos', ['uses' => 'DatatablesController@articulosta
 Route::get('/datatables/proveedores', ['uses' => 'DatatablesController@proveedorestable']);
 
 Route::get('/datatables/autorizaciones', ['uses' => 'DatatablesController@autorizacionesadmin']);
-
-Route::get('/datatables/autorizaciones-detalles-modal/{id}', ['uses' => 'DatatablesController@autorizaciondetallesmodal']);
 
 Route::get('/datatables/salidas-modal-edit/{id}', ['uses' => 'DatatablesController@salidasmodaledit']);

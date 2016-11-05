@@ -237,6 +237,9 @@ class DatatablesController extends Controller
             ->distinct();
 
         return Datatables::of($salidas)
+            ->addColumn('action', function ($articulos) {
+                return '<a href="#" class="btn btn-xs btn-primary edit"><i class="glyphicon glyphicon-edit edit"></i></a>';
+            })
             ->editColumn('estado', function($salidas){
                 if( $salidas->estado == 0 )
                 {
@@ -255,46 +258,9 @@ class DatatablesController extends Controller
                     return "<span class='label label-label-danger'>Rechazado</span>";
                 }
             })
-            ->addColumn('action', function ($salidas) {
-
-                if($salidas->estado == 0)
-                {
-                    return "<a href='#' class='btn btn-xs btn-primary edit'><i class='glyphicon glyphicon-search edit'></i></a>";
-                }
-            })
             ->make(true);
     }
 
-    public function autorizaciondetallesmodal($id)
-    {
-        $detalles=DB::table('autorizaciones_detalles')
-            ->where('id_master', '=', $id)
-            ->join('articulos', 'articulos.id_articulo', '=', 'autorizaciones_detalles.id_articulo')
-            ->join('personal_prod.tpersonal as empleados', 'empleados.Nro_Legajo', '=', 'autorizaciones_detalles.id_empleado')
-            ->select('articulos.id_articulo', 'articulos.descripcion','autorizaciones_detalles.id_empleado', 'empleados.Nombres','empleados.Apellido', 'autorizaciones_detalles.cantidad' )
-            ->get();
-
-        foreach ($detalles as $detalle) {
-            $asd=DB::table('salidas_detalles')
-                ->where('id_articulo', '=', $detalle->id_articulo)
-                ->where('id_empleado', '=', $detalle->id_empleado)
-                ->select('salidas_detalles.created_at')
-                ->orderBy('salidas_detalles.created_at', 'desc')
-                ->first();
-
-            $data[] = array(
-               'Apellido' => $detalle->Apellido,
-               'Nombres' => $detalle->Nombres,
-               'cantidad' => $detalle->cantidad,
-               'descripcion' => $detalle->descripcion,
-               'id_articulo' => $detalle->id_articulo,
-               'id_empleado' => $detalle->id_empleado,
-               'ultimo_entregado' => $asd->created_at,
-            );
-        }
-
-        return Response::json($data);
-    }
     public function salidasmodaledit($id)
     {
         $detalles=DB::table('salidas_detalles')
