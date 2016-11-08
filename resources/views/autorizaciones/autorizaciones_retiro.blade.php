@@ -127,50 +127,135 @@
                     thead += '<th>Empleado solicitante</th>'; 
                     thead += '<th>Cantidad solicitada</th>'; 
                     thead += '<th>Ultima entrega del articulo</th>';
-                    thead += '<th>Autorizar o modificar</th>';
+                    thead += '<th>Acciones</th>';
+                    thead += '<th>Estado</th>';
 
                     $.each(data, function (i, d) {
                         if(d.ultimo_entregado){
-                            tbody += '<tr><td class="articulo" data-id="'+d.id_articulo+'">' + d.descripcion + '</td><td class="empleado">' + d.Apellido + ', '+ d.Nombres+ '</td><td class="cantidad">'+ d.cantidad+'</td><td class="ultimo_entregado">'+ d.ultimo_entregado+'</td><td> <input type="checkbox" name="autorizar" id="autorizar"><a href="#" class="btn btn-xs btn-primary editar_movimiento" style="float: right;"><i class="glyphicon glyphicon-edit edit"></i></a></td></tr>';
+                            tbody += '<tr><td class="articulo" data-id="'+d.id_articulo+'">' + d.descripcion + '</td><td class="empleado" data-id="'+d.id_empleado+'">' + d.Apellido + ', '+ d.Nombres+ '</td><td class="cantidad">'+ d.cantidad+'</td><td class="ultimo_entregado">'+ d.ultimo_entregado+'</td><td><div class="btn-group" data-toggle="buttons"><label class="btn btn-danger noautorizar_movimiento"><input type="radio" name="options" id="option1" autocomplete="off" checked> No autorizado</label><label class="btn btn-success autorizar_movimiento"><input type="radio" name="options" id="option2" autocomplete="off"> Autorizado</label><label class="btn btn-info editar_movimiento"><input type="radio" class="editar_movimiento" name="options" id="option3" autocomplete="off"> Modificar</label></div></td><td class="estado"></td></tr>';
                         }
                         else{
-                            tbody += '<tr><td>' + d.descripcion + '</td><td>' + d.Apellido + ', '+ d.Nombres+ '</td><td>'+ d.cantidad+'</td><td> Nunca</td><td> <input type="checkbox" name="autorizar"><a href="#" class="btn btn-xs btn-primary editar_movimiento" style="float: right;"><i class="glyphicon glyphicon-edit edit"></i></a></td></tr>';
+                            tbody += '<tr><td class="articulo" data-id="'+d.id_articulo+'">' + d.descripcion + '</td><td class="empleado" data-id="'+d.id_empleado+'">' + d.Apellido + ', '+ d.Nombres+ '</td><td class="cantidad">'+ d.cantidad+'</td><td class="ultimo_entregado"> Nunca</td><td><div class="btn-group" data-toggle="buttons"><label class="btn btn-danger noautorizar_movimiento"><input type="radio" name="options" id="option1" autocomplete="off" checked> No autorizado</label><label class="btn btn-success autorizar_movimiento"><input type="radio" name="options" id="option2" autocomplete="off"> Autorizado</label><label class="btn btn-info editar_movimiento"><input type="radio" name="options" id="option3" autocomplete="off"> Modificar</label></div><td class="estado"></td></tr>';
                         }
                     });
-                    callback($('<div class="panel panel-default" style="width: 70%;margin: auto;"><div class="panel-heading"><h3 class="panel-title"><strong>Desglose del movimiento</strong></h3></div><div class="panel-body"><table class="table">' + thead + tbody + '</table></div></div>')).show();
+                    callback($('<div class="panel panel-default" style="width: 80%;margin: auto;"><div class="panel-heading"><h3 class="panel-title"><strong>Desglose del movimiento</strong></h3></div><div class="panel-body"><table id="tabla-'+data[0].id_master+'" class="table">' + thead + tbody + '</table></div><div class="panel-footer" style="text-align: right;"><input class="btn btn btn-primary guardar" data-id="'+data[0].id_master+'" name="guardar" type="submit" value="Guardar"></div></div>')).show();
                 },
                 error: function () {
                     callback($('<div align="center">Ha ocurrido un error. Intente nuevamente y si persigue el error, contactese con informática.</div>')).show();
                 }
             });
         }
+        var count = 0;
+        $(document).on('click', '.noautorizar_movimiento', function(){
+            $fila = $(this).closest("tr");
+            $fila.css('text-decoration','line-through');
+            $(this).closest("tr").find('td.estado').html("<i class='glyphicon glyphicon-remove'></i>");
+        });
+        $(document).on('click', '.autorizar_movimiento', function(){
+            fila = $(this).closest("tr");
+            id = $(this).closest('tr').data('id-fila');
+            cantidad_td = $(this).closest("tr").find('td.cantidad').html();
+            cantidad_input = $(this).closest("tr").find('input.cantidad').val();
+
+            select = $("#articulos-"+id).val();
+
+            console.log(select);
+
+            if(cantidad_td > 0 || cantidad_input > 0 && select > 0){
+                fila.css('text-decoration','');
+                $(this).closest("tr").find('td.estado').html("<i class='glyphicon glyphicon-ok'></i>"); 
+            }
+            else{
+                alert("Ingrese un articulo con su cantidad correctamente.");
+            }
+        });
 
         $(document).on('click', '.editar_movimiento', function(){
 
             $fila = $(this).closest("tr");
-            $fila.css('text-decoration','line-through'); 
+            $fila.css('text-decoration','line-through');
+            $(this).closest("tr").find('td.estado').html("<i class='glyphicon glyphicon-remove'></i>"); 
 
             $articulo = $(this).closest("tr").find('td.articulo').html();
             $id_articulo = $(this).closest("tr").find('td.articulo').data("id");
             $empleado = $(this).closest("tr").find('td.empleado').html();
+            $id_empleado = $(this).closest("tr").find('td.empleado').data("id");
             $cantidad = $(this).closest("tr").find('td.cantidad').html();
             $ultimo_entregado = $(this).closest("tr").find('td.ultimo_entregado').html();
 
-            $('<tr><td><select class="articulos" style="width: 100%"></select></td><td>'+$empleado+'</td><td><input class="cantidad" class="form-control" placeholder="Stock actual" min="1" type="number"></td><td>'+$ultimo_entregado+'</td><td><input type="checkbox" name="autorizar" id="autorizar"></td></tr>').insertAfter($fila);
-            Iniciarselectarticulos();
+            $(this).closest("tr").find('label.btn-danger').attr("disabled", true);
+            $(this).closest("tr").find('label.btn-success').attr("disabled", true);
+            $(this).closest("tr").find('label.btn-info').attr("disabled", true);
+            $(this).closest("tr").find('label.btn-info').attr("class", "btn btn-info");
 
-            $(".articulos").select2("trigger", "select", {
+            
+
+            $('<tr data-id-fila="'+count+'" data-id-articulo="'+$id_articulo+'" data-id-empleado="'+$id_empleado+'"><td><select id="articulos-'+count+'" style="width: 100%"></select></td><td>'+$empleado+'</td><td><input class="cantidad form-control" placeholder="Stock actual" min="1" id="cantidad-'+count+'" type="number"></td><td id="ultimo_entregado-'+count+'">'+$ultimo_entregado+'</td><td><div class="btn-group" data-toggle="buttons"><label class="btn btn-success autorizar_movimiento"><input type="radio" name="options" id="option2" autocomplete="off"> Autorizar</label><label class="btn btn-danger remove-aut"><input type="radio" name="options" id="option1" autocomplete="off" checked> Eliminar</label></div></td><td class="estado"></td></tr>').insertAfter($fila);
+            Iniciarselectarticulos(count);
+
+            $("#articulos-"+count).select2("trigger", "select", {
                 data: { id: $id_articulo, text: $articulo }
             });
-        
-            $(".articulos").on("select2:selecting", function() {
-                alert("hola");
+
+            $("#articulos-"+count).on("select2:unselect", function() {
+                id = $(this).closest('tr').data('id-fila');
+                $("#ultimo_entregado-"+id).html("");
+                $("#cantidad-"+id).attr('placeholder', "Stock actual" );
+            });
+
+            $("#articulos-"+count).on("select2:selecting", function(e) {
+                
+                id = $(this).closest('tr').data('id-fila');
+                id_articulo = $(this).closest('tr').data('id-articulo');
+                id_empleado = $(this).closest('tr').data('id-empleado');
+                $("#ultimo_entregado-"+id).html("");
+
+                $("#cantidad-"+id).attr('placeholder', e.params.args.data.stock+" "+e.params.args.data.unidad+" disponibles" );
+
+
+                $.getJSON("/ajax/ultimoretiroporempleado/"+id_articulo+"/"+id_empleado, function (json) { //para modal edit y add
+                    $("#ultimo_entregado-"+id+"").html(json.created_at);
+                });
+                 
+            });
+
+            $(".remove-aut").click(function(){
+                $(this).closest("tr").prev().find('label.btn-danger').attr("disabled", false);
+                $(this).closest("tr").prev().find('label.btn-danger').attr("class", "btn btn-danger noautorizar_movimiento");
+                $(this).closest("tr").prev().find('label.btn-success').attr("disabled", false);
+                $(this).closest("tr").prev().find('label.btn-info').attr("disabled", false);
+                $(this).closest("tr").prev().find('label.btn-info').attr("class", "btn btn-info editar_movimiento");
+                $(this).closest("tr").prev().css('text-decoration', '');
+                $(this).closest("tr").prev().find('td.estado').html(""); 
+                $(this).closest('tr').remove();
+            });
+
+
+            count++;
+        });
+
+        $(document).on('click', '.guardar', function(){
+            id_tabla = $(this).data("id");
+
+            /*$("#tabla-"+id_tabla+" tr td.estado").each(function() {
+
+                var lasttd=  $(this).text();
+                console.log(lasttd);
+            });*/
+
+            /*$("td.estado").each(function( index ) {
+              console.log( index + ": " + $( this ).text() );
+            });*/
+            $('#tabla-'+id_tabla+' .estado').each(function(index) {
+                console.log( index + ": " + $( this ).text() );
             });
         });
-        function Iniciarselectarticulos()
+
+
+        function Iniciarselectarticulos(count)
         {
-            if($('.articulos').length) {
-                $(".articulos").select2({
+            if($("#articulos-"+count).length) {
+                $("#articulos-"+count).select2({
                     minimumInputLength: 2,
                     minimumResultsForSearch: 10,
                     language: "es",

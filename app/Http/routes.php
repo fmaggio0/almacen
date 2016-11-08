@@ -70,7 +70,7 @@ Route::get('/ajax/subareas', ['uses' => 'AjaxController@getSubareas']);
 
 Route::get('/ajax/articulos', ['uses' => 'AjaxController@getArticulos']);
 
-Route::get('/ajax/articulos/{id}', ['uses' => 'AjaxController@getArticulosxid']);
+Route::get('/ajax/ultimoretiroporempleado/{id_articulo}/{id_empleado}', ['uses' => 'AjaxController@getUltimoRetiroPorEmpleado']);
 
 Route::get('/ajax/proveedores', ['uses' => 'AjaxController@getProveedores']);
 

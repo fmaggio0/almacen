@@ -146,6 +146,7 @@ class AjaxController extends Controller
 
             if($asd === null){
                 $data[] = array(
+                    'id_master' => $id,
                    'Apellido' => $detalle->Apellido,
                    'Nombres' => $detalle->Nombres,
                    'cantidad' => $detalle->cantidad,
@@ -156,6 +157,7 @@ class AjaxController extends Controller
             }
             else{
                 $data[] = array(
+                    'id_master' => $id,
                    'Apellido' => $detalle->Apellido,
                    'Nombres' => $detalle->Nombres,
                    'cantidad' => $detalle->cantidad,
