@@ -8,9 +8,22 @@
 
 @section('main-content')
 
-    @if($errors->any())
-        <div class="alert alert-warning" role="alert">
-              <div>{{ $errors->first() }}</div>
+    <!-- Mensajes de error-->
+
+    @if($errors->has())
+        <div class="alert alert-warning" role="alert" id="ocultar">
+           @foreach ($errors->all() as $error)
+              <div>{{ $error }}</div>
+          @endforeach
+        </div>
+    @endif 
+
+
+    <!-- Mensajes de exito-->
+
+     @if (session('status'))
+        <div class="alert alert-success" id="ocultar">
+            {{ session('status') }}
         </div>
     @endif
 
@@ -41,6 +54,11 @@
     <script>
     $(document).ready( function () {
 
+        //Ocultar mensajes de error o success
+        $("#ocultar").fadeTo(8000, 500).slideUp(500, function(){
+            $("ocultar").alert('close');
+        });
+        
         //DATATABLE MASTER---------------------------------------------------------------------------------------------
 
         var table = 
@@ -68,7 +86,7 @@
                 {data: 'id_subarea', name: 'autorizaciones_master.id_subarea', visible: false},
 
             ],
-            "order": [ 5, "desc" ],
+            "order": [ 4, "asc" ],
             "language": {
                 url: "{!! asset('/plugins/datatables/lenguajes/spanish.json') !!}"
             },
@@ -126,19 +144,37 @@
                     thead += '<th>Articulo solicitado</th>'; 
                     thead += '<th>Empleado solicitante</th>'; 
                     thead += '<th>Cantidad solicitada</th>'; 
+                    thead += '<th>Stock actual</th>';
                     thead += '<th>Ultima entrega del articulo</th>';
                     thead += '<th>Acciones</th>';
                     thead += '<th>Estado</th>';
 
                     $.each(data, function (i, d) {
-                        if(d.ultimo_entregado){
-                            tbody += '<tr><td class="articulo" data-id="'+d.id_articulo+'">' + d.descripcion + '</td><td class="empleado" data-id="'+d.id_empleado+'">' + d.Apellido + ', '+ d.Nombres+ '</td><td class="cantidad">'+ d.cantidad+'</td><td class="ultimo_entregado">'+ d.ultimo_entregado+'</td><td><div class="btn-group" data-toggle="buttons"><label class="btn btn-danger noautorizar_movimiento"><input type="radio" name="options" id="option1" autocomplete="off" checked> No autorizado</label><label class="btn btn-success autorizar_movimiento"><input type="radio" name="options" id="option2" autocomplete="off"> Autorizado</label><label class="btn btn-info editar_movimiento"><input type="radio" class="editar_movimiento" name="options" id="option3" autocomplete="off"> Modificar</label></div></td><td class="estado"></td></tr>';
+                        if(!d.ultimo_entregado){
+                            d.ultimo_entregado = 'Nunca';
                         }
-                        else{
-                            tbody += '<tr><td class="articulo" data-id="'+d.id_articulo+'">' + d.descripcion + '</td><td class="empleado" data-id="'+d.id_empleado+'">' + d.Apellido + ', '+ d.Nombres+ '</td><td class="cantidad">'+ d.cantidad+'</td><td class="ultimo_entregado"> Nunca</td><td><div class="btn-group" data-toggle="buttons"><label class="btn btn-danger noautorizar_movimiento"><input type="radio" name="options" id="option1" autocomplete="off" checked> No autorizado</label><label class="btn btn-success autorizar_movimiento"><input type="radio" name="options" id="option2" autocomplete="off"> Autorizado</label><label class="btn btn-info editar_movimiento"><input type="radio" name="options" id="option3" autocomplete="off"> Modificar</label></div><td class="estado"></td></tr>';
+                        if(d.estado == 0){ 
+                            tbody += '<tr>{{ csrf_field() }}<input name="id_usuario" type="hidden" value="{{ Auth::user()->id }}"><input type="hidden" name="id_master" value="'+d.id_master+'"><input type="hidden" name="id_detalles[]" value="'+d.id_detalles+'"><input type="hidden" name="estado[]" class="estado2"><td class="articulo" data-id="'+d.id_articulo+'">' + d.descripcion + '</td><td class="empleado" data-id="'+d.id_empleado+'">' + d.Apellido + ', '+ d.Nombres+ '</td><td class="cantidad">'+ d.cantidad+'</td><td class="stock_actual">'+ d.stock_actual+'</td><td class="ultimo_entregado">'+ d.ultimo_entregado+'</td><td><div class="btn-group" data-toggle="buttons"><label class="btn btn-danger noautorizar_movimiento"><input type="radio" autocomplete="off" checked> No autorizado</label><label class="btn btn-success autorizar_movimiento"><input type="radio" autocomplete="off"> Autorizado</label><label class="btn btn-info editar_movimiento"><input type="radio" class="editar_movimiento" autocomplete="off"> Modificar</label></div></td><td class="estado"></td></tr>';
+                            return estado = 0;
+
+                        }
+                        else
+                        {
+                            tbody += '<tr>{{ csrf_field() }}<input name="id_usuario" type="hidden" value="{{ Auth::user()->id }}"><input type="hidden" name="id_master" value="'+d.id_master+'"><input type="hidden" name="id_detalles[]" value="'+d.id_detalles+'"><input type="hidden" name="estado[]" class="estado2"><td class="articulo" data-id="'+d.id_articulo+'">' + d.descripcion + '</td><td class="empleado" data-id="'+d.id_empleado+'">' + d.Apellido + ', '+ d.Nombres+ '</td><td class="cantidad">'+ d.cantidad+'</td><td class="stock_actual">'+ d.stock_actual+'</td><td class="ultimo_entregado">'+ d.ultimo_entregado+'</td><td class="estado"></td></tr>';
+                            return estado = 1;
                         }
                     });
-                    callback($('<div class="panel panel-default" style="width: 80%;margin: auto;"><div class="panel-heading"><h3 class="panel-title"><strong>Desglose del movimiento</strong></h3></div><div class="panel-body"><table id="tabla-'+data[0].id_master+'" class="table">' + thead + tbody + '</table></div><div class="panel-footer" style="text-align: right;"><input class="btn btn btn-primary guardar" data-id="'+data[0].id_master+'" name="guardar" type="submit" value="Guardar"></div></div>')).show();
+                    callback(function(){
+                        
+                        if(estado == 1){
+                            return $('<div class="panel panel-default" style="width: 80%;margin: auto;"><div class="panel-heading"><h3 class="panel-title"><strong>Desglose del movimiento</strong></h3></div><div class="panel-body"><table id="tabla-'+data[0].id_master+'" class="table">' + thead + tbody + '</table></div></div>');
+                        }
+                        else
+                        {
+                            return $('<form method="POST" action="/autorizaciones/post" accept-charset="UTF-8" class="form-horizontal"><div class="panel panel-default" style="width: 80%;margin: auto;"><div class="panel-heading"><h3 class="panel-title"><strong>Desglose del movimiento</strong></h3></div><div class="panel-body"><table id="tabla-'+data[0].id_master+'" class="table">' + thead + tbody + '</table></div><div class="panel-footer" style="text-align: right;"><input class="btn btn btn-primary guardar" data-id="'+data[0].id_master+'" type="submit" value="Guardar"></div></div></form>');
+                        }
+                        
+                    }).show();
                 },
                 error: function () {
                     callback($('<div align="center">Ha ocurrido un error. Intente nuevamente y si persigue el error, contactese con informática.</div>')).show();
@@ -150,20 +186,21 @@
             $fila = $(this).closest("tr");
             $fila.css('text-decoration','line-through');
             $(this).closest("tr").find('td.estado').html("<i class='glyphicon glyphicon-remove'></i>");
+            $(this).closest("tr").find('.estado2').val(2);
         });
         $(document).on('click', '.autorizar_movimiento', function(){
             fila = $(this).closest("tr");
             id = $(this).closest('tr').data('id-fila');
             cantidad_td = $(this).closest("tr").find('td.cantidad').html();
+            stock_actual = $(this).closest("tr").find('td.stock_actual').html();
             cantidad_input = $(this).closest("tr").find('input.cantidad').val();
 
             select = $("#articulos-"+id).val();
 
-            console.log(select);
-
             if(cantidad_td > 0 || cantidad_input > 0 && select > 0){
                 fila.css('text-decoration','');
-                $(this).closest("tr").find('td.estado').html("<i class='glyphicon glyphicon-ok'></i>"); 
+                $(this).closest("tr").find('td.estado').html("<i class='glyphicon glyphicon-ok'></i>");
+                $(this).closest("tr").find('.estado2').val(1);        
             }
             else{
                 alert("Ingrese un articulo con su cantidad correctamente.");
@@ -190,7 +227,7 @@
 
             
 
-            $('<tr data-id-fila="'+count+'" data-id-articulo="'+$id_articulo+'" data-id-empleado="'+$id_empleado+'"><td><select id="articulos-'+count+'" style="width: 100%"></select></td><td>'+$empleado+'</td><td><input class="cantidad form-control" placeholder="Stock actual" min="1" id="cantidad-'+count+'" type="number"></td><td id="ultimo_entregado-'+count+'">'+$ultimo_entregado+'</td><td><div class="btn-group" data-toggle="buttons"><label class="btn btn-success autorizar_movimiento"><input type="radio" name="options" id="option2" autocomplete="off"> Autorizar</label><label class="btn btn-danger remove-aut"><input type="radio" name="options" id="option1" autocomplete="off" checked> Eliminar</label></div></td><td class="estado"></td></tr>').insertAfter($fila);
+            $('<tr data-id-fila="'+count+'" data-id-articulo="'+$id_articulo+'" data-id-empleado="'+$id_empleado+'"><td class="articulo"><select id="articulos-'+count+'" style="width: 100%"></select></td><td>'+$empleado+'</td><td><input class="cantidad form-control" placeholder="Ingrese cantidad" min="1" type="number"></td><td id="stock_actual-'+count+'" class="stock_actual"></td><td id="ultimo_entregado-'+count+'">'+$ultimo_entregado+'</td><td><div class="btn-group" data-toggle="buttons"><label class="btn btn-success autorizar_movimiento"><input type="radio" name="options" id="option2" autocomplete="off"> Autorizar</label><label class="btn btn-danger remove-aut"><input type="radio" name="options" id="option1" autocomplete="off" checked> Eliminar</label></div></td><td class="estado"></td></tr>').insertAfter($fila);
             Iniciarselectarticulos(count);
 
             $("#articulos-"+count).select2("trigger", "select", {
@@ -210,7 +247,7 @@
                 id_empleado = $(this).closest('tr').data('id-empleado');
                 $("#ultimo_entregado-"+id).html("");
 
-                $("#cantidad-"+id).attr('placeholder', e.params.args.data.stock+" "+e.params.args.data.unidad+" disponibles" );
+                $("#stock_actual-"+id).html(e.params.args.data.stock+" "+e.params.args.data.unidad+" disponibles");
 
 
                 $.getJSON("/ajax/ultimoretiroporempleado/"+id_articulo+"/"+id_empleado, function (json) { //para modal edit y add
@@ -234,22 +271,25 @@
             count++;
         });
 
-        $(document).on('click', '.guardar', function(){
-            id_tabla = $(this).data("id");
+        /*$(document).on('click', '.guardar', function(){
 
-            /*$("#tabla-"+id_tabla+" tr td.estado").each(function() {
+            id_tabla = $(this).data('id');
 
-                var lasttd=  $(this).text();
-                console.log(lasttd);
-            });*/
+            asad = $("#tabla-"+id_tabla+" input").serialize();
 
-            /*$("td.estado").each(function( index ) {
-              console.log( index + ": " + $( this ).text() );
-            });*/
-            $('#tabla-'+id_tabla+' .estado').each(function(index) {
-                console.log( index + ": " + $( this ).text() );
-            });
-        });
+            $.ajax({
+                type:"POST",
+                url:'/autorizaciones/'+id_tabla,
+                data: { asad },
+                dataType: 'json',
+                success: function(data)
+                {
+                    if($('#tabla-articulos').length > 0) {
+                       $('#tabla-articulos').DataTable().ajax.reload();
+                    }
+                }
+            })
+        });*/
 
 
         function Iniciarselectarticulos(count)

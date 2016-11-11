@@ -40,6 +40,16 @@
         <script src="{{ asset('/js/handlebars-v4.0.5.js') }}" type="text/javascript"></script>
         {{--icheck--}}
         <script src="{{ asset('/plugins/iCheck/icheck.min.js') }}" type="text/javascript"></script>
+
+
+        <!-- UBICACIONES PRUEBA -->
+
+        {!! Html::style('/css/ubicaciones.css') !!}
+        <script src="{{ asset('/js/ol.js') }}"></script>
+        <script src="{{ asset('/js/ubicaciones.js') }}"></script>
+
+
+
     </head>
 
     <body class="skin-blue sidebar-mini">

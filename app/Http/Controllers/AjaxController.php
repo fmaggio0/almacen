@@ -133,26 +133,29 @@ class AjaxController extends Controller
             ->where('id_master', '=', $id )
             ->join('articulos', 'autorizaciones_detalles.id_articulo', '=', 'articulos.id_articulo')
             ->join('personal_prod.tpersonal as empleados', 'autorizaciones_detalles.id_empleado', '=', 'empleados.Nro_Legajo')
-            ->select('articulos.id_articulo', 'articulos.descripcion','autorizaciones_detalles.id_empleado', 'empleados.Nombres','empleados.Apellido', 'autorizaciones_detalles.cantidad')
+            ->select('articulos.id_articulo', 'articulos.descripcion','autorizaciones_detalles.id_empleado', 'empleados.Nombres','empleados.Apellido', 'autorizaciones_detalles.cantidad', 'articulos.stock_actual', 'autorizaciones_detalles.id_detalles', 'autorizaciones_detalles.estado')
             ->get();
 
         foreach ($detalles as $detalle) {
             $asd=DB::table('salidas_detalles')
                 ->where('id_articulo', '=', $detalle->id_articulo)
                 ->where('id_empleado', '=', $detalle->id_empleado)
-                ->select('salidas_detalles.created_at')
+                ->select('salidas_detalles.created_at', 'salidas_detalles.id_detalles')
                 ->orderBy('salidas_detalles.created_at', 'desc')
                 ->first();
 
             if($asd === null){
                 $data[] = array(
-                    'id_master' => $id,
+                   'id_master' => $id,
                    'Apellido' => $detalle->Apellido,
                    'Nombres' => $detalle->Nombres,
                    'cantidad' => $detalle->cantidad,
                    'descripcion' => $detalle->descripcion,
                    'id_articulo' => $detalle->id_articulo,
+                   'stock_actual' => $detalle->stock_actual,
                    'id_empleado' => $detalle->id_empleado,
+                   'id_detalles' => $detalle->id_detalles,
+                   'estado' => $detalle->estado,
                 );
             }
             else{
@@ -164,7 +167,10 @@ class AjaxController extends Controller
                    'descripcion' => $detalle->descripcion,
                    'id_articulo' => $detalle->id_articulo,
                    'id_empleado' => $detalle->id_empleado,
+                   'stock_actual' => $detalle->stock_actual,
                    'ultimo_entregado' => $asd->created_at,
+                   'id_detalles' => $detalle->id_detalles,
+                   'estado' => $detalle->estado,
                 );
             }  
         }

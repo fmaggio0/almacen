@@ -10,6 +10,8 @@ Route::get('/', function () {
 
 Route::get('/autorizaciones', ['uses' => 'AutorizacionesController@index']);
 
+Route::post('/autorizaciones/post', ['uses' => 'AutorizacionesController@storeadmin']);
+
 //GESTIONAR STOCK
 
 Route::get('/egresos', ['uses' => 'MovimientosController@indexegresos']);
