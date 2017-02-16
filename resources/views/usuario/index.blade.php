@@ -101,7 +101,7 @@
 
                     count = 1;
                     $.each(data, function (i, d) {
-                        tbody += '<tr><td>'+ count +'</td><td>' + d.Articulo + '</td><td>' + d.Apellido + ', '+ d.Nombre+ '</td><td>'+ d.Cantidad+'</td></tr>';
+                        tbody += '<tr><td>'+ count +'</td><td>' + d.descripcion + '</td><td>' + d.Apellido + ', '+ d.Nombres+ '</td><td>'+ d.cantidad+'</td></tr>';
                         count++;
                     });
                     callback($('<table class="table table-hover">' + thead + tbody + '</table>')).show();

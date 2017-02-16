@@ -99,17 +99,24 @@ class AutorizacionesController extends Controller
             //	1 - Autorizado totalmente
             //  2 - Autorizado parcialmente
             //  3 - No autorizado
+
             if($count == 0){
             	$id_master = $request->id_master;
 	            $update = AutorizacionesMaster::findOrFail($id_master);
 	            $update->estado = 1;
 	            $update->save();
             }
-            else{
+            else if($count == count($request->id_detalles)){
             	$id_master = $request->id_master;
 	            $update = AutorizacionesMaster::findOrFail($id_master);
-	            $update->estado = 2;
+	            $update->estado = 3;
 	            $update->save();
+            }
+            else{
+                $id_master = $request->id_master;
+                $update = AutorizacionesMaster::findOrFail($id_master);
+                $update->estado = 2;
+                $update->save();
             }
 
             //Replicamos la AutorizacionesMaster en una SalidasMaster

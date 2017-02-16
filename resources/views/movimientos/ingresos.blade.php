@@ -4,7 +4,7 @@
     <div class="titulo_header">
         GESTION INGRESO DE STOCK
     </div>
-        <div class="boton_titulo">
+    <div class="boton_titulo">
         <a class="btn btn-success" href="#" id="addsalida">
         <i class="fa fa-plus"></i> Nuevo ingreso</a>
     </div>
@@ -71,7 +71,6 @@
         $("#ocultar").fadeTo(8000, 500).slideUp(500, function(){
             $("ocultar").alert('close');
         });
-
 
         //Script Datatable Salidas Master y detalles
         var table = 

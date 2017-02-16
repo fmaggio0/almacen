@@ -219,7 +219,7 @@ class DatatablesController extends Controller
                 }
                 elseif ($salidas->estado == 3 )
                 {
-                    return "<span class='label label-label-danger'>Rechazado</span>";
+                    return "<span class='label label-danger'>Rechazado</span>";
                 }
             })
             ->make(true);
@@ -255,7 +255,7 @@ class DatatablesController extends Controller
                 }
                 elseif ($salidas->estado == 3 )
                 {
-                    return "<span class='label label-label-danger'>Rechazado</span>";
+                    return "<span class='label label-danger'>Rechazado</span>";
                 }
             })
             ->make(true);

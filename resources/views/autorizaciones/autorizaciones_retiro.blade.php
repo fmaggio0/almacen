@@ -40,7 +40,6 @@
                         <th>Fecha que registra</th>
                         <th>Usuario</th>
                         <th>Estado</th>
-                        <th>Acciones</th>
                     </tr>
                 </thead>
             </table>
@@ -81,7 +80,6 @@
                 {data: 'updated_at', name: 'autorizaciones_master.updated_at'},
                 {data: 'name', name: 'users.name'},
                 {data: 'estado', name: 'autorizaciones_master.estado'},
-                {data: 'action', name: 'action' , orderable: false, searchable: false},
                 //extra info columnas hidden
                 {data: 'id_subarea', name: 'autorizaciones_master.id_subarea', visible: false},
 
@@ -146,21 +144,29 @@
                     thead += '<th>Cantidad solicitada</th>'; 
                     thead += '<th>Stock actual</th>';
                     thead += '<th>Ultima entrega del articulo</th>';
-                    thead += '<th>Acciones</th>';
-                    thead += '<th>Estado</th>';
+                    thead += '<th>Autorizado</th>';
 
                     $.each(data, function (i, d) {
+                        switch (d.estado) {
+                            case 1:
+                                estadoformateado = '<label class="label label-success"> SI</label>';
+                                break;
+                            case 2:
+                                estadoformateado = '<label class="label label-danger"> NO</label>';
+                                break;
+                        }
+
                         if(!d.ultimo_entregado){
                             d.ultimo_entregado = 'Nunca';
                         }
                         if(d.estado == 0){ 
-                            tbody += '<tr>{{ csrf_field() }}<input name="id_usuario" type="hidden" value="{{ Auth::user()->id }}"><input type="hidden" name="id_master" value="'+d.id_master+'"><input type="hidden" name="id_detalles[]" value="'+d.id_detalles+'"><input type="hidden" name="estado[]" class="estado2"><td class="articulo" data-id="'+d.id_articulo+'">' + d.descripcion + '</td><td class="empleado" data-id="'+d.id_empleado+'">' + d.Apellido + ', '+ d.Nombres+ '</td><td class="cantidad">'+ d.cantidad+'</td><td class="stock_actual">'+ d.stock_actual+'</td><td class="ultimo_entregado">'+ d.ultimo_entregado+'</td><td><div class="btn-group" data-toggle="buttons"><label class="btn btn-danger noautorizar_movimiento"><input type="radio" autocomplete="off" checked> No autorizado</label><label class="btn btn-success autorizar_movimiento"><input type="radio" autocomplete="off"> Autorizado</label><label class="btn btn-info editar_movimiento"><input type="radio" class="editar_movimiento" autocomplete="off"> Modificar</label></div></td><td class="estado"></td></tr>';
+                            tbody += '<tr>{{ csrf_field() }}<input name="id_usuario" type="hidden" value="{{ Auth::user()->id }}"><input type="hidden" name="id_master" value="'+d.id_master+'"><input type="hidden" name="id_detalles[]" value="'+d.id_detalles+'"><input type="hidden" name="estado[]" class="estado2"><td class="articulo" data-id="'+d.id_articulo+'">' + d.descripcion + '</td><td class="empleado" data-id="'+d.id_empleado+'">' + d.Apellido + ', '+ d.Nombres+ '</td><td class="cantidad">'+ d.cantidad+'</td><td class="stock_actual">'+ d.stock_actual+'</td><td class="ultimo_entregado">'+ d.ultimo_entregado+'</td><td><div class="btn-group" data-toggle="buttons"><label class="btn btn-danger noautorizar_movimiento"><input type="radio" autocomplete="off" checked> No autorizado</label><label class="btn btn-success autorizar_movimiento"><input type="radio" autocomplete="off"> Autorizado</label><label class="btn btn-info editar_movimiento"><input type="radio" class="editar_movimiento" autocomplete="off"> Modificar</label></div></td><td class="estado" required></td></tr>';
                             return estado = 0;
 
                         }
                         else
                         {
-                            tbody += '<tr>{{ csrf_field() }}<input name="id_usuario" type="hidden" value="{{ Auth::user()->id }}"><input type="hidden" name="id_master" value="'+d.id_master+'"><input type="hidden" name="id_detalles[]" value="'+d.id_detalles+'"><input type="hidden" name="estado[]" class="estado2"><td class="articulo" data-id="'+d.id_articulo+'">' + d.descripcion + '</td><td class="empleado" data-id="'+d.id_empleado+'">' + d.Apellido + ', '+ d.Nombres+ '</td><td class="cantidad">'+ d.cantidad+'</td><td class="stock_actual">'+ d.stock_actual+'</td><td class="ultimo_entregado">'+ d.ultimo_entregado+'</td><td class="estado"></td></tr>';
+                            tbody += '<tr>{{ csrf_field() }}<input name="id_usuario" type="hidden" value="{{ Auth::user()->id }}"><input type="hidden" name="id_master" value="'+d.id_master+'"><input type="hidden" name="id_detalles[]" value="'+d.id_detalles+'"><input type="hidden" name="estado[]" class="estado2"><td class="articulo" data-id="'+d.id_articulo+'">' + d.descripcion + '</td><td class="empleado" data-id="'+d.id_empleado+'">' + d.Apellido + ', '+ d.Nombres+ '</td><td class="cantidad">'+ d.cantidad+'</td><td class="stock_actual">'+ d.stock_actual+'</td><td class="ultimo_entregado">'+ d.ultimo_entregado+'</td><td class="estado">'+ estadoformateado +'</td></tr>';
                             return estado = 1;
                         }
                     });
@@ -227,7 +233,7 @@
 
             
 
-            $('<tr data-id-fila="'+count+'" data-id-articulo="'+$id_articulo+'" data-id-empleado="'+$id_empleado+'"><td class="articulo"><select id="articulos-'+count+'" style="width: 100%"></select></td><td>'+$empleado+'</td><td><input class="cantidad form-control" placeholder="Ingrese cantidad" min="1" type="number"></td><td id="stock_actual-'+count+'" class="stock_actual"></td><td id="ultimo_entregado-'+count+'">'+$ultimo_entregado+'</td><td><div class="btn-group" data-toggle="buttons"><label class="btn btn-success autorizar_movimiento"><input type="radio" name="options" id="option2" autocomplete="off"> Autorizar</label><label class="btn btn-danger remove-aut"><input type="radio" name="options" id="option1" autocomplete="off" checked> Eliminar</label></div></td><td class="estado"></td></tr>').insertAfter($fila);
+            $('<tr data-id-fila="'+count+'" data-id-articulo="'+$id_articulo+'" data-id-empleado="'+$id_empleado+'"><td class="articulo"><select id="articulos-'+count+'" style="width: 100%"></select></td><td>'+$empleado+'</td><td><input class="cantidad form-control" placeholder="Ingrese cantidad" min="1" type="number"></td><td id="stock_actual-'+count+'" class="stock_actual"></td><td id="ultimo_entregado-'+count+'">'+$ultimo_entregado+'</td><td><div class="btn-group" data-toggle="buttons"><label class="btn btn-success autorizar_movimiento"><input type="radio" name="options" id="option2" autocomplete="off"> Autorizar</label><label class="btn btn-danger remove-aut"><input type="radio" name="options" id="option1" autocomplete="off" checked> Eliminar</label></div></td><td class="estado" required></td></tr>').insertAfter($fila);
             Iniciarselectarticulos(count);
 
             $("#articulos-"+count).select2("trigger", "select", {
