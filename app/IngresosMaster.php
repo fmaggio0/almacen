@@ -14,6 +14,5 @@ class IngresosMaster extends Model
     public function detalles()
     {
     	return $this->hasMany('App\IngresosDetalles');
-
     }
 }

@@ -160,7 +160,7 @@
                             d.ultimo_entregado = 'Nunca';
                         }
                         if(d.estado == 0){ 
-                            tbody += '<tr>{{ csrf_field() }}<input name="id_usuario" type="hidden" value="{{ Auth::user()->id }}"><input type="hidden" name="id_master" value="'+d.id_master+'"><input type="hidden" name="id_detalles[]" value="'+d.id_detalles+'"><input type="hidden" name="estado[]" class="estado2"><td class="articulo" data-id="'+d.id_articulo+'">' + d.descripcion + '</td><td class="empleado" data-id="'+d.id_empleado+'">' + d.Apellido + ', '+ d.Nombres+ '</td><td class="cantidad">'+ d.cantidad+'</td><td class="stock_actual">'+ d.stock_actual+'</td><td class="ultimo_entregado">'+ d.ultimo_entregado+'</td><td><div class="btn-group" data-toggle="buttons"><label class="btn btn-danger noautorizar_movimiento"><input type="radio" autocomplete="off" checked> No autorizado</label><label class="btn btn-success autorizar_movimiento"><input type="radio" autocomplete="off"> Autorizado</label><label class="btn btn-info editar_movimiento"><input type="radio" class="editar_movimiento" autocomplete="off"> Modificar</label></div></td><td class="estado" required></td></tr>';
+                            tbody += '<tr>{{ csrf_field() }}<input name="id_usuario" type="hidden" value="{{ Auth::user()->id }}"><input type="hidden" name="id_master" value="'+d.id_master+'"><input type="hidden" name="id_detalles[]" value="'+d.id_detalles+'"><input type="hidden" name="estado[]" class="estado2" required><td class="articulo" data-id="'+d.id_articulo+'">' + d.descripcion + '</td><td class="empleado" data-id="'+d.id_empleado+'">' + d.Apellido + ', '+ d.Nombres+ '</td><td class="cantidad">'+ d.cantidad+'</td><td class="stock_actual">'+ d.stock_actual+'</td><td class="ultimo_entregado">'+ d.ultimo_entregado+'</td><td><div class="btn-group" data-toggle="buttons"><label class="btn btn-danger noautorizar_movimiento"><input type="radio" autocomplete="off" checked> No autorizado</label><label class="btn btn-success autorizar_movimiento"><input type="radio" autocomplete="off"> Autorizado</label><label class="btn btn-info editar_movimiento"><input type="radio" class="editar_movimiento" autocomplete="off"> Modificar</label></div></td><td class="estado"></td></tr>';
                             return estado = 0;
 
                         }
@@ -177,7 +177,7 @@
                         }
                         else
                         {
-                            return $('<form method="POST" action="/autorizaciones/post" accept-charset="UTF-8" class="form-horizontal"><div class="panel panel-default" style="width: 80%;margin: auto;"><div class="panel-heading"><h3 class="panel-title"><strong>Desglose del movimiento</strong></h3></div><div class="panel-body"><table id="tabla-'+data[0].id_master+'" class="table">' + thead + tbody + '</table></div><div class="panel-footer" style="text-align: right;"><input class="btn btn btn-primary guardar" data-id="'+data[0].id_master+'" type="submit" value="Guardar"></div></div></form>');
+                            return $('<form method="POST" id="form-autorizacion" action="/autorizaciones/post" accept-charset="UTF-8" class="form-horizontal"><div class="panel panel-default" style="width: 80%;margin: auto;"><div class="panel-heading"><h3 class="panel-title"><strong>Desglose del movimiento</strong></h3></div><div class="panel-body"><table id="tabla-'+data[0].id_master+'" class="table">' + thead + tbody + '</table></div><div class="panel-footer" style="text-align: right;"><input class="btn btn btn-primary guardar" data-id="'+data[0].id_master+'" type="submit" value="Guardar"></div></div></form>');
                         }
                         
                     }).show();
@@ -188,12 +188,25 @@
             });
         }
         var count = 0;
+
+        $(document).on('submit', '#form-autorizacion', function( event ) {
+            array_estados = new Array();
+            $("form#form-autorizacion .estado").each(function(){
+                if ($(this).html() == ""){
+                    event.preventDefault();
+                    alert("Debe aceptar o declinar todos los pedidos");
+                }
+            });
+            return;
+        });
+
         $(document).on('click', '.noautorizar_movimiento', function(){
             $fila = $(this).closest("tr");
             $fila.css('text-decoration','line-through');
             $(this).closest("tr").find('td.estado').html("<i class='glyphicon glyphicon-remove'></i>");
             $(this).closest("tr").find('.estado2').val(2);
         });
+
         $(document).on('click', '.autorizar_movimiento', function(){
             fila = $(this).closest("tr");
             id = $(this).closest('tr').data('id-fila');
@@ -201,9 +214,16 @@
             stock_actual = $(this).closest("tr").find('td.stock_actual').html();
             cantidad_input = $(this).closest("tr").find('input.cantidad').val();
 
+            if(cantidad_td == undefined){
+                cantidades = cantidad_input;
+            }
+            else if(cantidad_input == undefined){
+                cantidades = cantidad_td;
+            }
+
             select = $("#articulos-"+id).val();
 
-            if(cantidad_td > 0 || cantidad_input > 0 && select > 0){
+            if(cantidad_td > 0 || cantidad_input > 0 && select > 0 && cantidades <= stock_actual){
                 fila.css('text-decoration','');
                 $(this).closest("tr").find('td.estado').html("<i class='glyphicon glyphicon-ok'></i>");
                 $(this).closest("tr").find('.estado2').val(1);        
@@ -224,6 +244,7 @@
             $empleado = $(this).closest("tr").find('td.empleado').html();
             $id_empleado = $(this).closest("tr").find('td.empleado').data("id");
             $cantidad = $(this).closest("tr").find('td.cantidad').html();
+            $stock_actual = $(this).closest("tr").find('td.stock_actual').html();
             $ultimo_entregado = $(this).closest("tr").find('td.ultimo_entregado').html();
 
             $(this).closest("tr").find('label.btn-danger').attr("disabled", true);
@@ -233,7 +254,7 @@
 
             
 
-            $('<tr data-id-fila="'+count+'" data-id-articulo="'+$id_articulo+'" data-id-empleado="'+$id_empleado+'"><td class="articulo"><select id="articulos-'+count+'" style="width: 100%"></select></td><td>'+$empleado+'</td><td><input class="cantidad form-control" placeholder="Ingrese cantidad" min="1" type="number"></td><td id="stock_actual-'+count+'" class="stock_actual"></td><td id="ultimo_entregado-'+count+'">'+$ultimo_entregado+'</td><td><div class="btn-group" data-toggle="buttons"><label class="btn btn-success autorizar_movimiento"><input type="radio" name="options" id="option2" autocomplete="off"> Autorizar</label><label class="btn btn-danger remove-aut"><input type="radio" name="options" id="option1" autocomplete="off" checked> Eliminar</label></div></td><td class="estado" required></td></tr>').insertAfter($fila);
+            $('<tr data-id-fila="'+count+'" data-id-articulo="'+$id_articulo+'" data-id-empleado="'+$id_empleado+'"><td class="articulo"><select id="articulos-'+count+'" style="width: 100%"></select></td><td>'+$empleado+'</td><td><input class="cantidad form-control" placeholder="Ingrese cantidad" min="1" type="number"></td><td id="stock_actual-'+count+'" class="stock_actual">'+$stock_actual+'</td><td id="ultimo_entregado-'+count+'">'+$ultimo_entregado+'</td><td><div class="btn-group" data-toggle="buttons"><label class="btn btn-success autorizar_movimiento"><input type="radio" name="options" id="option2" autocomplete="off"> Autorizar</label><label class="btn btn-danger remove-aut"><input type="radio" name="options" id="option1" autocomplete="off" checked> Eliminar</label></div></td><td class="estado" required></td></tr>').insertAfter($fila);
             Iniciarselectarticulos(count);
 
             $("#articulos-"+count).select2("trigger", "select", {
@@ -253,8 +274,7 @@
                 id_empleado = $(this).closest('tr').data('id-empleado');
                 $("#ultimo_entregado-"+id).html("");
 
-                $("#stock_actual-"+id).html(e.params.args.data.stock+" "+e.params.args.data.unidad+" disponibles");
-
+                $("#stock_actual-"+id).html(e.params.args.data.stock);
 
                 $.getJSON("/ajax/ultimoretiroporempleado/"+id_articulo+"/"+id_empleado, function (json) { //para modal edit y add
                     $("#ultimo_entregado-"+id+"").html(json.created_at);
@@ -277,26 +297,12 @@
             count++;
         });
 
-        /*$(document).on('click', '.guardar', function(){
-
-            id_tabla = $(this).data('id');
-
-            asad = $("#tabla-"+id_tabla+" input").serialize();
-
-            $.ajax({
-                type:"POST",
-                url:'/autorizaciones/'+id_tabla,
-                data: { asad },
-                dataType: 'json',
-                success: function(data)
-                {
-                    if($('#tabla-articulos').length > 0) {
-                       $('#tabla-articulos').DataTable().ajax.reload();
-                    }
-                }
-            })
-        });*/
-
+        $(document).on('change', '.cantidad', function(){
+            $(this).closest('tr').find('td.estado').html("")
+        });
+        $(document).on('change', '.articulo', function(){
+            $(this).closest('tr').find('td.estado').html("")
+        });
 
         function Iniciarselectarticulos(count)
         {
