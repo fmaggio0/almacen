@@ -34,8 +34,7 @@
                     <div class="panel-heading" style="background: #4682B4; color: #FFFFFF;"><h4 class="panel-title">Despachar autorización</h4></div>
                     <div class="panel-body">
 
-                       {{ $master }}
-                       {{ $detalles }}
+            
 
                             <div class="form-group">
                                 <label class="control-label col-sm-2">Tipo de retiro:</label>
@@ -47,7 +46,7 @@
                             <div class="form-group">
                                 <label class="control-label col-sm-2">Destino:</label>
                                 <div class="col-sm-4">
-                                    <input readonly="true" class="form-control" id="edit-destinos" style="width: 100%" name="desc_subarea" type="text" value="{{ $master->subarea->descripcion_subarea }}">
+                                    <input readonly="true" class="form-control" id="edit-destinos" style="width: 100%" name="desc_subarea" type="text" value="{{ $master->descripcion_subarea }}">
                                     <input name="destino" type="hidden" value="{{ $master->id_subarea }}">
                                 </div>
                                 <label class="control-label col-sm-2">Asignado a:</label>
@@ -95,9 +94,9 @@
                                                 <tr>
                                                     <input type='hidden' name='id_detalle[]' value='{{ $detalle->id_detalles }}'>
                                                     <input type='hidden' name='estado[]' value='viejo'>
-                                                    <td> {{ $detalle->articulo->descripcion}} <input type='hidden' name='articulos[]' value='{{ $detalle->id_articulo}}'></td>
+                                                    <td> {{ $detalle->descripcion}} <input type='hidden' name='articulos[]' value='{{ $detalle->id_articulo}}'></td>
                                                     <td> {{ $detalle->cantidad}} <input type='hidden' name='cantidad[]' value='{{ $detalle->cantidad}}'></td>
-                                                    <td> {{ $detalle->empleado->Apellido }}, {{ $detalle->empleado->Nombres }} <input type='hidden' name='empleados[]' value='{{ $detalle->id_empleado}}'></td>
+                                                    <td> {{ $detalle->Apellido }}, {{ $detalle->Nombres }} <input type='hidden' name='empleados[]' value='{{ $detalle->id_empleado}}'></td>
                                                     <td> <a class='btn botrojo btn-xs' href='#'><i class='glyphicon glyphicon-trash delete'></i></a> </td>
                                                 </tr>
                                             @endforeach

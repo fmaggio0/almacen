@@ -34,29 +34,32 @@ class MovimientosController extends Controller
 	}
 
     public function indexmodificaregresos($id){
-        $master = SalidasMaster::findOrFail($id);
-        $detalles = SalidasMaster::findOrFail($id)->detalles;
 
-        //$asd = SubAreas::find($master->id_subarea)->select('descripcion_subarea');
-        $master->subarea = SubAreas::where('id_subarea', $master->id_subarea)->select('descripcion_subarea')->first();
+        $master = DB::table('salidas_master')
+            ->where('id_master', '=', $id )
+            ->join('subareas', 'salidas_master.id_subarea', '=', 'subareas.id_subarea')
+            ->select('salidas_master.id_master', 'salidas_master.tipo_retiro', 'salidas_master.estado', 'salidas_master.id_subarea',  'subareas.descripcion_subarea')
+        ->first();
 
-        //$detalles->empleados = Empleados::find($detalles->id_empleado);
-
-        foreach ($detalles as $detalle) {
-            $detalle->empleado = Empleados::where('Nro_Legajo', $detalle->id_empleado)->select('Apellido', 'Nombres')->first();
-            $detalle->articulo = Articulos::where('id_articulo', $detalle->id_articulo)->select('descripcion')->first();
-        }
+        $detalles = DB::table('salidas_detalles')
+            ->where('id_master', '=', $id )
+            ->join('articulos', 'salidas_detalles.id_articulo', '=', 'articulos.id_articulo')
+            ->join('personal_prod.tpersonal as empleados', 'salidas_detalles.id_empleado', '=', 'empleados.Nro_Legajo')
+            ->select('salidas_detalles.id_detalles', 'salidas_detalles.id_articulo', 'salidas_detalles.id_empleado', 'salidas_detalles.cantidad', 'empleados.Nombres', 'empleados.Apellido', 'articulos.descripcion')
+        ->get();
 
         $estado = $master->estado;
 
- 
-        if($estado == 1){
-            //return view('movimientos.modificar_egreso');   
-            return View::make('movimientos.modificar_egreso')->with('master', $master)->with('detalles', $detalles);
+       if($estado == 1){
+            return View::make('movimientos.egresos_modificar')->with('master', $master)->with('detalles', $detalles);
         }
         else{
             return redirect('/egresos')->with('status', 'No se puede modificar este movimiento porque no se creo como "Dejar pendiente"');
         }
+    }
+
+    public function IndexEgresosNuevo(){
+        return view('movimientos.egresos_nuevo');
     }
     
     public function storeingreso(Request $request){
@@ -207,8 +210,7 @@ class MovimientosController extends Controller
 
             //Commit y redirect con success
             DB::commit();
-            return redirect()
-                ->back()
+            return redirect('/egresos')
                 ->with('status', 'Salida procesada correctamente');
         }
 
@@ -242,6 +244,7 @@ class MovimientosController extends Controller
                             ->withInput();
             }
             */
+            
             $update = SalidasMaster::findOrFail($request->id_master);
                 $update->estado = 0;
             $update->save();
@@ -252,7 +255,7 @@ class MovimientosController extends Controller
 
             for($i=0;$i <count($request->articulos);$i++)
             {             
-                if($request->estado[$i] == "viejo" && $request->id_detalle[$i] != "null"){
+               if($request->estado[$i] == "viejo" && $request->id_detalle[$i] != "null"){
                     array_push($ids_detalles_enviados, intval($request->id_detalle[$i]));
                 }
                 else if($request->estado[$i] == "nuevo"){
@@ -272,6 +275,14 @@ class MovimientosController extends Controller
 
             $array = array_diff($ids_detalles_query, $ids_detalles_enviados);
             $ids_a_eliminar = array_values($array);
+
+            for($i=0;$i <count($ids_a_eliminar);$i++)
+            {             
+                $query = SalidasDetalles::findOrFail($ids_a_eliminar[$i]);
+                $update3 = Articulos::findOrFail($query->id_articulo);
+                    $update3->increment('stock_actual', $query->cantidad);
+                $update3->save();
+            }  
 
             SalidasDetalles::destroy($ids_a_eliminar);
 

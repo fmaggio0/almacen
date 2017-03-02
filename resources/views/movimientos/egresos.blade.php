@@ -5,7 +5,7 @@
         GESTION DE MOVIMIENTOS DE SALIDA
     </div>
         <div class="boton_titulo">
-        <a class="btn btn-success" href="#" id="addsalida">
+        <a class="btn btn-success" href="/egresos/nuevo">
         <i class="fa fa-plus"></i> Nueva salida</a>
     </div>
 @stop
@@ -53,9 +53,6 @@
         </div>
     </div>
 
-    <!-- Incluir Formulario Salida de stock-->
-    @include('movimientos.modalsMovimientos.salidastock')
-
 @stop
 
 @section('js')
@@ -68,7 +65,6 @@
         $("#ocultar").fadeTo(8000, 500).slideUp(500, function(){
             $("ocultar").alert('close');
         });
-
 
         //Script Datatable Salidas Master y detalles
         var table = 
@@ -143,214 +139,6 @@
                 }
             });
         }
-
-
-        //Activar modal salidas de stock
-        $('#addsalida').click(function(){
-            $("#salidastock").modal(); 
-        });
-        
-
-        //Cerrar modal salidas de stock
-        $(".close").click(function() {
-            $('#salidastock').modal('hide');
-        });
-
-
-        //Plugins select para modal de salida
-        $("#empleados").select2({
-            minimumInputLength: 2,
-            minimumResultsForSearch: 10,
-            language: "es",
-            placeholder: "Seleccione un empleado",
-            allowClear: true,
-            tokenSeparators: [','],
-            ajax:   
-            {
-                url: "/ajax/empleados",
-                dataType: 'json',
-                delay: 300,
-                data: function(params) {
-                    return {
-                        term: params.term
-                    }
-                },
-                processResults: function (data) {
-                     data = data.map(function (item) {
-                        return {
-                            id: item.id,
-                            text: item.text+", "+item.nombre,
-                            cargo: item.cargo,
-                            sector: item.sector
-                        };
-                    });
-                    return { results: data };
-                },
-                cache: true
-            }
-        });
-        $("#articulos").select2({
-            minimumInputLength: 2,
-            minimumResultsForSearch: 10,
-            language: "es",
-            placeholder: "Seleccione un articulo",
-            allowClear: true,
-            tokenSeparators: [','],
-            ajax:   
-            {
-                url: "/ajax/articulos",
-                dataType: 'json',
-                delay: 300,
-                data: function(params) {
-                    return {
-                        term: params.term
-                    }
-                },
-                processResults: function (data) {
-                     data = data.map(function (item) {
-                        return {
-                            id: item.id,
-                            text: item.text,
-                            stock: item.stock_actual,
-                            unidad: item.unidad
-
-                        };
-                    });
-                    return { results: data };
-                },
-                cache: true
-            }
-        });
-        $("#destinos").select2({
-            minimumInputLength: 2,
-            minimumResultsForSearch: 10,
-            language: "es",
-            placeholder: "Seleccione un destino",
-            allowClear: true,
-            tokenSeparators: [','],
-            ajax:   
-            {
-                url: "/ajax/subareas",
-                dataType: 'json',
-                delay: 300,
-                data: function(params) {
-                    return {
-                        term: params.term
-                    }
-                },
-                processResults: function (data) {
-                     data = data.map(function (item) {
-                        return {
-                            id: item.id,
-                            text: item.text,
-                        };
-                    });
-                    return { results: data };
-                },
-                cache: true
-            }
-            });  
-        });
-
-
-        //Focus accesibilidad
-        $('#salidastock').on('shown.bs.modal', function() {
-            $(".tipo_retiro").focus();
-        });
-        $("#destinos").on("select2:select", function(e) {
-            $("#articulos").select2("open");
-        });
-        $("#articulos").on("select2:select", function(e) {
-            $("#empleados").select2("open");
-        });
-        $("#empleados").on("select2:select", function(e) {
-            $("#cantidad").focus();
-        });
-
-
-        //Datatable para modal salidas de stock(Articulos agregados)
-        $("#tabla-salidastock").DataTable({
-            language: {
-                url: "{!! asset('/plugins/datatables/lenguajes/spanish.json') !!}"
-            },
-            "paging":   false,
-        });
-
-
-        //Imprimir stock disponible en el placeholder del input cantidad
-        $("#articulos").on("select2:select", function(e) { 
-            data=$("#articulos").select2('data')[0];
-            $("#cantidad").attr('placeholder', data.stock+" "+data.unidad+"es disponibles" );
-            $("#cantidad").attr('data-stock', data.stock);
-        });
-
-        $("#empleados").on("select2:select", function(e) { 
-            data=$("#empleados").select2('data')[0];
-            $("#cargo").empty();
-            $("#sector").empty();
-            $("#cargo").append("Cargo: "+ data.cargo);
-            $("#sector").append("Sector: "+ data.sector);
-        });
-
-
-
-        //Agregar articulos a datatable
-        var contador = 1;
-        $("#agregar").on( 'click', function () {
-            var articulos = $("#articulos :selected").text();
-            var articulosid = $("#articulos :selected").val();
-            var empleados = $("#empleados :selected").text();
-            var empleadosid = $("#empleados :selected").val();
-            var cantidad = $("#cantidad").val();
-            var stock = $("#cantidad").data('stock');
-            var cero = 0;
-
-            //Validaciones antes de agregar articulos a la tabla
-            if(cantidad <= stock && cantidad > 0 && empleados.length != 0 && empleadosid.length != 0 && articulos.length != 0 && articulosid.length != 0)
-            {
-                var stockrestante = stock - cantidad;
-                
-
-                    
-                $("#tabla-salidastock").DataTable().row.add( [
-                    contador,
-                    articulos+"<input type='hidden' name='articulos[]' value='"+articulosid+"'>",
-                    cantidad+"<input type='hidden' name='cantidad[]' value='"+cantidad+"'>",
-                    empleados+"<input type='hidden' name='empleados[]' value='"+empleadosid+"'>",
-
-                    "<a class='btn botrojo btn-xs' href='#'><i class='glyphicon glyphicon-trash delete'></i></a>"
-                ] ).draw( false );
-                contador++;
-                $("#articulos").select2("val", "");
-                $("#empleados").select2("val", "");
-                $("#cantidad").val("");
-                $("#articulos").select2("open");
-                $("#cantidad_error").attr('class', 'form-group');
-            }
-            else if(cantidad > stock)
-            {
-                $("#cantidad_error").attr('class', 'form-group has-error');
-                $("#cantidad").focus();
-                $("#cantidad").val("");
-            }
-            else if(cantidad <= cero)
-            {
-                $("#cantidad_error").attr('class', 'form-group has-error');
-                $("#cantidad").focus();
-                $("#cantidad").val("");
-            }
-            else{
-                alert("No se ha podido agregar el articulo, intente nuevamente.")
-            }         
-        });
-
-
-        //Eliminar articulos ingresados en la datatable
-        $("#tabla-salidastock tbody").on( "click", ".delete", function () {
-            $("#tabla-salidastock").DataTable()
-                .row( $(this).parents("tr") )
-                .remove()
-                .draw();
-        });
+    });
     </script>
 @stop

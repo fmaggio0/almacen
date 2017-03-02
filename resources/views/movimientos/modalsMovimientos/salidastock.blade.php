@@ -7,7 +7,7 @@
 	{!! Form::open(['route' => 'addsalida', 'method' => 'POST', 'class' => 'form-horizontal' ]) !!}
 
 		<!--HEADER MODAL -->
-		<div class="modal-header" style="background: #4682B4; color: #FFFFFF;">
+		<div class="panel-heading" style="background: #4682B4; color: #FFFFFF;">
 			<button type="button" class="close" date-dismiss='modal' aria-hidden='true'>&times;</button>
 			<h4 class="modal-title">Salida de stock</h4> 
 		</div>
