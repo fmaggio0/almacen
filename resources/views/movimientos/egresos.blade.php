@@ -55,8 +55,6 @@
 
     <!-- Incluir Formulario Salida de stock-->
     @include('movimientos.modalsMovimientos.salidastock')
-    <!-- Incluir Formulario Editar salida pendiente -->
-    @include('movimientos.modalsMovimientos.edit-salidastock')
 
 @stop
 

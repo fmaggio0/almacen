@@ -16,12 +16,15 @@ Route::post('/autorizaciones/post', ['uses' => 'AutorizacionesController@storead
 
 Route::get('/egresos', ['uses' => 'MovimientosController@indexegresos']);
 
+Route::get('/egresos/modificar/{id}', ['uses' => 'MovimientosController@indexmodificaregresos']);
+
 Route::get('/ingresos', ['uses' => 'MovimientosController@indexingresos']);
 
 Route::post('/movimientos/addsalida', ['as' => 'addsalida', 'uses' => 'MovimientosController@storeegreso']);
 
 Route::post('/movimientos/addingreso', ['as' => 'addingreso', 'uses' => 'MovimientosController@storeingreso']);
 
+Route::post('/egresos/modificar-egreso', ['uses' => 'MovimientosController@ModificarEgreso']);
 
 //CONFIGURACIONES - ARTICULOS
 

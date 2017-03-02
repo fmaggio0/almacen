@@ -155,7 +155,7 @@ class DatatablesController extends Controller
                 }
                 elseif($salidas->estado === 1)
                 {
-                    return "<a href='#' class='btn btn-xs btn-primary edit'><i class='glyphicon glyphicon-search edit'></i></a><a href='#' class='btn btn-xs botrojo'><i class='glyphicon glyphicon-remove remove'></i></a>";
+                    return "<a href='/egresos/modificar/".$salidas->id_master."' class='btn btn-xs btn-primary edit'><i class='glyphicon glyphicon-search edit'></i></a><a href='#' class='btn btn-xs botrojo'><i class='glyphicon glyphicon-remove remove'></i></a>";
                 }
             })
             ->editColumn('estado', function($salidas){

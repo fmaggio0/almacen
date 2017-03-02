@@ -8,6 +8,7 @@ use App\AutorizacionesMaster;
 use App\AutorizacionesDetalles;
 use App\SalidasDetalles;
 use App\SalidasMaster;
+use App\Articulos;
 use App\Http\Requests;
 use Auth;
 use App\Areas;
@@ -65,7 +66,7 @@ class AutorizacionesController extends Controller
     	DB::beginTransaction();
 
         try 
-        {
+        { 
             //Validaciones
             /*$validator = Validator::make($request->all(), [
                 'tipo_retiro' => 'required|max:60',
@@ -119,30 +120,44 @@ class AutorizacionesController extends Controller
                 $update->save();
             }
 
-            //Replicamos la AutorizacionesMaster en una SalidasMaster
-            $id_master = $request->id_master;
-            $obtenermaster = AutorizacionesMaster::findOrFail($id_master);
-            $salidasmaster = new SalidasMaster;
-            $salidasmaster->tipo_retiro = $obtenermaster->tipo_retiro;
-            $salidasmaster->estado = 0;
-            $salidasmaster->id_subarea = $obtenermaster->id_subarea;
-            $salidasmaster->id_usuario = $request->id_usuario;
-            $salidasmaster->save();
+            $cantidad_registros = count($request->id_detalles);
 
+            //return "$cantidad_registros $count";
 
-
-            //Por cada una AutorizacionesDetalles creamos una SalidasDetalles
-            for($i=0;$i <count($request->id_detalles);$i++)
-            {
-	            $id = $request->id_detalles[$i];
-                $obtenerdetalles = AutorizacionesDetalles::findOrFail($id);
-                $salidasdetalles = new SalidasDetalles;
-                $salidasdetalles->id_master = $salidasmaster->id_master;
-	            $salidasdetalles->id_articulo = $obtenerdetalles->id_articulo;
-	            $salidasdetalles->id_empleado = $obtenerdetalles->id_empleado;
-	            $salidasdetalles->cantidad = $obtenerdetalles->cantidad;
-	            $salidasdetalles->save();
+            if( $cantidad_registros == $count ){
             }
+            else{
+                //Replicamos la AutorizacionesMaster en una SalidasMaster
+                $id_master = $request->id_master;
+                $obtenermaster = AutorizacionesMaster::findOrFail($id_master);
+                $salidasmaster = new SalidasMaster;
+                $salidasmaster->tipo_retiro = $obtenermaster->tipo_retiro;
+                $salidasmaster->estado = 0;
+                $salidasmaster->id_subarea = $obtenermaster->id_subarea;
+                $salidasmaster->id_usuario = $request->id_usuario;
+                $salidasmaster->save();
+
+                //Por cada una AutorizacionesDetalles creamos una SalidasDetalles
+                for($i=0;$i <count($request->id_detalles);$i++)
+                {
+                    if($request->estado[$i] == 1){
+                        $id = $request->id_detalles[$i];
+                        $obtenerdetalles = AutorizacionesDetalles::findOrFail($id);
+                        $salidasdetalles = new SalidasDetalles;
+                        $salidasdetalles->id_master = $salidasmaster->id_master;
+                        $salidasdetalles->id_articulo = $obtenerdetalles->id_articulo;
+                        $salidasdetalles->id_empleado = $obtenerdetalles->id_empleado;
+                        $salidasdetalles->cantidad = $obtenerdetalles->cantidad;
+                        $salidasdetalles->save();
+
+                        $update = Articulos::findOrFail($obtenerdetalles->id_articulo);
+                        $update->decrement('stock_actual', $obtenerdetalles->cantidad);
+                        $update->save();
+                    }
+                }
+            }
+
+            
 
             //Commit y redirect con success
             DB::commit();

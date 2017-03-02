@@ -13,7 +13,7 @@ class SalidasMaster extends Model
 
     public function detalles()
     {
-    	return $this->hasMany('App\SalidasDetalles');
+    	return $this->hasMany('App\SalidasDetalles', 'id_master');
 
     }
 }
