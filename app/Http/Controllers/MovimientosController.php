@@ -23,9 +23,14 @@ use View;
 
 class MovimientosController extends Controller
 {
-    public function indexingresos(){
+    public function Ingresos(){
 
         return view('movimientos.ingresos');
+    }
+
+    public function NuevoIngreso(){
+
+        return view('movimientos.ingresos_nuevo');
     }
     
 	public function indexegresos(){
@@ -64,6 +69,8 @@ class MovimientosController extends Controller
     
     public function storeingreso(Request $request){
 
+        DB::beginTransaction();
+        
         try 
         {
            //Validaciones
@@ -124,9 +131,8 @@ class MovimientosController extends Controller
 
             //Commit y redirect con success
             DB::commit();
-            return redirect()
-                ->back()
-                ->with('status', 'Salida procesada correctamente');
+            return redirect("/ingresos")
+                ->with('status', 'Ingreso procesado correctamente');
         }
 
         catch (Exception $e)

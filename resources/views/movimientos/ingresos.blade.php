@@ -5,7 +5,7 @@
         GESTION INGRESO DE STOCK
     </div>
     <div class="boton_titulo">
-        <a class="btn btn-success" href="#" id="addsalida">
+        <a class="btn btn-success" href="/ingresos/nuevo" id="addsalida">
         <i class="fa fa-plus"></i> Nuevo ingreso</a>
     </div>
 @stop
@@ -54,13 +54,6 @@
             </table>
         </div>
     </div>
-
-    <!-- Incluir Formulario -->
-    @include('movimientos.modalsMovimientos.ingresostock')
-    <!-- Crear nuevo articulo -->
-    @include('configuraciones.modalsArticulos.create')
-    <!-- Crear nuevo proveedor -->
-    @include('configuraciones.modalsProveedores.create')
 
 @stop
 @section('js')
@@ -169,16 +162,6 @@
                 }
             });
         }
-        //Activar modal salidas de stock
-        $('#addsalida').click(function(){
-            $("#ingresostock").modal(); 
-        });
-
-        //Cerrar modal ingreso de stock
-        $("#cerraringreso").click(function() {
-            $('#ingresostock').modal('hide');
-        });
-
     });
     </script>
 @stop

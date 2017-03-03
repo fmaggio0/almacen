@@ -148,13 +148,17 @@
                         @role(['developers', 'user'])
                             <li class="header">GESTIONES DE AREAS</li>
                             <li>
+                                <a href="/areas"><i class='fa fa-link'></i> <span>Inicio</span></a>
+                            </li>
+                            <li>
                                 <a href="/areas/autorizaciones"><i class='fa fa-link'></i> <span>Autorizaciones</span></a>
                             </li>
                         @endrole
 
-                        @role(['developers'])
+                        @role(['developers', 'cil'])
                             <li class="header">GESTIONES DEL CIL</li>
-                            <li><a href="/usuario"><i class='fa fa-link'></i> <span>Roles de usuario</span></a></li>
+                            <li><a href="/cil"><i class='fa fa-link'></i> <span>Inicio</span></a></li>
+                            <li><a href="/cil/usuarios"><i class='fa fa-link'></i> <span>Usuarios, roles y permisos</span></a></li>
                             <li><a href="/backup"><i class='fa fa-link'></i><span>Back Ups</span></a></li>
                         @endrole
 

@@ -18,41 +18,56 @@ use DB;
 
 class AutorizacionesController extends Controller
 {
+    
     public function index(){
-		return view('autorizaciones.autorizaciones_retiro');	
-	}
-
-    public function indexUsuario(){
-		return view('usuario.index');
-	}
+        return view('autorizaciones.autorizaciones_retiro');    
+    }
 
 	public function store(Request $request){
+        DB::beginTransaction();
+        try 
+        {
 
-	    $master = new AutorizacionesMaster;
+    	    $master = new AutorizacionesMaster;
 
-	    $post = $request->all();
+    	    $post = $request->all();
 
-	    $master->tipo_retiro = $post['tipo_retiro'];
-	    $master->id_subarea = $post['destino'];
-	    $master->id_usuario = $post['usuario'];
-	    $master->save();
+    	    $master->tipo_retiro = $post['tipo_retiro'];
+    	    $master->id_subarea = $post['destino'];
+    	    $master->id_usuario = $post['usuario'];
+    	    $master->save();
 
-	    $j = $master->id_master;
+    	    $j = $master->id_master;
 
-			if($j > 0)
-			{
-		        for($i=0;$i <count($post['articulos1']);$i++)
-		        {
-		            $detalles = array(
-		                                'id_master' => $j,
-		                                'id_articulo'=> $post['articulos1'][$i],
-		                                'id_empleado'  => $post['empleados1'][$i],
-		                                'cantidad' => $post['cantidad1'][$i]
-		                                );
-		            AutorizacionesDetalles::create($detalles);
-		        }
-		    return back()->withInput();
-		}
+    			if($j > 0)
+    			{
+    		        for($i=0;$i <count($post['articulos1']);$i++)
+    		        {
+    		            $detalles = array(
+    		                                'id_master' => $j,
+    		                                'id_articulo'=> $post['articulos1'][$i],
+    		                                'id_empleado'  => $post['empleados1'][$i],
+    		                                'cantidad' => $post['cantidad1'][$i]
+    		                                );
+    		            AutorizacionesDetalles::create($detalles);
+    		        }
+                }
+
+            //Commit y redirect con success
+            DB::commit();
+            return redirect('/areas/autorizaciones')
+                ->with('status', 'Salida procesada correctamente');
+        }
+
+        catch (Exception $e)
+        {
+            //Rollback y redirect con error
+            DB::rollback();
+            return redirect()
+                ->back()
+                ->withErrors('Se ha producido un errro: ( ' . $e->getCode() . ' ): ' . $e->getMessage().' - Copie este texto y envielo a informática');
+        }
+
 	}
 
 	public function storeadmin(Request $request){

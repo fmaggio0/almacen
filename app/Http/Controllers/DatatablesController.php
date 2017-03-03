@@ -155,7 +155,7 @@ class DatatablesController extends Controller
                 }
                 elseif($salidas->estado === 1)
                 {
-                    return "<a href='/egresos/modificar/".$salidas->id_master."' class='btn btn-xs btn-primary edit'><i class='glyphicon glyphicon-search edit'></i></a><a href='#' class='btn btn-xs botrojo'><i class='glyphicon glyphicon-remove remove'></i></a>";
+                    return "<a href='/egresos/modificar/".$salidas->id_master."' class='btn btn-xs btn-primary edit'><i class='glyphicon glyphicon-search edit'></i></a>";
                 }
             })
             ->editColumn('estado', function($salidas){
@@ -270,5 +270,32 @@ class DatatablesController extends Controller
             ->select('articulos.id_articulo', 'articulos.descripcion','salidas_detalles.id_empleado', 'empleados.Nombres','empleados.Apellido', 'salidas_detalles.cantidad' )
             ->get();
         return Response::json($detalles);
+    }
+
+    public function Usuarios()
+    {
+        $query = DB::table('users')
+            ->select(['id', 'name', 'email'])
+            ->first();
+
+        $query2 = DB::table('role_user')
+            ->where('user_id', '=', $query->id)
+            ->select(['role_id'])
+            ->first();
+
+        $query3 = DB::table('roles')
+            ->where('id', '=', $query2->role_id)
+            ->select(['display_name'])
+            ->first();
+
+        array_push($query, $query3->display_name);
+
+        return $query->display_name;
+        
+        /*return Datatables::of($query)
+            ->addColumn('action', function ($usuarios) {
+                return '<a href="#" class="btn btn-xs btn-primary edit"><i class="glyphicon glyphicon-edit edit"></i></a>';
+            })
+            ->make(true);*/
     }     
 }
