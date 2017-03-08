@@ -31,17 +31,16 @@
         </div>
     @endif
 
-
     <!-- Datatables Salidas Master -->
     <div class="box">
         <div class="box-body">
             <table id="tabla-usuarios" class="table table-striped table-bordered"  cellspacing="0" width="100%">
                 <thead>
                     <tr>
-                        <th></th>
                         <th>ID</th>
                         <th>Nombre de usuario</th>
                         <th>E-Mail</th>
+                        <th>Roles</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -72,16 +71,10 @@ $(document).ready( function () {
             alert("Custom error");
         },
         "columns":[
-            {
-                className:"details-control",
-                orderable: false,
-                searchable: false,
-                data: null,
-                defaultContent: ""
-            },
-            {data: 'id', name: 'usuarios.id'},
-            {data: 'name', name: 'usuarios.name'},
-            {data: 'email', name: 'usuarios.email'},
+            {data: 'id', name: 'users.id'},
+            {data: 'name', name: 'users.name'},
+            {data: 'email', name: 'users.email'},
+            {data: 'roles', name: 'roles' , orderable: false, searchable: false},
             {data: 'action', name: 'action' , orderable: false, searchable: false},
         ],
         "order": [ 0, "desc" ],

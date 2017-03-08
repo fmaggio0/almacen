@@ -69,8 +69,9 @@ Route::group(['middleware' => ['role:developers|areas']], function() {
 
 Route::group(['middleware' => ['role:developers|cil']], function() {
 
-	Route::get('/cil', 							['uses' => 'CilController@Index']);
-	Route::get('/cil/usuarios', 				['uses' => 'CilController@Usuarios']);
+	Route::get('/cil', 									['uses' => 'CilController@Index']);
+	Route::get('/cil/usuarios', 						['uses' => 'CilController@Usuarios']);
+	Route::get('/cil/usuarios/modificar/{id}', 		['uses' => 'CilController@UsuariosModificar']);
 
 });
 
@@ -89,6 +90,8 @@ Route::get('/ajax/empleados', 							['uses' => 'AjaxController@getEmpleados']);
 Route::get('/ajax/subareas', 							['uses' => 'AjaxController@getSubareas']);
 
 Route::get('/ajax/articulos', 							['uses' => 'AjaxController@getArticulos']);
+
+Route::get('/ajax/roles', 								['uses' => 'AjaxController@getRoles']);
 
 Route::get('/ajax/ultimoretiroporempleado/{id_articulo}/{id_empleado}', 	['uses' => 'AjaxController@getUltimoRetiroPorEmpleado']);
 

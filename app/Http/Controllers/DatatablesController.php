@@ -9,6 +9,8 @@ use DB;
 use App\SalidasMaster;
 use App\SalidasDetalles;
 use Response;
+use App\User;
+use Auth;
 
 class DatatablesController extends Controller
 {
@@ -276,26 +278,20 @@ class DatatablesController extends Controller
     {
         $query = DB::table('users')
             ->select(['id', 'name', 'email'])
-            ->first();
-
-        $query2 = DB::table('role_user')
-            ->where('user_id', '=', $query->id)
-            ->select(['role_id'])
-            ->first();
-
-        $query3 = DB::table('roles')
-            ->where('id', '=', $query2->role_id)
-            ->select(['display_name'])
-            ->first();
-
-        array_push($query, $query3->display_name);
-
-        return $query->display_name;
-        
-        /*return Datatables::of($query)
-            ->addColumn('action', function ($usuarios) {
-                return '<a href="#" class="btn btn-xs btn-primary edit"><i class="glyphicon glyphicon-edit edit"></i></a>';
+            ->distinct();
+         
+        return Datatables::of($query)
+            ->addColumn('roles', function ($usuarios) {
+                $user = User::find($usuarios->id);
+                $tmp = '';
+                foreach ($user->roles as $role) {
+                    $tmp .= " <span class='label label-info'>".$role->display_name."</span>";
+                }
+                return $tmp;
             })
-            ->make(true);*/
+            ->addColumn('action', function ($usuarios) {
+                return '<a href="/cil/usuarios/modificar/'.$usuarios->id.'" class="btn btn-xs btn-primary edit"><i class="glyphicon glyphicon-edit edit"></i></a>';
+            })
+            ->make(true);
     }     
 }
