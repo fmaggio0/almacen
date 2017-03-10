@@ -71,7 +71,8 @@ Route::group(['middleware' => ['role:developers|cil']], function() {
 
 	Route::get('/cil', 									['uses' => 'CilController@Index']);
 	Route::get('/cil/usuarios', 						['uses' => 'CilController@Usuarios']);
-	Route::get('/cil/usuarios/modificar/{id}', 		['uses' => 'CilController@UsuariosModificar']);
+	Route::get('/cil/usuarios/modificar/{id}', 			['uses' => 'CilController@UsuariosModificar']);
+	Route::post('/cil/usuarios/update', 				['uses' => 'CilController@UsuariosUpdate']);
 
 });
 

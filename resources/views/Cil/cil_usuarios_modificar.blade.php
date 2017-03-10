@@ -49,12 +49,12 @@
                             <div class="col-sm-4">
                                 <div class="input-group">
                                     <input class="form-control" style="width: 20%" readonly name="id_empleado" id="id_empleado" type="text" value="{{$user->id_empleado}}">
-                                    <select id="empleados" class="form-control" style="width: 80%" name="articulos" aria-hidden="true"></select>
+                                    <select id="empleados" class="form-control" style="width: 80%" name="articulos" aria-hidden="true"><option value="{{$user->id_empleado}}">{{$empleado[0]->Apellido}}, {{$empleado[0]->Nombres}}</option></select>
                                 </div>    
                             </div>
                             <label class="control-label col-sm-2">Roles asignados:</label>
                             <div class="col-sm-4">
-                                <select name="roles" id="roles" multiple="multiple" style="width: 100%" required><option value="1" selected>hola</option><option value="2" selected>hola</option></select>
+                                <select name="roles[]" id="roles" multiple="multiple" style="width: 100%" required></select>
                             </div>
                         </div>
                     </div>
@@ -74,7 +74,7 @@
 
 <script>    
 
-$("#empleados").select2({
+select2empleados = $("#empleados").select2({
     minimumInputLength: 2,
     minimumResultsForSearch: 10,
     language: "es",
@@ -100,30 +100,29 @@ $("#empleados").select2({
             });
             return { results: data };
         },
-        cache: true
+        cache: true,
     }
 });
 
 $.getJSON("/ajax/roles", function (json) {
-    $("#roles").select2({
+    select2roles = $("#roles").select2({
         data: json,
         language: "es",
-        placeholder: "Seleccionar roles"
+        placeholder: "Seleccionar roles",
+        tags: true
     });
+    roles = {!! json_encode($user->roles->toArray()) !!};
+    array = new Array();
+    jQuery.each( roles, function( i, val ) {
+        array.push(val.id);
+    });
+    select2roles.val(array).trigger("change");
 });
 
 $("#empleados").on("select2:select", function(e) { 
     data=$("#empleados").select2('data')[0];
     $("#id_empleado").val(data.id);
 });
-
-
-/*if(rubros){
-    var rubros2 = rubros.split(', ');
-}     
-
-$(".edit-rubros").val(rubros2).trigger("change");*/
-    
 </script>
 
 @stop
