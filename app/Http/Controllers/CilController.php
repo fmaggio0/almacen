@@ -26,6 +26,9 @@ class CilController extends Controller
     public function Usuarios(){
     	return view('cil.cil_usuarios');
     }
+    public function UsuariosNuevo(){
+        return view('cil.cil_usuarios_nuevo');
+    }
     public function UsuariosModificar($id){
 
     	$user = User::find($id);
@@ -36,7 +39,52 @@ class CilController extends Controller
 
         return View::make('cil.cil_usuarios_modificar')->with('user', $user)->with('empleado', $empleado);
     }
+    public function UsuariosNuevoPost(Request $request){
 
+        DB::beginTransaction();
+        
+        try 
+        {
+           //Validaciones
+            $validator = Validator::make($request->all(), [
+                'name' => 'required|max:255',
+                'email' => 'required|email|max:255|unique:users',
+                'password' => 'required|confirmed|min:6',
+                'id_empleado' => 'required|integer'
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()
+                            ->back()
+                            ->withErrors($validator)
+                            ->withInput();
+            }
+
+
+            $query = new User;
+                $query->name = $request->name;
+                $query->email = $request->email;
+                $query->id_empleado = $request->id_empleado;
+                $query->password = bcrypt($request->password);
+            $query->save();
+
+            $query->roles()->attach($request->roles);
+
+            //Commit y redirect con success
+            DB::commit();
+            return redirect("/cil/usuarios")
+                ->with('status', 'Usuario modificado correctamente');
+        }
+
+        catch (Exception $e)
+        {
+            //Rollback y redirect con error
+            DB::rollback();
+            return redirect()
+                ->back()
+                ->withErrors('Se ha producido un errro: ( ' . $e->getCode() . ' ): ' . $e->getMessage().' - Copie este texto y envielo a informática');
+        }
+    }
     public function UsuariosUpdate(Request $request){
 
         DB::beginTransaction();
@@ -63,16 +111,23 @@ class CilController extends Controller
                 $query->id_empleado = $request->id_empleado;
             $query->save();
 
+            $prueba = array();
+
+
+            //Eliminar roles
             foreach ($query->roles as $key => $value) {
+                array_push($prueba, $value->id);
                 if (!in_array($value->id, $request->roles)) {
                     $query->roles()->detach($value->id);
                 }
-                else{
-                    $query->roles()->attach($value->id);
-                }
             }
 
-            //return $query->roles[0]["id"];
+            //Agregar roles
+            foreach ($request->roles as $key => $value) {
+                if (!in_array($value, $prueba)) {
+                    $query->roles()->attach($value);
+                }
+            }
 
             //Commit y redirect con success
             DB::commit();

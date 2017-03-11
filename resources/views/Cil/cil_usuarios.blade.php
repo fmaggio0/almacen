@@ -2,10 +2,10 @@
 
 @section ('contentheader_title') 
     <div class="titulo_header">
-        GESTION DE MOVIMIENTOS DE SALIDA
+        GESTION DE USUARIOS, ROLES Y PERMISOS
     </div>
         <div class="boton_titulo">
-        <a class="btn btn-success" href="/cil/usuario/nuevo">
+        <a class="btn btn-success" href="/cil/usuarios/nuevo">
         <i class="fa fa-plus"></i> Nuevo usuario</a>
     </div>
 @stop
@@ -40,6 +40,7 @@
                         <th>ID</th>
                         <th>Nombre de usuario</th>
                         <th>E-Mail</th>
+                        <th>Empleado</th>
                         <th>Roles</th>
                         <th>Acciones</th>
                     </tr>
@@ -74,6 +75,7 @@ $(document).ready( function () {
             {data: 'id', name: 'users.id'},
             {data: 'name', name: 'users.name'},
             {data: 'email', name: 'users.email'},
+            {data: 'full_name', name: 'empleados.Apellido'},
             {data: 'roles', name: 'roles' , orderable: false, searchable: false},
             {data: 'action', name: 'action' , orderable: false, searchable: false},
         ],

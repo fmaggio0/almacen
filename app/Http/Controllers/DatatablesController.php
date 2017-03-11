@@ -277,7 +277,8 @@ class DatatablesController extends Controller
     public function Usuarios()
     {
         $query = DB::table('users')
-            ->select(['id', 'name', 'email'])
+            ->select(['users.id', 'users.name', 'users.email', 'users.id_empleado', DB::raw('CONCAT(empleados.Apellido, ", ", empleados.Nombres) AS full_name')])
+            ->join('personal_prod.tpersonal as empleados', 'empleados.Nro_Legajo', '=', 'users.id_empleado')
             ->distinct();
          
         return Datatables::of($query)
