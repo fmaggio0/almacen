@@ -24,7 +24,31 @@ class CilController extends Controller
     	return view('cil.cil_index');
     }
     public function Usuarios(){
-    	return view('cil.cil_usuarios');
+
+    $roles = DB::table('roles')
+        ->select(['name', 'display_name', 'description', 'id'])
+        ->lists('id');
+
+    /*$permisos = DB::table('permissions')
+        ->select(['name', 'display_name', 'description', 'id'])
+        ->get();*/
+
+    foreach ($roles as $role => $item) {
+        $permisos = DB::select('SELECT GROUP_CONCAT(permissions.display_name) as concat
+            FROM
+              permission_role
+            INNER JOIN
+              permissions ON permission_role.permission_id = permissions.id
+            WHERE
+              permission_role.role_id = '.$item->id.'
+            GROUP BY
+              permission_role.role_id');
+
+        //return $permisos[0]->concat;
+
+    }
+    //return $roles;
+    	//return view('cil.cil_usuarios')->with('roles', $roles)->with('permisos', $permisos);
     }
     public function UsuariosNuevo(){
         return view('cil.cil_usuarios_nuevo');
@@ -47,10 +71,10 @@ class CilController extends Controller
         {
            //Validaciones
             $validator = Validator::make($request->all(), [
-                'name' => 'required|max:255',
+                'name' => 'required|max:255|unique:users',
                 'email' => 'required|email|max:255|unique:users',
                 'password' => 'required|confirmed|min:6',
-                'id_empleado' => 'required|integer'
+                'id_empleado' => 'required|integer|unique:users'
             ]);
 
             if ($validator->fails()) {
@@ -73,7 +97,7 @@ class CilController extends Controller
             //Commit y redirect con success
             DB::commit();
             return redirect("/cil/usuarios")
-                ->with('status', 'Usuario modificado correctamente');
+                ->with('status', 'Usuario creado correctamente');
         }
 
         catch (Exception $e)

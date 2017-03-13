@@ -31,21 +31,95 @@
         </div>
     @endif
 
-    <!-- Datatables Salidas Master -->
-    <div class="box">
-        <div class="box-body">
-            <table id="tabla-usuarios" class="table table-striped table-bordered"  cellspacing="0" width="100%">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nombre de usuario</th>
-                        <th>E-Mail</th>
-                        <th>Empleado</th>
-                        <th>Roles</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-            </table>
+    <div class="panel panel-default">
+        <div class="panel-heading" style="background: #4682B4; color: #FFFFFF;"><h4 class="panel-title">Usuarios</h4></div>
+        <div class="panel-body">
+            <!-- Datatables Salidas Master -->
+            <div class="box">
+                <div class="box-body">
+                    <table id="tabla-usuarios" class="table table-striped table-bordered"  cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre de usuario</th>
+                                <th>E-Mail</th>
+                                <th>Empleado</th>
+                                <th>Roles</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading" style="background: #4682B4; color: #FFFFFF;"><h4 class="panel-title">Roles</h4></div>
+                <div class="panel-body">
+                    <!-- Datatables Salidas Master -->
+                    <div class="box">
+                        <div class="box-body">
+                            <table id="tabla-roles" class="table table-striped table-bordered"  cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nombre</th>
+                                        <th>Nombre para mostrar</th>
+                                        <th>Descripción</th>
+                                        <th>Permisos asignados</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($roles as $role)
+                                        <tr>
+                                            <td> {{ $role->id}} </td>
+                                            <td> {{ $role->name}} </td>
+                                            <td> {{ $role->display_name}}</td>
+                                            <td> {{ $role->description}}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> 
+
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading" style="background: #4682B4; color: #FFFFFF;"><h4 class="panel-title">Permisos</h4></div>
+                <div class="panel-body">
+                    <!-- Datatables Salidas Master -->
+                    <div class="box">
+                        <div class="box-body">
+                            <table id="tabla-permisos" class="table table-striped table-bordered"  cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nombre</th>
+                                        <th>Nombre para mostrar</th>
+                                        <th>Descripción</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($permisos as $permiso)
+                                        <tr>
+                                            <td> {{ $permiso->id}} </td>
+                                            <td> {{ $permiso->name}} </td>
+                                            <td> {{ $permiso->display_name}}</td>
+                                            <td> {{ $permiso->description}}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

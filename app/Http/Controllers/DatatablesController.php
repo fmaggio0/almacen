@@ -294,5 +294,5 @@ class DatatablesController extends Controller
                 return '<a href="/cil/usuarios/modificar/'.$usuarios->id.'" class="btn btn-xs btn-primary edit"><i class="glyphicon glyphicon-edit edit"></i></a>';
             })
             ->make(true);
-    }     
+    }        
 }

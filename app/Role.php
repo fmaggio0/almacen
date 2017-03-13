@@ -17,4 +17,8 @@ class Role extends EntrustRole {
    public function users(){
         return $this->belongsToMany('App\User');
     }
+
+    public function permisos(){
+        return $this->belongsToMany('App\Permission');
+    }
 }
