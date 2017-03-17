@@ -76,6 +76,16 @@ Route::group(['middleware' => ['role:developers|cil']], function() {
 	Route::post('/cil/usuarios/update', 				['uses' => 'CilController@UsuariosUpdate']);
 	Route::post('/cil/usuarios/nuevo/post', 			['uses' => 'CilController@UsuariosNuevoPost']);
 
+	Route::get('/cil/roles', 							['uses' => 'CilController@RolesIndex']);
+	Route::get('/cil/roles/nuevo', 						['uses' => 'CilController@RolesNuevo']);
+	Route::get('/cil/permisos/nuevo', 					['uses' => 'CilController@PermisosNuevo']);
+	Route::get('/cil/roles/update/{id}', 				['uses' => 'CilController@RolesUpdate']);
+	Route::get('/cil/permisos/update/{id}', 			['uses' => 'CilController@PermisosUpdate']);
+	Route::post('/cil/roles/nuevo/post', 				['uses' => 'CilController@RolesNuevoPost']);
+	Route::post('/cil/permisos/nuevo/post', 			['uses' => 'CilController@PermisosNuevoPost']);
+	Route::post('/cil/roles/update/post', 				['uses' => 'CilController@RolesUpdatePost']);
+	Route::post('/cil/permisos/update/post', 			['uses' => 'CilController@PermisosUpdatePost']);
+
 });
 
 //RESPUESTAS AJAX JSON/ARRAY
@@ -95,6 +105,8 @@ Route::get('/ajax/subareas', 							['uses' => 'AjaxController@getSubareas']);
 Route::get('/ajax/articulos', 							['uses' => 'AjaxController@getArticulos']);
 
 Route::get('/ajax/roles', 								['uses' => 'AjaxController@getRoles']);
+
+Route::get('/ajax/permisos', 							['uses' => 'AjaxController@getPermisos']);
 
 Route::get('/ajax/ultimoretiroporempleado/{id_articulo}/{id_empleado}', 	['uses' => 'AjaxController@getUltimoRetiroPorEmpleado']);
 
@@ -127,3 +139,5 @@ Route::get('/datatables/autorizaciones', 				['uses' => 'DatatablesController@au
 Route::get('/datatables/salidas-modal-edit/{id}',		['uses' => 'DatatablesController@salidasmodaledit']);
 
 Route::get('/datatables/usuarios',						['uses' => 'DatatablesController@Usuarios']);
+
+Route::get('/datatables/roles',							['uses' => 'DatatablesController@Roles']);

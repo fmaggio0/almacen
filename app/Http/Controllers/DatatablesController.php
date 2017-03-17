@@ -11,6 +11,7 @@ use App\SalidasDetalles;
 use Response;
 use App\User;
 use Auth;
+use App\Role;
 
 class DatatablesController extends Controller
 {
@@ -294,5 +295,25 @@ class DatatablesController extends Controller
                 return '<a href="/cil/usuarios/modificar/'.$usuarios->id.'" class="btn btn-xs btn-primary edit"><i class="glyphicon glyphicon-edit edit"></i></a>';
             })
             ->make(true);
-    }        
+    }
+    public function Roles()
+    {
+        $query = DB::table('roles')
+            ->select()
+            ->distinct();
+         
+        return Datatables::of($query)
+            ->addColumn('permisos', function ($query) {
+                $role = Role::find($query->id);
+                $tmp = '';
+                foreach ($role->permisos as $permisos) {
+                    $tmp .= " <span class='label label-info'>".$permisos->display_name."</span>";
+                }
+                return $tmp;
+            })
+            ->addColumn('action', function ($usuarios) {
+                return '<a href="/cil/roles/update/'.$usuarios->id.'" class="btn btn-xs btn-primary edit"><i class="glyphicon glyphicon-edit edit"></i></a>';
+            })
+            ->make(true);
+    }          
 }

@@ -158,7 +158,8 @@
                         @role(['developers', 'cil'])
                             <li class="header">GESTIONES DEL CIL</li>
                             <li><a href="/cil"><i class='fa fa-link'></i> <span>Inicio</span></a></li>
-                            <li><a href="/cil/usuarios"><i class='fa fa-link'></i> <span>Usuarios, roles y permisos</span></a></li>
+                            <li><a href="/cil/usuarios"><i class='fa fa-link'></i> <span>Usuarios</span></a></li>
+                            <li><a href="/cil/roles"><i class='fa fa-link'></i> <span>Roles y permisos</span></a></li>
                             <li><a href="/backup"><i class='fa fa-link'></i><span>Back Ups</span></a></li>
                         @endrole
 

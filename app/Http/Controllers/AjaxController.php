@@ -86,6 +86,17 @@ class AjaxController extends Controller
         return Response::json($tags);
     }
 
+    public function getPermisos(Request $request)
+    {
+        $term = $request->term ?: '';
+        $tags = DB::table ('permissions')
+            ->where('display_name', 'like', $term.'%')
+            ->select('display_name AS text', 'id AS id')
+            ->get();
+
+        return Response::json($tags);
+    }
+
     public function getUltimoRetiroPorEmpleado($id_articulo, $id_empleado)
     {
         $asd=DB::table('salidas_detalles')

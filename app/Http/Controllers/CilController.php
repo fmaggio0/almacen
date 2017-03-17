@@ -8,7 +8,11 @@ use App\Http\Requests;
 
 use App\User; 
 
-use App\Empleados; 
+use App\Empleados;
+
+use App\Role;  
+
+use App\Permission;  
 
 use Auth;
 
@@ -24,35 +28,33 @@ class CilController extends Controller
     	return view('cil.cil_index');
     }
     public function Usuarios(){
-
-    $roles = DB::table('roles')
-        ->select(['name', 'display_name', 'description', 'id'])
-        ->lists('id');
-
-    /*$permisos = DB::table('permissions')
-        ->select(['name', 'display_name', 'description', 'id'])
-        ->get();*/
-
-    foreach ($roles as $role => $item) {
-        $permisos = DB::select('SELECT GROUP_CONCAT(permissions.display_name) as concat
-            FROM
-              permission_role
-            INNER JOIN
-              permissions ON permission_role.permission_id = permissions.id
-            WHERE
-              permission_role.role_id = '.$item->id.'
-            GROUP BY
-              permission_role.role_id');
-
-        //return $permisos[0]->concat;
-
+        return view('cil.cil_usuarios');
     }
-    //return $roles;
-    	//return view('cil.cil_usuarios')->with('roles', $roles)->with('permisos', $permisos);
+    public function RolesIndex(){
+
+        $permisos = Permission::all();
+
+        return view('cil.cil_usuarios_rolesypermisos')->with('permisos', $permisos);
     }
     public function UsuariosNuevo(){
         return view('cil.cil_usuarios_nuevo');
     }
+
+    public function RolesNuevo(){
+        return view('cil.cil_roles_nuevo');
+    }
+
+    public function RolesUpdate($id){
+
+        $role = Role::find($id);
+
+        return view('cil.cil_roles_nuevo')->with('role', $role);
+    }
+
+    public function PermisosNuevo(){
+        return view('cil.cil_permisos_nuevo');
+    }
+
     public function UsuariosModificar($id){
 
     	$user = User::find($id);
@@ -157,6 +159,90 @@ class CilController extends Controller
             DB::commit();
             return redirect("/cil/usuarios")
                 ->with('status', 'Usuario modificado correctamente');
+        }
+
+        catch (Exception $e)
+        {
+            //Rollback y redirect con error
+            DB::rollback();
+            return redirect()
+                ->back()
+                ->withErrors('Se ha producido un errro: ( ' . $e->getCode() . ' ): ' . $e->getMessage().' - Copie este texto y envielo a informática');
+        }
+    }
+    public function RolesNuevoPost(Request $request){
+
+        DB::beginTransaction();
+        
+        try 
+        {
+           //Validaciones
+            $validator = Validator::make($request->all(), [
+                'name' => 'required|max:255|unique:roles',
+                'display_name' => 'required|max:255|unique:roles',
+                'description' => 'required|max:255',
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()
+                            ->back()
+                            ->withErrors($validator)
+                            ->withInput();
+            }
+
+            $query = new Role;
+                $query->name = $request->name;
+                $query->display_name = $request->display_name;
+                $query->description = $request->description;
+            $query->save();
+
+            $query->permisos()->attach($request->permisos);
+
+            //Commit y redirect con success
+            DB::commit();
+            return redirect("/cil/roles")
+                ->with('status', 'Rol creado correctamente');
+        }
+
+        catch (Exception $e)
+        {
+            //Rollback y redirect con error
+            DB::rollback();
+            return redirect()
+                ->back()
+                ->withErrors('Se ha producido un errro: ( ' . $e->getCode() . ' ): ' . $e->getMessage().' - Copie este texto y envielo a informática');
+        }
+    }
+    public function PermisosNuevoPost(Request $request){
+
+        DB::beginTransaction();
+        
+        try 
+        {
+           //Validaciones
+            $validator = Validator::make($request->all(), [
+                'name' => 'required|max:255|unique:permissions',
+                'display_name' => 'required|max:255|unique:permissions',
+                'description' => 'required|max:255',
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()
+                            ->back()
+                            ->withErrors($validator)
+                            ->withInput();
+            }
+
+            $query = new Permission;
+                $query->name = $request->name;
+                $query->display_name = $request->display_name;
+                $query->description = $request->description;
+            $query->save();
+
+            //Commit y redirect con success
+            DB::commit();
+            return redirect("/cil/roles")
+                ->with('status', 'Permiso creado correctamente');
         }
 
         catch (Exception $e)
