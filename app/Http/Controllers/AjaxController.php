@@ -9,6 +9,7 @@ use App\Empleados;
 use DB;
 use Response;
 use App\UserInfo;
+use App\Role;  
 
 class AjaxController extends Controller
 {
@@ -95,6 +96,13 @@ class AjaxController extends Controller
             ->get();
 
         return Response::json($tags);
+    }
+
+    public function getPermisosxID($id)
+    {
+        $role = Role::find($id);
+
+        return Response::json($role->permisos);
     }
 
     public function getUltimoRetiroPorEmpleado($id_articulo, $id_empleado)

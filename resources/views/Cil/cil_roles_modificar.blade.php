@@ -27,26 +27,26 @@
         </div>
     @endif
 
-    <form method="POST" action="/cil/roles/nuevo/post" accept-charset="UTF-8" class="form-horizontal">
+    <form method="POST" action="/cil/roles/update/post" accept-charset="UTF-8" class="form-horizontal">
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
                 <div class="panel panel-default">
-                    <div class="panel-heading" style="background: #4682B4; color: #FFFFFF;"><h4 class="panel-title">Nuevo rol</h4></div>
+                    <div class="panel-heading" style="background: #4682B4; color: #FFFFFF;"><h4 class="panel-title">Modificar rol "{{ $role->display_name }}" </h4></div>
                     <div class="panel-body">
                         <div class="form-group">
                             <label class="control-label col-sm-2">Nombre del rol:</label>
                             <div class="col-sm-4">
-                                <input class="form-control" style="width: 100%" name="name" type="text" required>
+                                <input class="form-control" style="width: 100%" name="name" type="text" value="{{ $role->name}}" required>
                             </div>
                             <label class="control-label col-sm-2">Nombre a mostrar:</label>
                             <div class="col-sm-4">
-                                <input class="form-control" style="width: 100%" name="display_name" type="text" required>
+                                <input class="form-control" style="width: 100%" name="display_name" type="text" value="{{ $role->display_name}}" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-sm-2">Descripción:</label>
                             <div class="col-sm-4">
-                                <input class="form-control" style="width: 100%" name="description" type="text" required>
+                                <input class="form-control" style="width: 100%" name="description" type="text" value="{{ $role->description}}" required>
                             </div>
                             <label class="control-label col-sm-2">Permisos:</label>
                             <div class="col-sm-4">
@@ -55,8 +55,9 @@
                         </div>
                     </div>
                     <div class="panel-footer">
+                        <input name="role_id" type="hidden" value="{{ $role->id }}">
                         <input name="usuario" type="hidden" value="{{Auth::user()->id}}">
-                        <input class="btn btn btn-primary" id="boton" type="submit" value="Crear rol">
+                        <input class="btn btn btn-primary" id="boton" type="submit" value="Modificar rol">
                     </div>
                 </div>
             </div>
@@ -83,6 +84,13 @@ $(document).ready( function () {
             placeholder: "Seleccionar permisos",
             tags: true
         });
+
+        permisos = {!! json_encode($role->permisos->toArray()) !!};
+        array = new Array();
+        jQuery.each( permisos, function( i, val ) {
+            array.push(val.id);
+        });
+        select2roles.val(array).trigger("change");
     });
 });
 

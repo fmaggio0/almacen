@@ -108,6 +108,8 @@ Route::get('/ajax/roles', 								['uses' => 'AjaxController@getRoles']);
 
 Route::get('/ajax/permisos', 							['uses' => 'AjaxController@getPermisos']);
 
+Route::get('/ajax/permisos/{id}', 						['uses' => 'AjaxController@getPermisosxID']);
+
 Route::get('/ajax/ultimoretiroporempleado/{id_articulo}/{id_empleado}', 	['uses' => 'AjaxController@getUltimoRetiroPorEmpleado']);
 
 Route::get('/ajax/proveedores', 						['uses' => 'AjaxController@getProveedores']);

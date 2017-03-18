@@ -97,6 +97,7 @@
                                     <td> {{ $permiso->name}} </td>
                                     <td> {{ $permiso->display_name}} </td>
                                     <td> {{ $permiso->description}} </td>
+                                    <td> <a href="/cil/permisos/update/{{ $permiso->id }}" class="btn btn-xs btn-primary edit"><i class="glyphicon glyphicon-edit edit"></i></a> </td>
                                 </tr>
                             @endforeach
                         </thbody>
