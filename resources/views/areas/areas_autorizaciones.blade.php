@@ -96,10 +96,22 @@
                     thead += '<th>Articulo solicitado</th>'; 
                     thead += '<th>Empleado solicitante</th>'; 
                     thead += '<th>Cantidad solicitada</th>'; 
+                    thead += '<th>Estado</th>'; 
 
                     count = 1;
                     $.each(data, function (i, d) {
-                        tbody += '<tr><td>'+ count +'</td><td>' + d.descripcion + '</td><td>' + d.Apellido + ', '+ d.Nombres+ '</td><td>'+ d.cantidad+'</td></tr>';
+                        switch(d.estado) {
+                            case 0:
+                                d.estado = "<span class='label label-warning'>Pendiente</span>";
+                                break;
+                            case 1:
+                                d.estado = "<span class='label label-success'>Autorizado</span>";
+                                break;
+                            case 2:
+                                d.estado = "<span class='label label-danger'>Rechazado</span>";
+                                break;
+                        }
+                        tbody += '<tr><td>'+ count +'</td><td>' + d.descripcion + '</td><td>' + d.Apellido + ', '+ d.Nombres+ '</td><td>'+ d.cantidad+'</td><td>'+ d.estado+'</td></tr>';
                         count++;
                     });
                     callback($('<table class="table table-hover">' + thead + tbody + '</table>')).show();

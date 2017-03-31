@@ -8,11 +8,11 @@ use Illuminate\Http\RedirectResponse;
 use DB;
 use App\Http\Controllers\Controller;
 use App\Articulos;
-use App\SalidasMaster;
+use App\Salidas;
 use App\SalidasDetalles;
-use App\IngresosMaster;
+use App\Ingresos;
 use App\IngresosDetalles;
-use App\AutorizacionesMaster;
+use App\Autorizaciones;
 use App\SubAreas;
 use App\Empleados;
 use Validator;
@@ -88,7 +88,7 @@ class MovimientosController extends Controller
             }
 
             //Cargar datos en la tabla salida master
-            $master = new IngresosMaster;
+            $master = new Ingresos;
             $master->tipo_ingreso = $request->tipo_ingreso;
             $master->tipo_comprobante = $request->tipo_comprobante;
             $master->nro_comprobante = $request->nro_comprobante;
@@ -167,7 +167,7 @@ class MovimientosController extends Controller
             }
 
             //Cargar datos en la tabla salida master
-            $master = new SalidasMaster;
+            $master = new Salidas;
             $master->tipo_retiro = $request->tipo_retiro;
             $master->id_subarea = $request->destino;
             $master->id_usuario = $request->usuario;
@@ -180,7 +180,7 @@ class MovimientosController extends Controller
             if ( $master->tipo_retiro == "Autorizacion de recursos" || $master->tipo_retiro == "Autorizacion de elementos de seguridad")
             {
                 $id = $request->id_autorizacion;
-                $update = AutorizacionesMaster::findOrFail($id);
+                $update = Autorizaciones::findOrFail($id);
                 $update->estado = 1;
                 $update->save();  
             }
@@ -251,7 +251,7 @@ class MovimientosController extends Controller
             }
             */
             
-            $update = SalidasMaster::findOrFail($request->id_master);
+            $update = Salidas::findOrFail($request->id_master);
                 $update->estado = 0;
             $update->save();
 

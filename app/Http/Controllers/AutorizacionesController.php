@@ -4,16 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
-use App\AutorizacionesMaster;
+use App\Autorizaciones;
 use App\AutorizacionesDetalles;
 use App\SalidasDetalles;
-use App\SalidasMaster;
+use App\Salidas;
 use App\Articulos;
 use App\Http\Requests;
 use Auth;
 use App\Areas;
 use Response;
 use DB;
+use Event;
+use App\Events\AutorizacionesEvent;
 
 
 class AutorizacionesController extends Controller
@@ -28,13 +30,12 @@ class AutorizacionesController extends Controller
         try 
         {
 
-    	    $master = new AutorizacionesMaster;
-
     	    $post = $request->all();
 
-    	    $master->tipo_retiro = $post['tipo_retiro'];
-    	    $master->id_subarea = $post['destino'];
-    	    $master->id_usuario = $post['usuario'];
+            $master = new Autorizaciones;
+        	    $master->tipo_retiro = $post['tipo_retiro'];
+        	    $master->id_subarea = $post['destino'];
+        	    $master->id_usuario = $post['usuario'];
     	    $master->save();
 
     	    $j = $master->id_master;
@@ -55,6 +56,7 @@ class AutorizacionesController extends Controller
 
             //Commit y redirect con success
             DB::commit();
+
             return redirect('/areas/autorizaciones')
                 ->with('status', 'Salida procesada correctamente');
         }
@@ -110,7 +112,7 @@ class AutorizacionesController extends Controller
                 $update->save();
             }
 
-            //Actualizamos AutorizacionesMaster con:
+            //Actualizamos Autorizaciones con:
             //	0 - Pendiente
             //	1 - Autorizado totalmente
             //  2 - Autorizado parcialmente
@@ -118,19 +120,19 @@ class AutorizacionesController extends Controller
 
             if($count == 0){
             	$id_master = $request->id_master;
-	            $update = AutorizacionesMaster::findOrFail($id_master);
+	            $update = Autorizaciones::findOrFail($id_master);
 	            $update->estado = 1;
 	            $update->save();
             }
             else if($count == count($request->id_detalles)){
             	$id_master = $request->id_master;
-	            $update = AutorizacionesMaster::findOrFail($id_master);
+	            $update = Autorizaciones::findOrFail($id_master);
 	            $update->estado = 3;
 	            $update->save();
             }
             else{
                 $id_master = $request->id_master;
-                $update = AutorizacionesMaster::findOrFail($id_master);
+                $update = Autorizaciones::findOrFail($id_master);
                 $update->estado = 2;
                 $update->save();
             }
@@ -142,15 +144,15 @@ class AutorizacionesController extends Controller
             if( $cantidad_registros == $count ){
             }
             else{
-                //Replicamos la AutorizacionesMaster en una SalidasMaster
+                //Replicamos la Autorizaciones en una Salidas
                 $id_master = $request->id_master;
-                $obtenermaster = AutorizacionesMaster::findOrFail($id_master);
-                $salidasmaster = new SalidasMaster;
-                $salidasmaster->tipo_retiro = $obtenermaster->tipo_retiro;
-                $salidasmaster->estado = 0;
-                $salidasmaster->id_subarea = $obtenermaster->id_subarea;
-                $salidasmaster->id_usuario = $request->id_usuario;
-                $salidasmaster->save();
+                $obtenermaster = Autorizaciones::findOrFail($id_master);
+                $Salidas = new Salidas;
+                $Salidas->tipo_retiro = $obtenermaster->tipo_retiro;
+                $Salidas->estado = 0;
+                $Salidas->id_subarea = $obtenermaster->id_subarea;
+                $Salidas->id_usuario = $request->id_usuario;
+                $Salidas->save();
 
                 //Por cada una AutorizacionesDetalles creamos una SalidasDetalles
                 for($i=0;$i <count($request->id_detalles);$i++)
@@ -159,7 +161,7 @@ class AutorizacionesController extends Controller
                         $id = $request->id_detalles[$i];
                         $obtenerdetalles = AutorizacionesDetalles::findOrFail($id);
                         $salidasdetalles = new SalidasDetalles;
-                        $salidasdetalles->id_master = $salidasmaster->id_master;
+                        $salidasdetalles->id_master = $Salidas->id_master;
                         $salidasdetalles->id_articulo = $obtenerdetalles->id_articulo;
                         $salidasdetalles->id_empleado = $obtenerdetalles->id_empleado;
                         $salidasdetalles->cantidad = $obtenerdetalles->cantidad;
@@ -171,8 +173,6 @@ class AutorizacionesController extends Controller
                     }
                 }
             }
-
-            
 
             //Commit y redirect con success
             DB::commit();

@@ -82,6 +82,7 @@
                                     </li>
                                     <li class="footer"><a href="#">Ver todas</a></li>
                                 </ul>
+
                             </li>
                             <li><a href="{{ url('/logout') }}"><i class="fa fa-sign-out"></i></a></li>{{-- Cerrar session --}}
                         </ul>
@@ -130,7 +131,7 @@
                                 <a href="#"><i class='fa fa-bar-chart'></i> <span>Informes/Reportes</span> <i class="fa fa-angle-left pull-right"></i></a>
                                 <ul class="treeview-menu">
                                     <li><a href="#">Movimiento de Stock</a></li>
-                                    <li><a href="#">Movimientos por empleado</a></li>
+                                    <li><a href="/empleados">Movimientos por empleado</a></li>
                                     <li><a href="#">Stock faltante</a></li>
                                     <li><a href="#">Reporte de compras</a></li>
                                     <li><a href="#">Combustibles</a></li>

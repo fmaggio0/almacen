@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use Datatables;
 use DB;
-use App\SalidasMaster;
+use App\Salidas;
 use App\SalidasDetalles;
 use Response;
 use App\User;
@@ -313,6 +313,34 @@ class DatatablesController extends Controller
             })
             ->addColumn('action', function ($usuarios) {
                 return '<a href="/cil/roles/update/'.$usuarios->id.'" class="btn btn-xs btn-primary edit"><i class="glyphicon glyphicon-edit edit"></i></a>';
+            })
+            ->make(true);
+    }
+
+    public function Empleado($id)
+    {
+        $salidas = DB::table('salidas_detalles')
+            ->where('salidas_detalles.id_empleado', '=', $id)
+            ->join('salidas_master', 'salidas_master.id_master', '=', 'salidas_detalles.id_master')
+            ->join('articulos', 'articulos.id_articulo', '=', 'salidas_detalles.id_articulo')
+            ->join('personal_prod.tpersonal as empleados', 'empleados.Nro_Legajo', '=', 'salidas_detalles.id_empleado')
+            ->select(['salidas_detalles.id_master', 'salidas_master.tipo_retiro', 'salidas_master.updated_at', 'articulos.descripcion', 'salidas_detalles.cantidad', DB::raw('CONCAT(empleados.Apellido, ", ", empleados.Nombres) AS full_name')])
+            ->distinct();
+
+        return Datatables::of($salidas)
+            ->addColumn('action', function ($articulos) {
+                return '<a href="#" class="btn btn-xs btn-primary edit"><i class="glyphicon glyphicon-edit edit"></i></a>';
+            })
+            ->editColumn('id_master', function($salidas){
+                if( $salidas->tipo_retiro == "Elementos de seguridad" || $salidas->tipo_retiro == "Salida de recursos" )
+                {
+                    return "MSA-".$salidas->id_master;
+                }
+                else
+                {
+                    return "AUT-".$salidas->id_master;
+                }
+
             })
             ->make(true);
     }          
