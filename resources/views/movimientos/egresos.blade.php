@@ -13,7 +13,6 @@
 @section('main-content')
 
     <!-- Mensajes de error-->
-
     @if($errors->has())
         <div class="alert alert-warning" role="alert" id="ocultar">
            @foreach ($errors->all() as $error)
@@ -22,15 +21,12 @@
         </div>
     @endif 
 
-
     <!-- Mensajes de exito-->
-
      @if (session('status'))
         <div class="alert alert-success" id="ocultar">
             {{ session('status') }}
         </div>
     @endif
-
 
     <!-- Datatables Salidas Master -->
     <div class="box">

@@ -1,20 +1,3 @@
-INSERT INTO `migrations` (`migration`, `batch`) VALUES
-('2014_10_12_000000_create_users_table', 1),
-('2014_10_12_100000_create_password_resets_table', 1),
-('2016_06_02_151120_crear_rubros_tabla', 1),
-('2016_06_02_151901_crear_subrubros_tabla', 1),
-('2016_06_10_110447_crear_articulos_tabla', 1),
-('2016_06_24_194906_crear_areas_tabla', 1),
-('2016_06_24_195323_crear_subareas_tabla', 1),
-('2016_06_25_230349_crear_salidamaster_tabla', 1),
-('2016_06_25_230723_crear_salidadetalles_tabla', 1),
-('2016_06_30_192756_crear_autorizacionesmaster_tabla', 1),
-('2016_06_30_192808_crear_autorizacionesdetalles_tabla', 1),
-('2016_07_09_113641_entrust_setup_tables', 1),
-('2016_10_14_123535_crear_proveedores_tabla', 1),
-('2016_10_21_073412_crear_ingresomaster_tabla', 1),
-('2016_10_21_073432_crear_ingresodetalles_tabla', 1);
-
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `id_empleado`, `remember_token`, `created_at`, `updated_at`) VALUES
 (1, 'fmaggio0', 'fmaggio0@rosario.gov.ar', '$2y$10$.TRHC/35jTLiAyUs2oRTqO4Ny6N5x51uF/jBWytpy/a2KEV7nKLVW', 55691, 'jSgKa5LArkpsfO3xivGnHAYvBFhM267pan2taZPQOPZpyBvUnSabbSOW10nl', '2016-06-30 04:21:10', '2016-06-30 04:22:05');
 
