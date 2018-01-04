@@ -13,12 +13,23 @@ class ArticulosController extends Controller
 {
 	public function index(){
 
-		return view('configuraciones.articulos');
+		return view('configuraciones.articulos.articulos');
 	}
+
+    public function indexNuevo(){
+
+        return view('configuraciones.articulos.nuevo');
+    }
+
+    public function indexEdit($id){
+
+        $articulo = Articulos::find($id);
+        return view('configuraciones.articulos.edit')->with('articulo', $articulo);
+    }
 
 	public function store(Request $request)
 	{
-        $articulo = new Articulos;
+        
      
         $v = \Validator::make($request->all(), [
             
@@ -32,13 +43,16 @@ class ArticulosController extends Controller
         {
             return redirect()->back()->withInput()->withErrors($v->errors());
         }
-        
-        $articulo->create($request->all());
-        /*return back()->withInput();*/
-       /* return back()
-                ->with('status', 'Salida procesada correctamente');*/
-        /*return response()->with('status', 'Salida procesada correctamente');*/
-        return response()->json(['msg' => 'Success!']);
+
+        $articulo = new Articulos;
+            $articulo->descripcion         = $request->descripcion;
+            $articulo->unidad              = $request->unidad;
+            $articulo->id_rubro            = $request->id_rubro;
+            $articulo->id_subrubro         = $request->id_subrubro;
+            $articulo->stock_actual        = 0;
+        $articulo->save();
+
+        return redirect("/articulos")->with('status', 'Se ha añadido correctamente el articulo.');
 	}
 
     public function baja(Request $request)
@@ -75,13 +89,13 @@ class ArticulosController extends Controller
 
         $id = $request->id_articulo;
         $update = Articulos::findOrFail($id);
-        $update->descripcion         = $request->descripcion;
-        $update->unidad              = $request->unidad;
-        $update->id_rubro            = $request->id_rubro;
-        $update->id_subrubro         = $request->id_subrubro;
-        $update->stock_minimo        = $request->stock_minimo;
+            $update->descripcion         = $request->descripcion;
+            $update->unidad              = $request->unidad;
+            $update->id_rubro            = $request->id_rubro;
+            $update->id_subrubro         = $request->id_subrubro;
+            $update->stock_minimo        = $request->stock_minimo;
         $update->save();
         
-        return response()->json(['msg' => 'Success!']);
+        return redirect("/articulos")->with('status', 'Se ha modificado correctamente el articulo.');
     }
 }

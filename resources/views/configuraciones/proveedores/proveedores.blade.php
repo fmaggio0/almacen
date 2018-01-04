@@ -5,7 +5,7 @@
         GESTION DE PROVEEDORES
     </div>
         <div class="boton_titulo">
-        <a id="add-proveedor" class="btn btn-success" href="#">
+        <a class="btn btn-success" href="/proveedores/nuevo">
         <i class="fa fa-plus"></i> Nuevo proveedor</a>
     </div>
 @stop
@@ -41,10 +41,8 @@
             </div><!-- /.box-body -->
         </div><!-- /.box -->
 
-        @include('configuraciones.modalsProveedores.create')
-        @include('configuraciones.modalsProveedores.edit')
-        @include('configuraciones.modalsProveedores.delete')
-        @include('configuraciones.modalsProveedores.activar')
+        @include('configuraciones.proveedores.delete')
+        @include('configuraciones.proveedores.activar')
 @stop
 
 @section('js')

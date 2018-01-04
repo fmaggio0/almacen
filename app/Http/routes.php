@@ -27,17 +27,21 @@ Route::group(['middleware' => ['role:developers|compras']], function() {
 
 	//CONFIGURACIONES - ARTICULOS
 	Route::get('/articulos', 						['uses' => 'ArticulosController@index']);
-	Route::post('/articulos/addarticulo', 			['as' => 'addarticulos','uses' => 'ArticulosController@store']);
-	Route::post('/articulos/dardebaja', 			['as' => 'dardebaja', 'uses' => 'ArticulosController@baja']);
-	Route::post('/articulos/activar', 				['as' => 'activar', 'uses' => 'ArticulosController@activar']);
-	Route::post('/articulos/editar', 				['uses' => 'ArticulosController@edit']);
+	Route::get('/articulos/nuevo', 					['uses' => 'ArticulosController@indexNuevo']);
+	Route::post('/articulos/addarticulo', 			['uses' => 'ArticulosController@store']);
+	Route::post('/articulos/dardebaja', 			['uses' => 'ArticulosController@baja']);
+	Route::post('/articulos/activar', 				['uses' => 'ArticulosController@activar']);
+	Route::get('/articulos/editar/{id}', 			['uses' => 'ArticulosController@indexEdit']);
+	Route::post('/articulos/editar/post', 			['uses' => 'ArticulosController@edit']);
 
 	//CONFIGURACIONES - PROVEEDORES
 	Route::get('/proveedores', 						['uses' => 'ProveedoresController@index']);
-	Route::post('/proveedores/addproveedor', 		['as' => 'addproveedor','uses' => 'ProveedoresController@store']);
-	Route::post('/proveedores/dardebaja', 			['as' => 'dardebajaproveedor', 'uses' => 'ProveedoresController@baja']);
-	Route::post('/proveedores/activar', 			['as' => 'activarproveedor', 'uses' => 'ProveedoresController@activar']);
-	Route::post('/proveedores/edit', 				['as' => 'editproveedor', 'uses' => 'ProveedoresController@edit']);
+	Route::get('/proveedores/nuevo', 				['uses' => 'ProveedoresController@indexNuevo']);
+	Route::post('/proveedores/addproveedor', 		['uses' => 'ProveedoresController@store']);
+	Route::post('/proveedores/dardebaja', 			['uses' => 'ProveedoresController@baja']);
+	Route::post('/proveedores/activar', 			['uses' => 'ProveedoresController@activar']);
+	Route::get('/proveedores/editar/{id}', 			['uses' => 'ProveedoresController@indexEdit']);
+	Route::post('/proveedores/editar/post', 		['uses' => 'ProveedoresController@edit']);
 
 	//INFORMES/REPORTES
 	Route::get('/empleados', 						['uses' => 'InformesController@index']);

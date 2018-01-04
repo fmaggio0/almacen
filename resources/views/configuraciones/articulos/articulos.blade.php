@@ -5,19 +5,18 @@
         GESTION DE ARTICULOS
     </div>
         <div class="boton_titulo">
-        <a id="add-articulo" class="btn btn-success" href="#">
+        <a class="btn btn-success" href="/articulos/nuevo" style="float: right;">
         <i class="fa fa-plus"></i> Nuevo articulo</a>
     </div>
 @stop
 
 @section('main-content')
-    @if($errors->has())
-        <div class="alert alert-warning" role="alert">
-           @foreach ($errors->all() as $error)
-              <div>{{ $error }}</div>
-          @endforeach
-        </div>
-    @endif
+        <!-- Mensajes de exito-->
+        @if (session('status'))
+            <div class="alert alert-success" id="ocultar">
+                {{ session('status') }}
+            </div>
+        @endif
 
         <div class="box">
             <div class="box-body"> 
@@ -40,10 +39,8 @@
             </div>
         </div>
 
-        @include('configuraciones.modalsArticulos.create')
-        @include('configuraciones.modalsArticulos.edit')
-        @include('configuraciones.modalsArticulos.delete')
-        @include('configuraciones.modalsArticulos.activar')
+        @include('configuraciones.articulos.delete')
+        @include('configuraciones.articulos.activar')
 @stop
 
 @section('js')
@@ -84,12 +81,6 @@
                     var id = $(this).attr('value');
                     $("input[name='id_articulo']").val(id);
                 });
-            });
-            $("#add-articulo").click(function(){
-                $("#creararticulo").modal();
-            });
-            $('.close').click(function() {
-                $('#delete').modal('hide');
             });
         });
     </script>

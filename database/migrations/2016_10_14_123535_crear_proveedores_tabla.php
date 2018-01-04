@@ -16,6 +16,7 @@ class CrearProveedoresTabla extends Migration
             $table->increments('id_proveedor');
             $table->string('nombre', 60)->required();
             $table->string('direccion', 60 );
+            $table->string('coordenadas', 60);
             $table->string('cuit', 60 );
             $table->string('email', 60 );
             $table->string('telefono', 60 );
