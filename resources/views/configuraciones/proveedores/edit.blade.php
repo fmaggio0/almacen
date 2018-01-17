@@ -1,88 +1,95 @@
-<div class="modal fade" id="editarproveedor" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-		
-		{!! Form::open(['route' => 'editproveedor', 'method'=>'POST', 'class' => 'form-horizontal', 'id' => 'editform']) !!}		
+@extends('layouts.app')
 
-				<div class="modal-header" style="background: #4682B4; color: #FFFFFF;">
-					<button type="button" class="close" date-dismiss='modal' aria-hidden='true'>&times;</button>
-					<h4 class="modal-title">Editar proveedor</h4> 
-				</div>
+@section ('contentheader_title') 
+    <div class="titulo_header">
+        GESTION DE PROVEEDORES
+    </div>
+@stop
 
-				<div class="modal-body">
+@section('main-content')
+<div class="panel panel-default">
+    <!-- Mensajes de exito-->
+    @if (session('status'))
+        <div class="alert alert-success" id="ocultar">
+            {{ session('status') }}
+        </div>
+    @endif
+    
+    @if (count($errors) > 0)
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+		<form method="POST" action="/proveedores/editar/post" accept-charset="UTF-8" class="form-horizontal">		
+				<div class="panel-body">
 					<div class="form-group">
-							{!! Form::label(null, 'Nombre:', array('class' => 'control-label col-sm-4')) !!}
+                                <label for="nombre" class="control-label col-sm-4">Nombre:</label>
 							<div class="col-sm-8">
-							{!! Form::text('nombre',  null, array('class' => 'form-control edit-nombre',  'required' => 'required')) !!}
-							</div>
+                                <input class="form-control" required="required" name="nombre" type="text" value="{{$proveedor->nombre}}">
+                            </div>
 					</div>
                     <div class="form-group">
-                            {!! Form::label(null, 'Dirección:', array('class' => 'control-label col-sm-4')) !!}
+                                <label for="direccion" class="control-label col-sm-4">Dirección:</label>
                             <div class="col-sm-8">
-                            {!! Form::text('direccion', null, array('class' => 'form-control edit-direccion', 'required' => 'required')) !!}
+                                <input class="form-control" required="required" name="direccion" type="text" value="{{$proveedor->direccion}}">
                             </div>
                     </div>
                     <div class="form-group">
-                            {!! Form::label(null, 'CUIT:', array('class' => 'control-label col-sm-4')) !!}
+                                <label for="cuit" class="control-label col-sm-4">CUIT:</label>
                             <div class="col-sm-8">
-                            {!! Form::text('cuit', null, array('class' => 'form-control edit-cuit', 'required' => 'required')) !!}
-                            </div>
-                    </div>
-					<div class="form-group">
-							{!! Form::label(null, 'E-Mail:', array('class' => 'control-label col-sm-4')) !!}
-							<div class="col-sm-8">
-							{!! Form::text('email', null, array('class' => 'form-control edit-email')) !!}
-							</div>
-					</div>
-                    <div class="form-group">
-                            {!! Form::label(null, 'Telefono:', array('class' => 'control-label col-sm-4')) !!}
-                            <div class="col-sm-8">
-                            {!! Form::text('telefono', null, array('class' => 'form-control edit-telefono')) !!}
-                            </div>
-                    </div>
-                    <div class="form-group">
-                            {!! Form::label(null, 'Observaciones:', array('class' => 'control-label col-sm-4')) !!}
-                            <div class="col-sm-8">
-                            {!! Form::textarea('observaciones', null, array('class' => 'form-control edit-observaciones', 'rows' => '2', 'style' => 'width: 100%')) !!}
+                                <input class="form-control" name="cuit" type="text" value="{{$proveedor->cuit}}">
                             </div>
                     </div>
 					<div class="form-group">
-							{!! Form::label(null, 'Rubro:', array('class' => 'control-label col-sm-4')) !!}
-							<div class="col-sm-8">
-                                <select name="rubros" class="edit-rubros" multiple="multiple" style="width: 100%"></select>
+                                <label for="email" class="control-label col-sm-4">E-Mail:</label>
+                            <div class="col-sm-8">
+                                <input class="form-control" name="email" type="text" value="{{$proveedor->email}}">
+                            </div>
+					</div>
+                    <div class="form-group">
+                                <label for="telefono" class="control-label col-sm-4">Telefono:</label>
+                            <div class="col-sm-8">
+                                <input class="form-control" name="telefono" type="text" value="{{$proveedor->telefono}}">
+                            </div>
+                    </div>
+                    <div class="form-group">
+                                <label for="observaciones" class="control-label col-sm-4">Observaciones:</label>
+                            <div class="col-sm-8">
+                                <textarea class="form-control" name="observaciones">{{$proveedor->observaciones}}</textarea>
+                            </div>
+                    </div>
+					<div class="form-group">
+                                <label for="rubros" class="control-label col-sm-4">Rubro:</label>
+                            <div class="col-sm-8">
+                                <select name="rubros[]" class="edit-rubros" multiple="multiple" style="width: 100%">
+                                    
+                                    @if (isset($proveedor->rubros))
+                                        @foreach(explode(',', $proveedor->rubros) as $campo_desc)
+                                            @if ($campo_desc != "")
+                                                <option value="{{$campo_desc}}" selected>{{$campo_desc}}</option>
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                </select>
 							</div>
 					</div>
-					
-					{!! Form::hidden('id_proveedor', '', array('class' => 'edit-id_proveedor')) !!}
-
 				</div>
-
-				<div class="modal-footer">
-					{!! Form::button('Guardar', array('class'=>'btn btn-primary', 'id' => 'editguardar')) !!}
-					{!! Form::close() !!}
+				<div class="panel-footer">
+                    <input type="hidden" name="id_proveedor" value="{{ $proveedor->id_proveedor}}">
+                    <input type="submit" name="guardar" class="btn btn-primary" id="editiguardar" value="Guardar">
 				</div>
-		</div>
-
+		</form>
+        </div>
 	</div>
 </div>
+@stop
+
+@section('js')
 <script>
-	//SUBMIT AJAX-------------------------------------------
-    $('#editguardar').click(function(e){
-      e.preventDefault();   
-      $.ajax({
-        type:"POST",
-        url:'/proveedores/edit',
-        data: {'nombre':$('.edit-nombre').val(), 'direccion':$('.edit-direccion').val(),'email':$('.edit-email').val(),'telefono':$('.edit-telefono').val(), 'observaciones':$('.edit-observaciones').val(), 'cuit':$('.edit-cuit').val() , 'rubros' : $('.edit-rubros').select2().val().join(", "), 'id_proveedor':$('.edit-id_proveedor').val(), '_token': $('input[name=_token]').val()},
-        dataType: 'json',
-        success: function(data)
-        {
-            $('#editarproveedor').modal('hide');
-            if($('#tabla-proveedores').length > 0) {
-               $('#tabla-proveedores').DataTable().ajax.reload();
-            }
-        }
-      })
-    });
     //select2 rubros
     $.getJSON("/ajax/rubros2", function (json) {
         $(".edit-rubros").select2({
@@ -92,3 +99,4 @@
         });
     });
 </script>
+@stop

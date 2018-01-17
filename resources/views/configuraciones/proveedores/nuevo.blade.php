@@ -14,50 +14,59 @@
             {{ session('status') }}
         </div>
     @endif
-
+    
+    @if (count($errors) > 0)
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <form method="POST" action="/proveedores/addproveedor" accept-charset="UTF-8" class="form-horizontal">
 
     	<div class="panel-body">
     		<div class="form-group">
-    				{!! Form::label(null, 'Nombre:', array('class' => 'control-label col-sm-2')) !!}
-    				<div class="col-sm-10">
-    				{!! Form::text('nombre',  null, array('class' => 'form-control add-nombre',  'required' => 'required')) !!}
-    				</div>
+    				<label for="nombre" class="control-label col-sm-2">Nombre:</label>
+                    <div class="col-sm-10">
+    				<input class="form-control" required="required" name="nombre" type="text" placeholder="Nombre">
+                    </div>
     		</div>
             <div class="form-group">
-                    {!! Form::label(null, 'Dirección:', array('class' => 'control-label col-sm-2')) !!}
+                    <label for="direccion" class="control-label col-sm-2">Dirección:</label>
                     <div class="col-sm-10">
-                    {!! Form::text('direccion', null, array('class' => 'form-control autocomplete-calles', 'required' => 'required')) !!}
+                        <input class="form-control autocomplete-calles" required="required" name="direccion" type="text" value="" placeholder="Dirección">
                     </div>
             </div>
             <div class="form-group">
-                    {!! Form::label(null, 'CUIT:', array('class' => 'control-label col-sm-2')) !!}
+                    <label for="cuit" class="control-label col-sm-2">CUIT:</label>
                     <div class="col-sm-10">
-                    {!! Form::text('cuit', null, array('class' => 'form-control add-cuit')) !!}
+                    <input class="form-control" name="cuit" type="text" placeholder="CUIT">
                     </div>
             </div>
     		<div class="form-group">
-    				{!! Form::label(null, 'E-Mail:', array('class' => 'control-label col-sm-2')) !!}
-    				<div class="col-sm-10">
-    				{!! Form::text('email', null, array('class' => 'form-control add-email')) !!}
-    				</div>
+    				<label for="email" class="control-label col-sm-2">E-Mail:</label>
+                    <div class="col-sm-10">
+    				<input class="form-control" name="email" type="text" placeholder="E-Mail">
+                    </div>
     		</div>
             <div class="form-group">
-                    {!! Form::label(null, 'Telefono:', array('class' => 'control-label col-sm-2')) !!}
+                    <label for="telefono" class="control-label col-sm-2">Telefono:</label>
                     <div class="col-sm-10">
-                        <input value="" min="0" class="form-control" style="width: 20%" name="telefono" type="number">
+                        <input value="" min="0" class="form-control" style="width: 20%" name="telefono" type="number" placeholder="Telefono">
                     </div>
             </div>
             <div class="form-group">
-                    {!! Form::label(null, 'Observaciones:', array('class' => 'control-label col-sm-2')) !!}
+                    <label for="observaciones" class="control-label col-sm-2">Observaciones:</label>
                     <div class="col-sm-10">
-                    {!! Form::textarea('observaciones', null, array('class' => 'form-control add-observaciones', 'rows' => '2', 'style' => 'width: 100%')) !!}
+                        <textarea class="form-control" name="observaciones" placeholder="Observaciones"></textarea>
                     </div>
             </div>
     		<div class="form-group">
     				{!! Form::label(null, 'Rubro:', array('class' => 'control-label col-sm-2')) !!}
     				<div class="col-sm-10">
-                        <select name="rubros" class="add-rubros" multiple="multiple" style="width: 100%" required></select>
+                        <select name="rubros[]" class="add-rubros" multiple="multiple" style="width: 100%"></select>
     				</div>
     		</div>
     	</div>
@@ -68,6 +77,7 @@
     		<input type="submit" class="btn btn-primary" value="Guardar"></input>
             <input type="reset" name="reset" id="reset" class="btn btn-primary" value="Limpiar"></input>
     	</div>
+    </form>
 </div>
 
 @stop
@@ -105,12 +115,12 @@
             $(this).attr('data-codcalle', ui.item.codcalle);
             $("#coorx").val(ui.item.x);
             $("#coory").val(ui.item.y);
-            $(".autocomplete-calles").attr('disabled', true)
+            $(".autocomplete-calles").attr('readOnly', true)
         }
     });
 
     $("#reset").click(function(){
-        $(".autocomplete-calles").attr('disabled', false);
+        $(".autocomplete-calles").attr('readOnly', false);
         $(".add-rubros").select2().empty();
     });
 

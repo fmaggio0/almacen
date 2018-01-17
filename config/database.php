@@ -68,10 +68,10 @@ return [
 
         'personal' => [
             'driver'    => 'mysql',
-            'host'      => 'localhost',
+            'host'      => '192.168.20.88',
             'database'  => 'personal_prod',
             'username'  => 'root',
-            'password'  => '',
+            'password'  => 'zion',
             'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix'    => '',

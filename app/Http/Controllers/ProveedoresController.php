@@ -8,6 +8,7 @@ use App\Http\Requests;
 
 use App\Proveedores;
 
+use DB;
 class ProveedoresController extends Controller
 {
     public function index(){
@@ -26,39 +27,6 @@ class ProveedoresController extends Controller
         return view('configuraciones.proveedores.edit')->with('proveedor', $proveedor);
     }
 
-	public function store(Request $request)
-	{
-    
-    //VALIDACIONES DEL LADO DEL SERVIDOR
-        $v = \Validator::make($request->all(), [
-            
-            'nombre' => 'required|max:60|unique:proveedores',
-            'direccion' => 'required|max:60',
-            'email'    => 'max:60',
-            'telefono' => 'max:60',
-            'cuit' => 'max:60',
-            'observaciones' => 'max:255',
-            'rubros' => 'required|max:255',
-        ]);
- 
-        if ($v->fails())
-        {
-            return redirect()->back()->withInput()->withErrors($v->errors());
-        }
-
-        $proveedor = new Proveedores;
-            $proveedor->nombre             = $request->nombre;
-            $proveedor->direccion          = $request->direccion;
-            $proveedor->coordenadas        = $request->coordenadas;
-            $proveedor->cuit               = $request->cuit;
-            $proveedor->email              = $request->email;
-            $proveedor->telefono           = $request->telefono;
-            $proveedor->observaciones      = $request->observaciones;
-            $proveedor->rubros             = $request->rubros;
-        $proveedor->save();
-        
-        return redirect("/proveedores")->with('status', 'Se ha añadido correctamente el proveedor.');
-	}
 
     public function baja(Request $request)
     {
@@ -79,9 +47,12 @@ class ProveedoresController extends Controller
     }
 
     public function edit(Request $request)
-    {
-        $v = \Validator::make($request->all(), [
-            'nombre' => 'required|max:60',
+    {   
+        DB::beginTransaction();
+        try
+        {
+        $this->Validate($request, [
+            'nombre' => 'required|max:60|unique:proveedores',
             'direccion' => 'required|max:60',
             'email'    => 'max:60',
             'telefono' => 'max:60',
@@ -90,11 +61,6 @@ class ProveedoresController extends Controller
             'rubros' => 'max:255',
         ]);
  
-        if ($v->fails())
-        {
-            return redirect()->back()->with('status', $v->errors());
-        }
-
         $id = $request->id_proveedor;
         $update = Proveedores::findOrFail($id);
             $update->nombre             = $request->nombre;
@@ -104,9 +70,54 @@ class ProveedoresController extends Controller
             $update->email              = $request->email;
             $update->telefono           = $request->telefono;
             $update->observaciones      = $request->observaciones;
-            $update->rubros             = $request->rubros;
+            $update->rubros             = implode(",",$request->rubros);
         $update->save();
-
+        DB::commit();
         return redirect("/proveedores")->with('status', 'Se ha modificado correctamente el proveedor.');
+        }
+        catch(Exception $e){
+            DB::rollback();
+            return redirect("/proveedores")->with('status', 'Se ha producido un errro: ( ' . $e->getCode() . ' ): ' . $e->getMessage().' - Copie este texto y envielo a informática');
+        }
+        
+    }
+    public function store(Request $request){
+        DB::beginTransaction();
+        try 
+        {
+            //Validaciones
+            $this->validate($request, [
+                'nombre' => 'required|max:60|unique:proveedores',
+                'direccion' => 'required|max:60',
+                'email'    => 'max:60',
+                'telefono' => 'max:60',
+                'cuit' => 'max:60',
+                'observaciones' => 'max:255',
+                'rubros' => 'max:255',
+            ]);
+            
+                $proveedor = new Proveedores;
+                    $proveedor->nombre             = $request->nombre;
+                    $proveedor->direccion          = $request->direccion;
+                    $proveedor->coordenadas        = $request->coordinatesx.','.$request->coordinatesy;
+                    $proveedor->cuit               = $request->cuit;
+                    $proveedor->email              = $request->email;
+                    $proveedor->telefono           = $request->telefono;
+                    $proveedor->observaciones      = $request->observaciones;
+                    $proveedor->rubros             = implode(",", $request->rubros);
+                $proveedor->save();
+
+            
+
+            //Commit y redirect con success
+            DB::commit();
+            return redirect("/proveedores")->with('status', 'Se ha añadido correctamente el proveedor.');
+        }
+        catch (Exception $e)
+        {
+            //Rollback y redirect con error
+            DB::rollback();
+            return redirect("/proveedores")->with('status', 'Se ha producido un errro: ( ' . $e->getCode() . ' ): ' . $e->getMessage().' - Copie este texto y envielo a informática');
+        }
     }
 }

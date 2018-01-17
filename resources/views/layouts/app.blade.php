@@ -165,8 +165,7 @@
                     @yield('main-content')
                 </section>
             </div>
-
+            @yield('js')
         </div>
-        @yield('js')
     </body>
 </html>

@@ -19,32 +19,36 @@
 
 		<div class="panel-body">
 			<div class="form-group">
-					{!! Form::label('articulo', 'Articulo:', array('class' => 'control-label col-sm-2')) !!}
-					<div class="col-sm-10">
-					{!! Form::text('descripcion',  null, array('class' => 'form-control desc', 'placeholder' => 'Nombre del articulo', 'required' => 'required', 'tabindex' => '1')) !!}
+					   <label for="articulo" class="control-label col-sm-2">Articulo:</label>
+                    <div class="col-sm-10">
+					   <input name="descripcion" value="" placeholder="Nombre del articulo" required="required" class="form-control" type="text">
+                    </div>
+			</div>
+			<div class="form-group">
+					   <label for="unidad" class="control-label col-sm-2">Unidad de medida:</label>
+                    <div class="col-sm-10">
+                        <select name="unidad" class="form-control" style="width: 100%" required="required">
+                            <option value="Unidad">Unidad</option>
+                            <option value="Metro">Metro</option>
+                            <option value="Litro">Litro</option>
+                        </select>
 					</div>
 			</div>
 			<div class="form-group">
-					{!! Form::label(null, 'Unidad de medida:', array('class' => 'control-label col-sm-2')) !!}
-					<div class="col-sm-10">
-					{!! Form::select('unidad', array('Unidad' => 'Unidad', 'Metro' => 'Metro', 'Litro' => 'Litro'), null ,array('class'=>'unidades form-control', 'style' => 'width: 100%', 'required' => 'required', 'tabindex' => '2')) 
-                    !!}
+					   <label for="id_rubro" class="control-label col-sm-2">Rubro:</label>
+                    <div class="col-sm-10">
+                        <select name="id_rubro" class="completarrubros form-control" style="width: 100%">
+                            <option value="">Seleccionar un rubro</option>
+                        </select>
 					</div>
 			</div>
 			<div class="form-group">
-					{!! Form::label(null, 'Rubro:', array('class' => 'control-label col-sm-2')) !!}
-					<div class="col-sm-10">
-					{!! Form::select('id_rubro', array('' => 'Seleccione un rubro'), null ,array('class'=>'completarrubros form-control', 'style' => 'width: 100%', 'required' => 'required', 'tabindex' => '3')) 
-                    !!}
-					</div>
-			</div>
-			<div class="form-group">
-					{!! Form::label(null, 'SubRubro:', array('class' => 'control-label col-sm-2')) !!}
-					<div class="col-sm-10">
-					{!! Form::select('id_subrubro', array('' => 'Seleccione un subrubro'), null ,array('class'=>'subrubros form-control', 'style' => 'width: 100%', 'tabindex' => '3'))
-					!!}
-					{!! Form::token(); !!}
-
+					   <label for="id_subrubro" class=" control-label col-sm-2">SubRubro:</label>
+                    <div class="col-sm-10">
+                        <select name="id_subrubro" class="subrubros form-control" style="width: 100%">
+                            <option value="">Seleccione un subrubro</option>
+                        </select>
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
 					</div>
 			</div>
 		</div>
