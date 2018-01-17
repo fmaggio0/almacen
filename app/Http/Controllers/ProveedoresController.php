@@ -52,7 +52,7 @@ class ProveedoresController extends Controller
         try
         {
         $this->Validate($request, [
-            'nombre' => 'required|max:60|unique:proveedores',
+            'nombre' => 'required|max:60',
             'direccion' => 'required|max:60',
             'email'    => 'max:60',
             'telefono' => 'max:60',

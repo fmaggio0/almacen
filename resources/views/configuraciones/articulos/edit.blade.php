@@ -37,15 +37,7 @@
 			<div class="form-group">
 				<label for="id_rubro" class="control-label col-sm-4">Rubro:</label>
 				<div class="col-sm-8">
-					<select id="edit-rubros" class="form-control" style="width: 100%" required="required" name="id_rubro">
-						@if (isset($articulo->id_rubro))
-                            @foreach(explode(',', $articulo->id_rubro) as $campo_desc)
-                                @if ($campo_desc != "")
-                                    <option value="{{$campo_desc}}" selected>{{$campo_desc}}</option>
-                                @endif
-                            @endforeach
-                       	@endif
-                   </select>
+					<select id="edit-rubros" class="form-control" style="width: 100%" required="required" name="id_rubro"></select>
 				</div>
 			</div>
 			<div class="form-group">
