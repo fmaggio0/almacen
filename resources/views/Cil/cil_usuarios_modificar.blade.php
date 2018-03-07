@@ -49,7 +49,7 @@
                             <div class="col-sm-4">
                                 <div class="input-group">
                                     <input class="form-control" style="width: 20%" readonly name="id_empleado" id="id_empleado" type="text" value="{{$user->id_empleado}}">
-                                    <select id="empleados" class="form-control" style="width: 80%" name="articulos" aria-hidden="true"><option value="{{$user->id_empleado}}">{{$empleado[0]->Apellido}}, {{$empleado[0]->Nombres}}</option></select>
+                                    <select id="empleados" class="form-control" style="width: 80%" name="articulos" aria-hidden="true"><option value="{{$user->id_empleado}}">{{$empleado[0]->apellidos}}, {{$empleado[0]->nombres}}</option></select>
                                 </div>    
                             </div>
                             <label class="control-label col-sm-2">Roles asignados:</label>
@@ -95,7 +95,7 @@ select2empleados = $("#empleados").select2({
              data = data.map(function (item) {
                 return {
                     id: item.id,
-                    text: item.text+", "+item.nombre,
+                    text: item.text+", "+item.nombres,
                 };
             });
             return { results: data };

@@ -14,6 +14,15 @@
             {{ session('status') }}
         </div>
     @endif
+    @if (count($errors) > 0)
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
     <form method="POST" action="/articulos/editar/post" accept-charset="UTF-8" class="form-horizontal">
 
@@ -35,6 +44,16 @@
 				</div>
 			</div>
 			<div class="form-group">
+               <label for="unidad" class="control-label col-sm-4">Tipo:</label>
+                <div class="col-sm-8">
+                    <select name="tipo" class="form-control" style="width: 100%" required="required">
+                        <option value="RECURSO" {{ ( $articulo->tipo == 'RECURSO' ) ? 'selected' : '' }}>RECURSO</option>
+                        <option value="ELEMENTO DE SEGURIDAD" {{ ( $articulo->tipo == 'ELEMENTO DE SEGURIDAD' ) ? 'selected' : '' }}>ELEMENTO DE SEGURIDAD</option>
+                        <option value="INDUMENTARIA" {{ ( $articulo->tipo == 'INDUMENTARIA' ) ? 'selected' : '' }}>INDUMENTARIA</option>
+                    </select>
+                </div>
+            </div>
+			<div class="form-group">
 				<label for="id_rubro" class="control-label col-sm-4">Rubro:</label>
 				<div class="col-sm-8">
 					<select id="edit-rubros" class="form-control" style="width: 100%" required="required" name="id_rubro"></select>
@@ -43,7 +62,7 @@
 			<div class="form-group">
 				<label for="" class="control-label col-sm-4">SubRubro:</label>
 				<div class="col-sm-8">
-					<select id="edit-subrubros" class="form-control" style="width: 100%" required="required" name="id_subrubro"></select>
+					<select id="edit-subrubros" class="form-control" style="width: 100%" name="id_subrubro"></select>
 				</div>
 			</div>
 			<div class="form-group">

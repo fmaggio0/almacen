@@ -16,9 +16,12 @@
         <link rel="stylesheet" href="/plugins/jQuery/jquery-ui.min.css" />
         <link rel="stylesheet" href="/plugins/jQuery/jquery-ui.theme.min.css" />
         <link rel="stylesheet" href="/plugins/font-awesome-4.6.3/css/font-awesome.min.css" />
-        <link rel="stylesheet" href="/plugins/select2/css/select2.min.css" />
+        <link rel="stylesheet" href="/plugins/select2/css/select2.css" />
         <link rel="stylesheet" href="/plugins/iCheck/square/blue.css" />
         <link rel="stylesheet" href="/plugins/datatables/dataTables.bootstrap.css" />
+
+        <link rel="stylesheet" href="/plugins/leaflet/leaflet.css" />
+        <link rel="stylesheet" href="/plugins/leaflet/leaflet-routing-machine.css" />
         
         <script src="{{ asset('/plugins/jQuery/jquery-3.2.1.min.js') }}"></script>
         <script src="{{ asset('/plugins/jQuery/jquery-ui.min.js') }}"></script>
@@ -31,6 +34,8 @@
         <script src="{{ asset('/js/bootstrap.js') }}" type="text/javascript"></script>
         <script src="{{ asset('/js/handlebars-v4.0.5.js') }}" type="text/javascript"></script>
         <script src="{{ asset('/js/bootbox.js') }}" type="text/javascript"></script>
+        <script src="{{ asset('/plugins/leaflet/leaflet.js') }}" type="text/javascript"></script>
+        <script src="{{ asset('/plugins/leaflet/leaflet-routing-machine.min.js') }}" type="text/javascript"></script>
 
     </head>
 
@@ -112,8 +117,8 @@
                             <li>
                                 <a href="#"><i class='fa fa-bar-chart'></i> <span>Informes/Reportes</span> <i class="fa fa-angle-left pull-right"></i></a>
                                 <ul class="treeview-menu">
-                                    <li><a href="#">Movimiento de Stock</a></li>
-                                    <li><a href="/empleados">Movimientos por empleado</a></li>
+                                    <li><a href="/informes/stock">Movimiento de Stock</a></li>
+                                    <li><a href="/informes/empleados">Movimientos por empleado</a></li>
                                     <li><a href="#">Stock faltante</a></li>
                                     <li><a href="#">Reporte de compras</a></li>
                                     <li><a href="#">Combustibles</a></li>
@@ -135,6 +140,9 @@
                             </li>
                             <li>
                                 <a href="/areas/autorizaciones"><i class='fa fa-link'></i> <span>Autorizaciones</span></a>
+                            </li>
+                            <li>
+                                <a href="/areas/indumentaria"><i class='fa fa-link'></i> <span>Indumentaria</span></a>
                             </li>
                         @endrole
 

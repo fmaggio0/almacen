@@ -13,15 +13,13 @@ class CrearSalidadetallesTabla extends Migration
     public function up()
     {
         Schema::create('salidas_detalles', function (Blueprint $table) {
-
-            $databaseName = DB::connection('personal')->getDatabaseName();
-
             $table->increments('id_detalles');
             $table->integer('id_master')->unsigned();
             $table->foreign('id_master')->references('id_master')->on('salidas_master');
             $table->integer('id_articulo')->unsigned();
             $table->foreign('id_articulo')->references('id_articulo')->on('articulos');
-            $table->integer('id_empleado');
+            $table->integer('id_empleado')->unsigned();
+            $table->foreign('id_empleado')->references('id_empleado')->on('empleados');
             $table->integer('cantidad');
             $table->timestamps();
         });

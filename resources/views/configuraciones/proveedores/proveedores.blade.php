@@ -41,95 +41,68 @@
             </div><!-- /.box-body -->
         </div><!-- /.box -->
 
+
         @include('configuraciones.proveedores.delete')
         @include('configuraciones.proveedores.activar')
 @stop
 
 @section('js')
-    <script>
-        $(document).ready(function(){
-        //DATATABLE
-            $('#tabla-proveedores').DataTable({
-                "processing": true,
-                "serverSide": true,
-                "ajax": "/datatables/proveedores",
-                "error": function () {
-                    alert( 'Custom error' );
-                  },
-                "columns":[
-                    {data: 'id_proveedor', name: 'proveedores.id_proveedor', visible: false, orderable: false, searchable: false},
-                    {data: 'nombre', name: 'proveedores.nombre'},
-                    {data: 'direccion', name: 'proveedores.direccion'},
-                    {data: 'cuit', name: 'proveedores.cuit'},
-                    {data: 'email', name: 'proveedores.email'},
-                    {data: 'telefono', name: 'proveedores.telefono'},
-                    {data: 'observaciones', name: 'proveedores.observaciones'},
-                    {data: 'rubros', name: 'proveedores.rubros'},
-                    {data: 'updated_at', name: 'proveedores.updated_at'},
-                    {data: 'estado', name: 'proveedores.estado'},
-                    {data: 'action', name: 'action', orderable: false, searchable: false},
-                ],
-                "order": [ 7, "desc" ],
-                "language":{
-                    url: "{!! asset('/plugins/datatables/lenguajes/spanish.json') !!}"
-                }
-            });
-        //FIN DATATABLE
-
-            //ESPERAR HASTA QUE CARGUE LA TABLA
-             $('#tabla-proveedores').on('draw.dt', function () {
-                //MODAL DELETE -----------------------------------------------------------------------
-                $('.delete').click(function() {
-                    $('#delete').modal();
-                    var id = $(this).attr('value');
-                    $("input[name='id_proveedor']").val(id);
-                });
-                //FIN MODAL DELETE -------------------------------------------------------------------
-                //MODAL ACTIVAR -----------------------------------------------------------------------
-                $('.activar').click(function() {
-                    $('#activar').modal();
-                    var id = $(this).attr('value');
-                    $("input[name='id_proveedor']").val(id);
-                });
-                //FIN MODAL ACTIVAR -------------------------------------------------------------------
-
-                //MODAL EDIT --------------------------------------------------------------------------
-                $('.edit').click(function(){
-                    $('#editarproveedor').modal();
-
-                    var nombre = $(this).data('nombre');
-                    var direccion = $(this).data('direccion');
-                    var email = $(this).data('email');
-                    var telefono = $(this).data('telefono');
-                    var id = $(this).attr('value');
-                    var observaciones = $(this).data('observaciones');
-                    var rubros = $(this).data('rubros');
-                    var cuit = $(this).data('cuit');
-
-                    if(rubros){
-                        var rubros2 = rubros.split(', ');
-                    }     
-
-                    $(".edit-nombre").val( nombre ).trigger("change");
-                    $(".edit-direccion").val( direccion ).trigger("change");
-                    $(".edit-cuit").val( cuit ).trigger("change");
-                    $(".edit-email").val( email ).trigger("change");
-                    $(".edit-telefono").val( telefono ).trigger("change");
-                    $(".edit-observaciones").val( observaciones ).trigger("change");
-                    $(".edit-rubros").val(rubros2).trigger("change");
-                    $(".edit-id_proveedor").val(id);
-                });   
-                //FIN MODAL EDIT -----------------------------------------------------------------------
-
-            });
-            //FIN ESPERAR HASTA QUE CARGUE LA TABLA
-            
-            //CERRAR TODOS LOS MODALES
-            $('.close').click(function() {
-                $('#editarproveedor').modal('hide');
-                $('#delete').modal('hide');
-            });
-            //FIN CERRAR TODOS LOS MODALES
+<script>
+    $(document).ready(function(){
+        //Ocultar mensajes de error o success
+        $("#ocultar").fadeTo(8000, 500).slideUp(500, function(){
+            $("ocultar").alert('close');
         });
-    </script>
+        
+        //DATATABLE
+        $('#tabla-proveedores').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": "/datatables/proveedores",
+            "error": function () {
+                alert( 'Custom error' );
+            },
+            "columns":[
+                {data: 'id_proveedor', name: 'proveedores.id_proveedor', visible: false, orderable: false, searchable: false},
+                {data: 'nombre', name: 'proveedores.nombre'},
+                {data: 'direccion', name: 'proveedores.direccion'},
+                {data: 'cuit', name: 'proveedores.cuit'},
+                {data: 'email', name: 'proveedores.email'},
+                {data: 'telefono', name: 'proveedores.telefono'},
+                {data: 'observaciones', name: 'proveedores.observaciones'},
+                {data: 'rubros', name: 'proveedores.rubros'},
+                {data: 'updated_at', name: 'proveedores.updated_at'},
+                {data: 'estado', name: 'proveedores.estado'},
+                {data: 'action', name: 'action', orderable: false, searchable: false},
+            ],
+            "order": [ 7, "desc" ],
+            "language":{
+                url: "{!! asset('/plugins/datatables/lenguajes/spanish.json') !!}"
+            }
+        });
+
+        //ESPERAR HASTA QUE CARGUE LA TABLA
+        $('#tabla-proveedores').on('draw.dt', function () {
+            //MODAL DELETE -----------------------------------------------------------------------
+            $('.delete').click(function() {
+                $('#delete').modal();
+                var id = $(this).attr('value');
+                $("input[name='id_proveedor']").val(id);
+            });
+            //MODAL ACTIVAR -----------------------------------------------------------------------
+            $('.activar').click(function() {
+                $('#activar').modal();
+                var id = $(this).attr('value');
+                $("input[name='id_proveedor']").val(id);
+            });
+        });
+        
+        //CERRAR TODOS LOS MODALES
+        $('.close').click(function() {
+            $('#activar').modal('hide');
+            $('#delete').modal('hide');
+        });
+
+    });
+</script>
 @stop

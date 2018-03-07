@@ -14,6 +14,15 @@
             {{ session('status') }}
         </div>
     @endif
+    @if (count($errors) > 0)
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
     <form method="POST" action="/articulos/addarticulo" accept-charset="UTF-8" class="form-horizontal">
 
@@ -25,15 +34,25 @@
                     </div>
 			</div>
 			<div class="form-group">
-					   <label for="unidad" class="control-label col-sm-2">Unidad de medida:</label>
-                    <div class="col-sm-10">
-                        <select name="unidad" class="form-control" style="width: 100%" required="required">
-                            <option value="Unidad">Unidad</option>
-                            <option value="Metro">Metro</option>
-                            <option value="Litro">Litro</option>
-                        </select>
-					</div>
+			   <label for="unidad" class="control-label col-sm-2">Unidad de medida:</label>
+                <div class="col-sm-10">
+                    <select name="unidad" class="form-control" style="width: 100%" required="required">
+                        <option value="Unidad">Unidad</option>
+                        <option value="Metro">Metro</option>
+                        <option value="Litro">Litro</option>
+                    </select>
+				</div>
 			</div>
+            <div class="form-group">
+               <label for="unidad" class="control-label col-sm-2">Tipo:</label>
+                <div class="col-sm-10">
+                    <select name="tipo" class="form-control" style="width: 100%" required="required">
+                        <option value="RECURSO">RECURSO</option>
+                        <option value="ELEMENTO DE SEGURIDAD">ELEMENTO DE SEGURIDAD</option>
+                        <option value="INDUMENTARIA">INDUMENTARIA</option>
+                    </select>
+                </div>
+            </div>
 			<div class="form-group">
 					   <label for="id_rubro" class="control-label col-sm-2">Rubro:</label>
                     <div class="col-sm-10">

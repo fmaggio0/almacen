@@ -9,7 +9,6 @@
 @section('main-content')
 
     <!-- Mensajes de error-->
-
     @if($errors->has())
         <div class="alert alert-warning" role="alert" id="ocultar">
            @foreach ($errors->all() as $error)
@@ -18,9 +17,7 @@
         </div>
     @endif 
 
-
     <!-- Mensajes de exito-->
-
      @if (session('status'))
         <div class="alert alert-success" id="ocultar">
             {{ session('status') }}
@@ -101,6 +98,8 @@
 				</div>
 
 				<div class="panel-footer">
+                    <input name="origen" type="hidden" value="salida_autorizacion">
+                    <input id="id_area" name="id_area" type="hidden" value="{{ $id_area }}"> 
 					<input id="id_usuario" name="usuario" type="hidden" value="{{ Auth::user()->id }}">	
 					{{ csrf_field() }}
 					<input class="btn btn btn-primary" type="submit" value="Autorizar">
@@ -187,7 +186,7 @@
                          data = data.map(function (item) {
                             return {
                                 id: item.id,
-                                text: item.text+", "+item.nombre,
+                                text: item.text+", "+item.nombres,
                             };
                         });
                         return { results: data };
@@ -234,7 +233,7 @@
         allowClear: true,
         ajax:   
             {
-                url: "/ajax/subareas",
+                url: "/ajax/subareas/"+$("#id_area").val()+"/",
                 dataType: 'json',
                 delay: 300,
                 data: function(params) {
@@ -255,7 +254,7 @@
             }
     });  
 
-    $("#destinos").on("select2:select", function(e) {
+    /*$("#destinos").on("select2:select", function(e) {
 		$("#subdestinos").attr('disabled', false);
 		var destinoid = $("#destinos :selected").val();
 		$.getJSON("/ajax/subareas/"+ destinoid, function (json) { //para modal edit y add
@@ -266,7 +265,7 @@
                 allowClear: true
             });
    		});
-	});
+	});*/
 </script>
 
 @stop

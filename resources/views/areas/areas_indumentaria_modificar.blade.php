@@ -2,14 +2,13 @@
 
 @section ('contentheader_title') 
     <div class="titulo_header">
-        GESTION DE MOVIMIENTOS DE SALIDA
+        INDUMENTARIA
     </div>
 @stop
 
 @section('main-content')
 
     <!-- Mensajes de error-->
-
     @if($errors->has())
         <div class="alert alert-warning" role="alert" id="ocultar">
            @foreach ($errors->all() as $error)
@@ -18,99 +17,74 @@
         </div>
     @endif 
 
-
     <!-- Mensajes de exito-->
-
      @if (session('status'))
         <div class="alert alert-success" id="ocultar">
             {{ session('status') }}
         </div>
     @endif
 
-    <form method="POST" action="/egresos/modificar-egreso" accept-charset="UTF-8" class="form-horizontal">
+    <form method="POST" action="/areas/indumentaria/modificar" accept-charset="UTF-8" class="form-horizontal">
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
                 <div class="panel panel-default">
-                    <div class="panel-heading" style="background: #4682B4; color: #FFFFFF;"><h4 class="panel-title">Despachar autorización</h4></div>
+                    <div class="panel-heading" style="background: #4682B4; color: #FFFFFF;"><h4 class="panel-title">Modificar indumentaria</h4></div>
                     <div class="panel-body">
-
-            
-
-                            <div class="form-group">
-                                <label class="control-label col-sm-2">Tipo de retiro:</label>
-                                <div class="col-sm-4">
-                                    <input class="form-control" style="width: 100%" required="required" id="edit-tipo_retiro" readonly="true" name="tipo_retiro" type="text" value="{{$master->tipo_retiro}}">
-                                </div>
-                                <label class="control-label col-sm-6">{{Auth::user()->name}}</label>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">Nombres:</label>
+                            <div class="col-sm-8">
+                                <input class="form-control" style="width: 100%" readonly="true" type="text" value="{{$empleado->nombres}}">
                             </div>
-                            <div class="form-group">
-                                <label class="control-label col-sm-2">Destino:</label>
-                                <div class="col-sm-4">
-                                    <input readonly="true" class="form-control" id="edit-destinos" style="width: 100%" name="desc_subarea" type="text" value="{{ $master->descripcion_subarea }}">
-                                    <input name="destino" type="hidden" value="{{ $master->id_subarea }}">
-                                </div>
-                                <label class="control-label col-sm-2">Asignado a:</label>
-                                <div class="col-sm-4">
-                                    <select id="subdestinos" class=" form-control" style="width: 100%" disabled="disabled" name="subdestino"><option value="" selected="selected">Sin asignacion</option></select>
-                                </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">Apellidos:</label>
+                            <div class="col-sm-8">
+                                <input class="form-control" style="width: 100%" readonly="true" type="text" value="{{$empleado->apellidos}}">
                             </div>
-
-                            <fieldset>
-                                <legend>Detalles</legend>
-                                <div class="form-group">
-                                    <label class="control-label col-sm-2">Articulo:</label>
-                                    <div class="col-sm-4">
-                                        <select id="edit-articulos" class="form-control" style="width: 100%"></select>
-                                    </div>
-                                    <label class="control-label col-sm-2">Retirado por:</label>
-                                    <div class="col-sm-4">
-                                        <select id="edit-empleados" class="form-control" style="width: 100%"></select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label col-sm-2">Cantidad:</label>
-                                    <div class="col-sm-4">
-                                        <input id="edit-cantidad" class="form-control" placeholder="Stock actual" min="1" type="number">
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <button id="agregar" class="btn btn-success" type="button">Agregar</button>
-                                    </div>
-                                </div> 
-                            </fieldset>
-
-                            <div class="box">
-                                <div class="box-body">
-                                    <table id="tabla-modificar-egreso" class="table table-striped table-bordered"  cellspacing="0" width="100%">
-                                        <thead>
-                                            <tr>
-                                                <th>Articulo</th>
-                                                <th>Cantidad</th>
-                                                <th>Retirado por</th>
-                                                <th>Acciones</th>
-                                            </tr>
-                                        </thead>
-                                        <thbody>
-                                            @foreach ($detalles as $detalle)
-                                                <tr>
-                                                    <input type='hidden' name='id_detalle[]' value='{{ $detalle->id_detalles }}'>
-                                                    <input type='hidden' name='estado[]' value='viejo'>
-                                                    <td> {{ $detalle->descripcion}} <input type='hidden' name='articulos[]' value='{{ $detalle->id_articulo}}'></td>
-                                                    <td> {{ $detalle->cantidad}} <input type='hidden' name='cantidad[]' value='{{ $detalle->cantidad}}'></td>
-                                                    <td> {{ $detalle->apellidos }}, {{ $detalle->nombres }} <input type='hidden' name='empleados[]' value='{{ $detalle->id_empleado}}'></td>
-                                                    <td> <a class='btn botrojo btn-xs' href='#'><i class='glyphicon glyphicon-trash delete'></i></a> </td>
-                                                </tr>
-                                            @endforeach
-                                        </thbody>
-                                    </table>
-                                </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">Función:</label>
+                            <div class="col-sm-8">
+                                <input class="form-control" style="width: 100%" readonly="true" type="text" value="{{$empleado->funcion}}">
                             </div>
-                      
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">Area:</label>
+                            <div class="col-sm-8">
+                                <input class="form-control" style="width: 100%" readonly="true" type="text" value="{{$area->descripcion_area}}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">Talle remera:</label>
+                            <div class="col-sm-8">
+                                <select class="form-control" style="width: 100%" required="required" name="talle_remera">
+                                    <option value="XXXL" {{ ( $empleado->talle_remera == 'XXXL' ) ? 'selected' : '' }}>XXXL</option>
+                                    <option value="XXL" {{ ( $empleado->talle_remera == 'XXL' ) ? 'selected' : '' }}>XXL</option>
+                                    <option value="XL" {{ ( $empleado->talle_remera == 'XL' ) ? 'selected' : '' }}>XL</option>
+                                    <option value="L" {{ ( $empleado->talle_remera == 'L' ) ? 'selected' : '' }}>L</option>
+                                    <option value="M" {{ ( $empleado->talle_remera == 'M' ) ? 'selected' : '' }}>M</option>
+                                    <option value="S" {{ ( $empleado->talle_remera == 'S' ) ? 'selected' : '' }}>S</option>
+                                    <option value="XS" {{ ( $empleado->talle_remera == 'XS' ) ? 'selected' : '' }}>XS</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">Talle camisa:</label>
+                            <div class="col-sm-8">
+                                <input class="form-control" name="talle_camisa" style="width: 100%" required="required" type="number" min="0" max="60" value="{{$empleado->talle_camisa}}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">Talle calzado:</label>
+                            <div class="col-sm-8">
+                                <input class="form-control" style="width: 100%" name="talle_calzado" required="required" type="number" min="0" max="60" value="{{$empleado->talle_calzado}}">
+                            </div>
+                        </div>
                     </div>
                     <div class="panel-footer">
-                        <input name="id_master" type="hidden" value="{{$master->id_master}}">
+                        <input name="id_empleado" type="hidden" value="{{$empleado->id_empleado}}">
                         <input name="usuario" type="hidden" value="{{Auth::user()->id}}">
-                        <input id="edit-id_salida" name="id_autorizacion" type="hidden">
-                        <input class="btn btn btn-primary" tabindex="1" type="submit" value="Despachar">
+                        <input class="btn btn btn-primary" type="submit" value="Modificar">
                     </div>
                 </div>
             </div>

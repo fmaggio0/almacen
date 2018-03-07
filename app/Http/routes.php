@@ -44,8 +44,10 @@ Route::group(['middleware' => ['role:developers|compras']], function() {
 	Route::post('/proveedores/editar/post', 		['uses' => 'ProveedoresController@edit']);
 
 	//INFORMES/REPORTES
-	Route::get('/empleados', 						['uses' => 'InformesController@index']);
-	Route::get('/empleados/{id}', 					['uses' => 'InformesController@IndexEmpleado']);
+	Route::get('/informes/empleados', 				['uses' => 'InformesController@index']);
+	Route::get('/informes/empleados/{id}', 			['uses' => 'InformesController@IndexEmpleado']);
+
+	Route::get('/informes/stock', 					['uses' => 'InformesController@indexStock']);
 
 });
 
@@ -57,6 +59,10 @@ Route::group(['middleware' => ['role:developers|areas']], function() {
 	Route::get('/areas/autorizaciones', 		['uses' => 'AreasController@IndexAutorizaciones']);
 	Route::get('/areas/autorizaciones/nueva', 	['uses' => 'AreasController@NuevaAutorizacion']);
 	Route::post('/areas/autorizaciones/store', 	['uses' => 'AutorizacionesController@store']);
+
+	Route::get('/areas/indumentaria', 				['uses' => 'AreasController@indexIndumentaria']);
+	Route::get('/areas/indumentaria/{id}', 			['uses' => 'AreasController@modificarIndumentaria']);
+	Route::post('/areas/indumentaria/modificar', 	['uses' => 'AreasController@modificarIndumentariaPost']);
 
 });
 
@@ -89,7 +95,8 @@ Route::get('/ajax/rubros2', 							['uses' => 'AjaxController@getRubros2']);
 Route::get('/ajax/subrubros', 							['uses' => 'AjaxController@getSubrubros']);
 Route::get('/ajax/subrubros/{id}', 						['uses' => 'AjaxController@getSubrubrosxid_rubro']);
 Route::get('/ajax/empleados', 							['uses' => 'AjaxController@getEmpleados']);
-Route::get('/ajax/subareas', 							['uses' => 'AjaxController@getSubareas']);
+Route::get('/ajax/subareas/', 							['uses' => 'AjaxController@getSubareas']);
+Route::get('/ajax/subareas/{id}/', 						['uses' => 'AjaxController@getSubareasxID']);
 Route::get('/ajax/articulos', 							['uses' => 'AjaxController@getArticulos']);
 Route::get('/ajax/roles', 								['uses' => 'AjaxController@getRoles']);
 Route::get('/ajax/permisos', 							['uses' => 'AjaxController@getPermisos']);
@@ -114,3 +121,4 @@ Route::get('/datatables/salidas-modal-edit/{id}',		['uses' => 'DatatablesControl
 Route::get('/datatables/usuarios',						['uses' => 'DatatablesController@Usuarios']);
 Route::get('/datatables/roles',							['uses' => 'DatatablesController@Roles']);
 Route::get('/datatables/empleado/{id}', 				['uses' => 'DatatablesController@Empleado']);
+Route::get('/datatables/indumentaria', 					['uses' => 'DatatablesController@Indumentaria']);

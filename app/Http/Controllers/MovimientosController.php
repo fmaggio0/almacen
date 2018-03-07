@@ -23,6 +23,11 @@ use View;
 
 class MovimientosController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function Ingresos(){
 
         return view('movimientos.ingresos');
@@ -49,8 +54,8 @@ class MovimientosController extends Controller
         $detalles = DB::table('salidas_detalles')
             ->where('id_master', '=', $id )
             ->join('articulos', 'salidas_detalles.id_articulo', '=', 'articulos.id_articulo')
-            ->join('personal_prod.tpersonal as empleados', 'salidas_detalles.id_empleado', '=', 'empleados.Nro_Legajo')
-            ->select('salidas_detalles.id_detalles', 'salidas_detalles.id_articulo', 'salidas_detalles.id_empleado', 'salidas_detalles.cantidad', 'empleados.Nombres', 'empleados.Apellido', 'articulos.descripcion')
+            ->join('empleados', 'salidas_detalles.id_empleado', '=', 'empleados.id_empleado')
+            ->select('salidas_detalles.id_detalles', 'salidas_detalles.id_articulo', 'salidas_detalles.id_empleado', 'salidas_detalles.cantidad', 'empleados.nombres', 'empleados.apellidos', 'articulos.descripcion')
         ->get();
 
         $estado = $master->estado;
@@ -153,31 +158,36 @@ class MovimientosController extends Controller
         {
             //Validaciones
             $validator = Validator::make($request->all(), [
-                'tipo_retiro' => 'required|max:60',
-                'destino' => 'required|integer',
+                'subdestino' => 'required|integer',
                 'usuario' => 'required|integer',
                 'cantidad*' => 'required'
             ]);
 
             if ($validator->fails()) {
                 return redirect()
-                            ->back()
-                            ->withErrors($validator)
-                            ->withInput();
+                    ->back()
+                    ->withErrors($validator)
+                    ->withInput();
             }
 
             //Cargar datos en la tabla salida master
             $master = new Salidas;
-            $master->tipo_retiro = $request->tipo_retiro;
-            $master->id_subarea = $request->destino;
+            $master->id_subarea = $request->subdestino;
             $master->id_usuario = $request->usuario;
+            if($request->origen == "salida_almacen"){
+                $master->origen = $request->origen;
+            }
+            else{
+                $master->origen = "salida_autorizacion";
+            }
+            
 
             if(Input::get('pendiente')) {
                 $master->estado = 1;
             }
 
             //Si proviene de una autorizacion, cambiamos el estado de la autorizacion a 1(Autorizado)
-            if ( $master->tipo_retiro == "Autorizacion de recursos" || $master->tipo_retiro == "Autorizacion de elementos de seguridad")
+            if ( $request->origen == "salida_autorizacion" )
             {
                 $id = $request->id_autorizacion;
                 $update = Autorizaciones::findOrFail($id);
@@ -197,19 +207,17 @@ class MovimientosController extends Controller
             {
                 for($i=0;$i <count($request->articulos);$i++)
                 {
+
                     $detalles = array(
-                                    'id_master' => $id,
-                                    'id_articulo'=> $request->articulos[$i],
-                                    'id_empleado'  => $request->empleados[$i],
-                                    'cantidad' => $request->cantidad[$i]
-                                    );
+                        'id_master' => $id,
+                        'id_articulo'=> $request->articulos[$i],
+                        'id_empleado'  => $request->empleados[$i],
+                        'cantidad' => $request->cantidad[$i]
+                    );
                     SalidasDetalles::create($detalles);
 
-                    $id_articulo = $request->articulos[$i];
-                    $cantidad = $request->cantidad[$i];
-
-                    $update = Articulos::findOrFail($id_articulo);
-                    $update->decrement('stock_actual', $cantidad);
+                    $update = Articulos::findOrFail($request->articulos[$i]);
+                        $update->decrement('stock_actual', $request->cantidad[$i]);
                     $update->save();
                 }    
             }

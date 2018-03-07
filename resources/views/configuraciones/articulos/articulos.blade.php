@@ -28,6 +28,7 @@
                             <th>Unidad</th>
                             <th>Stock minimo</th>
                             <th>Stock actual</th>
+                            <th>Tipo</th>
                             <th>Rubro</th>
                             <th>Subrubro</th>
                             <th>Modificado</th>
@@ -46,6 +47,11 @@
 @section('js')
     <script>
         $(document).ready(function(){
+            //Ocultar mensajes de error o success
+            $("#ocultar").fadeTo(8000, 500).slideUp(500, function(){
+                $("ocultar").alert('close');
+            });
+            
             $('#tabla-articulos').DataTable({
                 "processing": true,
                 "serverSide": true,
@@ -58,6 +64,7 @@
                     {data: 'descripcion', name: 'articulos.descripcion'},
                     {data: 'unidad', name: 'articulos.unidad'},
                     {data: 'stock_minimo', name: 'articulos.stock_minimo'},
+                    {data: 'tipo', name: 'articulos.tipo'},
                     {data: 'stock_actual', name: 'articulos.stock_actual'},
                     {data: 'descripcionrubro', name: 'rubros.descripcion'},
                     {data: 'descripcionsubrubro', name: 'subrubros.descripcion'},

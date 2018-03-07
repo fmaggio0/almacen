@@ -15,12 +15,17 @@ use App\Role;
 
 class DatatablesController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
 	public function articulostable()
 	{
 	    $articulos = DB::table('articulos')
             ->join('rubros', 'articulos.id_rubro', '=', 'rubros.id_rubro')
-            ->join('subrubros', 'articulos.id_subrubro', '=', 'subrubros.id_subrubro')
-            ->select(['articulos.id_articulo', 'articulos.descripcion', 'articulos.unidad', 'rubros.descripcion AS descripcionrubro', 'subrubros.descripcion AS descripcionsubrubro', 'articulos.estado', 'articulos.updated_at', 'articulos.id_rubro', 'articulos.id_subrubro', 'articulos.stock_actual', 'articulos.stock_minimo']);
+            ->leftJoin('subrubros', 'articulos.id_subrubro', '=', 'subrubros.id_subrubro')
+            ->select(['articulos.id_articulo', 'articulos.descripcion', 'articulos.unidad', 'articulos.tipo', 'rubros.descripcion AS descripcionrubro', 'subrubros.descripcion AS descripcionsubrubro', 'articulos.estado', 'articulos.updated_at', 'articulos.id_rubro', 'articulos.id_subrubro', 'articulos.stock_actual', 'articulos.stock_minimo']);
 
         return Datatables::of($articulos)
             ->addColumn('action', function ($articulos) {
@@ -143,7 +148,7 @@ class DatatablesController extends Controller
             ->join('articulos', 'articulos.id_articulo', '=', 'salidas_detalles.id_articulo')
             ->join('users', 'salidas_master.id_usuario', '=', 'users.id')
             ->join('areas', 'subareas.id_area', '=', 'areas.id_area')
-            ->select(['salidas_master.id_master as id_master', 'salidas_master.tipo_retiro', 'subareas.descripcion_subarea as subarea', 'salidas_master.updated_at', 'users.name', 'salidas_master.estado as estado', 'areas.descripcion_area', 'salidas_master.id_subarea'])
+            ->select(['salidas_master.id_master as id_master', 'subareas.descripcion_subarea as subarea', 'salidas_master.updated_at', 'salidas_master.origen', 'users.name', 'salidas_master.estado as estado', 'areas.descripcion_area', 'salidas_master.id_subarea'])
             ->distinct();
 
         return Datatables::of($salidas)
@@ -177,11 +182,11 @@ class DatatablesController extends Controller
 
             })
             ->editColumn('id_master', function($salidas){
-                if( $salidas->tipo_retiro == "Elementos de seguridad" || $salidas->tipo_retiro == "Salida de recursos" )
+                if( $salidas->origen == "salida_almacen" )
                 {
                     return "MSA-".$salidas->id_master;
                 }
-                else
+                else if ($salidas->origen == "salida_autorizacion")
                 {
                     return "AUT-".$salidas->id_master;
                 }
@@ -197,7 +202,7 @@ class DatatablesController extends Controller
             ->join('subareas', 'autorizaciones_master.id_subarea', '=', 'subareas.id_subarea')
             ->join('articulos', 'articulos.id_articulo', '=', 'autorizaciones_detalles.id_articulo')
             ->join('users', 'autorizaciones_master.id_usuario', '=', 'users.id')
-            ->select(['autorizaciones_master.id_master as id_master', 'autorizaciones_master.tipo_retiro', 'subareas.descripcion_subarea', 'autorizaciones_master.updated_at', 'users.name', 'autorizaciones_master.estado as estado'])
+            ->select(['autorizaciones_master.id_master as id_master', 'subareas.descripcion_subarea', 'autorizaciones_master.updated_at', 'users.name', 'autorizaciones_master.estado as estado'])
             ->distinct();
 
         return Datatables::of($salidas)
@@ -236,7 +241,7 @@ class DatatablesController extends Controller
             ->join('articulos', 'articulos.id_articulo', '=', 'autorizaciones_detalles.id_articulo')
             ->join('users', 'autorizaciones_master.id_usuario', '=', 'users.id')
             ->join('areas', 'subareas.id_area', '=', 'areas.id_area')
-            ->select(['autorizaciones_master.id_master as id_master', 'autorizaciones_master.tipo_retiro', 'subareas.descripcion_subarea', 'autorizaciones_master.updated_at', 'users.name', 'autorizaciones_master.estado as estado', 'areas.descripcion_area', 'autorizaciones_master.id_subarea'])
+            ->select(['autorizaciones_master.id_master as id_master', 'subareas.descripcion_subarea', 'autorizaciones_master.updated_at', 'users.name', 'autorizaciones_master.estado as estado', 'areas.descripcion_area', 'autorizaciones_master.id_subarea'])
             ->distinct();
 
         return Datatables::of($salidas)
@@ -264,22 +269,11 @@ class DatatablesController extends Controller
             ->make(true);
     }
 
-    public function salidasmodaledit($id)
-    {
-        $detalles=DB::table('salidas_detalles')
-            ->where('id_master', '=', $id)
-            ->join('articulos', 'articulos.id_articulo', '=', 'salidas_detalles.id_articulo')
-            ->join('personal_prod.tpersonal as empleados', 'empleados.Nro_Legajo', '=', 'salidas_detalles.id_empleado')
-            ->select('articulos.id_articulo', 'articulos.descripcion','salidas_detalles.id_empleado', 'empleados.Nombres','empleados.Apellido', 'salidas_detalles.cantidad' )
-            ->get();
-        return Response::json($detalles);
-    }
-
     public function Usuarios()
     {
         $query = DB::table('users')
-            ->select(['users.id', 'users.name', 'users.email', 'users.id_empleado', DB::raw('CONCAT(empleados.Apellido, ", ", empleados.Nombres) AS full_name')])
-            ->join('personal_prod.tpersonal as empleados', 'empleados.Nro_Legajo', '=', 'users.id_empleado')
+            ->select(['users.id', 'users.name', 'users.email', 'users.id_empleado', DB::raw("concat(empleados.apellidos, ', ', empleados.nombres) AS full_name")])  
+            ->join('empleados', 'empleados.id_empleado', '=', 'users.id_empleado')
             ->distinct();
          
         return Datatables::of($query)
@@ -323,25 +317,40 @@ class DatatablesController extends Controller
             ->where('salidas_detalles.id_empleado', '=', $id)
             ->join('salidas_master', 'salidas_master.id_master', '=', 'salidas_detalles.id_master')
             ->join('articulos', 'articulos.id_articulo', '=', 'salidas_detalles.id_articulo')
-            ->join('personal_prod.tpersonal as empleados', 'empleados.Nro_Legajo', '=', 'salidas_detalles.id_empleado')
-            ->select(['salidas_detalles.id_master', 'salidas_master.tipo_retiro', 'salidas_master.updated_at', 'articulos.descripcion', 'salidas_detalles.cantidad', DB::raw('CONCAT(empleados.Apellido, ", ", empleados.Nombres) AS full_name')])
+            ->join('empleados', 'empleados.id_empleado', '=', 'salidas_detalles.id_empleado')
+            ->select(['salidas_detalles.id_master', 'salidas_master.origen', 'salidas_master.updated_at', 'articulos.descripcion', 'articulos.tipo', 'salidas_detalles.cantidad', DB::raw("concat(empleados.apellidos, ', ', empleados.nombres) AS full_name")])
             ->distinct();
 
         return Datatables::of($salidas)
-            ->addColumn('action', function ($articulos) {
-                return '<a href="#" class="btn btn-xs btn-primary edit"><i class="glyphicon glyphicon-edit edit"></i></a>';
-            })
             ->editColumn('id_master', function($salidas){
-                if( $salidas->tipo_retiro == "Elementos de seguridad" || $salidas->tipo_retiro == "Salida de recursos" )
+                if( $salidas->origen == "salida_almacen" )
                 {
                     return "MSA-".$salidas->id_master;
                 }
-                else
+                else if ($salidas->origen == "salida_autorizacion")
                 {
                     return "AUT-".$salidas->id_master;
                 }
 
             })
             ->make(true);
-    }          
+    }
+
+    public function Indumentaria()
+    {
+
+        $salidas = DB::table('empleados')
+            ->where('empleados.id_area', '=', User::find(Auth::user()->id)->empleados->id_area )
+            ->where('empleados.estado', '=', 1 )
+            ->join('areas', 'areas.id_area', '=', 'empleados.id_area')
+            ->select('empleados.nombres', 'empleados.apellidos', 'empleados.id_area', 'empleados.id_subarea', 'empleados.funcion', 'empleados.talle_remera', 'empleados.talle_camisa', 'empleados.talle_calzado', 'empleados.estado', 'empleados.updated_at', 'areas.descripcion_area', 'empleados.id_empleado');
+
+        //return $salidas;
+
+        return Datatables::of($salidas)
+            ->addColumn('action', function ($salidas) {
+                return '<a href="/areas/indumentaria/'.$salidas->id_empleado.'" class="btn btn-xs btn-primary edit"><i class="glyphicon glyphicon-edit edit"></i></a>';
+            })
+        ->make(true);
+    }                 
 }

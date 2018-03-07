@@ -82,7 +82,7 @@ $(document).ready( function () {
             {data: 'id', name: 'users.id'},
             {data: 'name', name: 'users.name'},
             {data: 'email', name: 'users.email'},
-            {data: 'full_name', name: 'empleados.Apellido'},
+            {data: 'full_name', name: 'empleados.apellidos'},
             {data: 'roles', name: 'roles' , orderable: false, searchable: false},
             {data: 'action', name: 'action' , orderable: false, searchable: false},
         ],

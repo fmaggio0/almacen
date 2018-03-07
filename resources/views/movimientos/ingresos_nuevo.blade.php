@@ -66,7 +66,8 @@
                     </div>
                     <label class="control-label col-sm-2">Fecha de la Factura:</label>
                     <div class="col-sm-4">
-                        <input name="fecha" class="form-control" min="2010-01-01" max="2017-03-03" style="width: 100%" type="date" required="">
+                        {{ \Carbon\Carbon::now()->format('d/m/Y') }}
+                        <input name="fecha" class="form-control" min="2016-01-01" max="{{ \Carbon\Carbon::now()->format('d/m/Y') }}" style="width: 100%" type="date" required="">
                     </div>
                 </div>
 
@@ -76,7 +77,6 @@
     					<select id="proveedores" class="form-control" style="width: 100%" name="id_proveedor" ></select>
     				</div>
     				<div class="col-sm-2">
-    					<button id="add-proveedor" style="float:left" class="btn btn-success" type="button">+</button>
                         <label class="control-label col-sm-2">Descripcion:</label>
     				</div>
                     <div class="col-sm-4">
@@ -92,7 +92,6 @@
     						<select id="articulos" class="form-control" style="width: 100%"></select>
     					</div>
     					<div class="col-sm-2">
-    						<button id="add-articulo" style="float:left" class="btn btn-success" type="button">+</button>
                             <label class="control-label" style="float:right">Cantidad:</label>
     					</div>
     					<div class="col-sm-4">
@@ -149,31 +148,11 @@
 
 </form>
 
-<!-- Crear nuevo articulo -->
-@include('configuraciones.modalsArticulos.create')
-<!-- Crear nuevo proveedor -->
-@include('configuraciones.modalsProveedores.create')
-
 @stop
 
 @section('js')
 
 <script>
-	$("#add-proveedor").click(function(){
-        $("#crearproveedor").modal(); 
-    });
-
-	$("#add-articulo").click(function(){
-        $("#creararticulo").modal();
-    });
-
-    $("#close-add-articulo").click(function(){
-        $("#creararticulo").modal("hide");
-    });
-
-    $("#close-add-proveedor").click(function(){
-        $("#crearproveedor").modal("hide");
-    });
 
 	//BLOQUEAR INPUTS SI SE SELECCIONA AJUSTE DE STOCK
 	$(".tipo_ingreso").change(function() {
@@ -182,15 +161,12 @@
 	        $(".tipo_comprobante").attr("disabled",true);
 	        $("input[name=nro_comprobante]").attr("disabled", true);
 	        $("#proveedores").attr("disabled", true);
-	        $("#add-proveedor").attr("disabled", true);
 	    }
 	    else
 	    {
 	    	$(".tipo_comprobante").attr("disabled",false);
 	        $("input[name=nro_comprobante]").attr("disabled",false);
 	        $("#proveedores").attr("disabled", false);
-	        $("#add-proveedor").attr("disabled", false);
-
 	    }
 	});
 

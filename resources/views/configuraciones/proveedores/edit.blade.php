@@ -14,7 +14,6 @@
             {{ session('status') }}
         </div>
     @endif
-    
     @if (count($errors) > 0)
         <div class="alert alert-danger">
             <ul>
@@ -24,6 +23,7 @@
             </ul>
         </div>
     @endif
+    
 		<form method="POST" action="/proveedores/editar/post" accept-charset="UTF-8" class="form-horizontal">		
 				<div class="panel-body">
 					<div class="form-group">
@@ -35,7 +35,7 @@
                     <div class="form-group">
                                 <label for="direccion" class="control-label col-sm-4">Dirección:</label>
                             <div class="col-sm-8">
-                                <input class="form-control" required="required" name="direccion" type="text" value="{{$proveedor->direccion}}">
+                                <input class="form-control autocomplete-calles" required="required" name="direccion" type="text" value="{{$proveedor->direccion}}">
                             </div>
                     </div>
                     <div class="form-group">
@@ -79,6 +79,8 @@
 					</div>
 				</div>
 				<div class="panel-footer">
+                    <input type="hidden" name="coordinatesx" id="coorx" value=""></input>
+                    <input type="hidden" name="coordinatesy" id="coory" value=""></input>
                     <input type="hidden" name="id_proveedor" value="{{ $proveedor->id_proveedor}}">
                     <input type="submit" name="guardar" class="btn btn-primary" id="editiguardar" value="Guardar">
 				</div>
@@ -97,6 +99,32 @@
             language: "es",
             placeholder: "Seleccionar rubros"
         });
+    });
+        $(".autocomplete-calles").autocomplete({
+       source: function( request, response ) {
+            $.getJSON("http://ws.rosario.gov.ar/ubicaciones/public/geojson/ubicaciones/all/all/"+request.term,function(data){
+                
+
+                array = new Array();
+                $.each( data.features, function( key, value ) {
+                    if(value.properties.subtipo == 'DIRECCIÓN'){
+                        array.push({label: value.properties.name, value: value.properties.name, codcalle: value.properties.codigoCalle, x: value.geometry.coordinates[0], y: value.geometry.coordinates[1] });
+                    }
+                });
+                response(array);
+            });
+        },
+        minLength: 2,
+        open: function(){
+            $(this).autocomplete('widget').css('z-index', 9000);
+            return false;
+        },
+        select: function (event, ui) {
+            $(this).attr('data-codcalle', ui.item.codcalle);
+            $("#coorx").val(ui.item.x);
+            $("#coory").val(ui.item.y);
+            $(".autocomplete-calles").attr('readOnly', true)
+        }
     });
 </script>
 @stop

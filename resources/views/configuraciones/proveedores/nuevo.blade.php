@@ -14,7 +14,6 @@
             {{ session('status') }}
         </div>
     @endif
-    
     @if (count($errors) > 0)
         <div class="alert alert-danger">
             <ul>
@@ -24,6 +23,7 @@
             </ul>
         </div>
     @endif
+    
     <form method="POST" action="/proveedores/addproveedor" accept-charset="UTF-8" class="form-horizontal">
 
     	<div class="panel-body">

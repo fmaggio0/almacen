@@ -20,7 +20,11 @@ use App\Events\AutorizacionesEvent;
 
 class AutorizacionesController extends Controller
 {
-    
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index(){
         return view('autorizaciones.autorizaciones_retiro');    
     }
@@ -33,7 +37,6 @@ class AutorizacionesController extends Controller
     	    $post = $request->all();
 
             $master = new Autorizaciones;
-        	    $master->tipo_retiro = $post['tipo_retiro'];
         	    $master->id_subarea = $post['destino'];
         	    $master->id_usuario = $post['usuario'];
     	    $master->save();
@@ -148,7 +151,7 @@ class AutorizacionesController extends Controller
                 $id_master = $request->id_master;
                 $obtenermaster = Autorizaciones::findOrFail($id_master);
                 $Salidas = new Salidas;
-                $Salidas->tipo_retiro = $obtenermaster->tipo_retiro;
+                $Salidas->origen = "salida_autorizacion";
                 $Salidas->estado = 0;
                 $Salidas->id_subarea = $obtenermaster->id_subarea;
                 $Salidas->id_usuario = $request->id_usuario;

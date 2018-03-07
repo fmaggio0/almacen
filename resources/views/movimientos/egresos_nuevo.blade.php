@@ -38,23 +38,12 @@
 				</div>
 
 				<div class="panel-body">
-
-					<div class="form-group">
-						<label class="control-label col-sm-2">Tipo de retiro:</label>
-						<div class="col-sm-4">
-							<select class="tipo_retiro form-control" style="width: 100%" required="required" name="tipo_retiro">
-								<option value="Salida de recursos">Salida de recursos</option>
-								<option value="Elementos de seguridad">Elementos de seguridad</option>
-							</select>
-						</div>
-						<label for="usuarioname" class="control-label col-sm-6"> {{ Auth::user()->name }} </label>
-					</div>
 					<div class="form-group">
 							<label class="control-label col-sm-2">Destino:</label>
 							<div class="col-sm-4">
-								<select id="destinos" class="form-control" style="width: 100%" name="destino" aria-hidden="true"></select>
+								<select id="subdestinos" class="form-control" style="width: 100%" name="subdestino"></select>
 							</div>
-							<label class="control-label col-sm-2">Asignar a:</label>
+							<label class="control-label col-sm-2">Asignado a:</label>
 							<div class="col-sm-4">
 								<select id="subdestinos" class=" form-control" style="width: 100%" disabled="disabled" name="subdestino"></select>
 							</div>
@@ -75,7 +64,7 @@
 		                        </div>
 							</div>
 						</div>
-						<div class="form-group" id="cantidad_error">
+						<div class="form-group">
 							<label class="control-label col-sm-2">Cantidad:</label>
 							<div class="col-sm-4">
 								<input id="cantidad" class="form-control" placeholder="Stock actual" min="1" data-stock="" name="" type="number">
@@ -94,6 +83,7 @@
 			                        <tr>
 			                            <th>Nro Item</th>
 			                            <th>Articulo</th>
+                                        <th>Tipo</th>
 			                            <th>Cantidad</th>
 			                            <th>Retirado por</th>
 			                            <th>Acciones</th>
@@ -107,6 +97,8 @@
 
 				<div class="panel-footer">
 					<input name="usuario" type="hidden" value="{{ Auth::user()->id }}">
+                    <input name="id_subarea" id="id_subarea" type="hidden" value="">
+                    <input name="origen" type="hidden" value="salida_almacen">
 
 					<input class="btn btn btn-warning" name="pendiente" type="submit" value="Dejar pendiente">
 					<input class="btn btn btn-primary" name="despachar" type="submit" value="Despachar">
@@ -123,6 +115,7 @@
 @section('js')
 
 <script>
+
     $("#empleados").select2({
         minimumInputLength: 2,
         minimumResultsForSearch: 10,
@@ -144,9 +137,9 @@
                  data = data.map(function (item) {
                     return {
                         id: item.id,
-                        text: item.text+", "+item.nombre,
-                        cargo: item.cargo,
-                        sector: item.sector
+                        text: item.text+", "+item.nombres,
+                        funcion: item.funcion,
+                        sector: item.id_subarea
                     };
                 });
                 return { results: data };
@@ -154,6 +147,7 @@
             cache: true
         }
     });
+
     $("#articulos").select2({
         minimumInputLength: 2,
         minimumResultsForSearch: 10,
@@ -173,12 +167,13 @@
             },
             processResults: function (data) {
                  data = data.map(function (item) {
+                    console.log(item);
                     return {
                         id: item.id,
                         text: item.text,
                         stock: item.stock_actual,
-                        unidad: item.unidad
-
+                        unidad: item.unidad,
+                        tipo: item.tipo
                     };
                 });
                 return { results: data };
@@ -186,7 +181,7 @@
             cache: true
         }
     });
-    $("#destinos").select2({
+    $("#subdestinos").select2({
         minimumInputLength: 2,
         minimumResultsForSearch: 10,
         language: "es",
@@ -195,7 +190,7 @@
         tokenSeparators: [','],
         ajax:   
         {
-            url: "/ajax/subareas",
+            url: "/ajax/subareas/",
             dataType: 'json',
             delay: 300,
             data: function(params) {
@@ -214,7 +209,7 @@
             },
             cache: true
         }
-    });  
+    });
 
     //Focus accesibilidad
     $('#salidastock').on('shown.bs.modal', function() {
@@ -245,6 +240,7 @@
         data=$("#articulos").select2('data')[0];
         $("#cantidad").attr('placeholder', data.stock+" "+data.unidad+"es disponibles" );
         $("#cantidad").attr('data-stock', data.stock);
+        $("#articulos option").attr('data-tipo', data.tipo);
     });
 
     $("#empleados").on("select2:select", function(e) { 
@@ -264,6 +260,7 @@
         var articulosid = $("#articulos :selected").val();
         var empleados = $("#empleados :selected").text();
         var empleadosid = $("#empleados :selected").val();
+        var tipo = $("#articulos :selected").data("tipo");
         var cantidad = $("#cantidad").val();
         var stock = $("#cantidad").data('stock');
         var cero = 0;
@@ -273,11 +270,12 @@
         {
             var stockrestante = stock - cantidad;
             
-
+            
                 
             $("#tabla-salidastock").DataTable().row.add( [
                 contador,
                 articulos+"<input type='hidden' name='articulos[]' value='"+articulosid+"'>",
+                tipo+"<input type='hidden' name='tipo[]' value='"+tipo+"'>",
                 cantidad+"<input type='hidden' name='cantidad[]' value='"+cantidad+"'>",
                 empleados+"<input type='hidden' name='empleados[]' value='"+empleadosid+"'>",
 
@@ -292,15 +290,15 @@
         }
         else if(cantidad > stock)
         {
-            $("#cantidad_error").attr('class', 'form-group has-error');
-            $("#cantidad").focus();
-            $("#cantidad").val("");
+            alert("No hay stock del articulo seleccionado.")
         }
-        else if(cantidad <= cero)
+        else if(cantidad < 0)
         {
-            $("#cantidad_error").attr('class', 'form-group has-error');
-            $("#cantidad").focus();
-            $("#cantidad").val("");
+            alert("La cantidad debe ser positiva.")
+        }
+        else if(cantidad == 0)
+        {
+            alert("Ingrese una cantidad mayor que 0.")
         }
         else{
             alert("No se ha podido agregar el articulo, intente nuevamente.")

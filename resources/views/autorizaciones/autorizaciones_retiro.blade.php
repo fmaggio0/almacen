@@ -34,7 +34,6 @@
                     <tr>
                         <th></th>
                         <th>ID</th>
-                        <th>Tipo de movimiento</th>
                         <th>Area</th>
                         <th>SubArea</th>
                         <th>Fecha que registra</th>
@@ -74,7 +73,6 @@
                     defaultContent: ''
                 },
                 {data: 'id_master', name: 'autorizaciones_master.id_master'},
-                {data: 'tipo_retiro', name: 'autorizaciones_master.tipo_retiro'},
                 {data: 'descripcion_area', name: 'areas.descripcion_area'},
                 {data: 'descripcion_subarea', name: 'subareas.descripcion_subarea'},
                 {data: 'updated_at', name: 'autorizaciones_master.updated_at'},
@@ -93,7 +91,7 @@
                 var rows = api.rows( {page:'current'} ).nodes();
                 var last=null;
      
-                api.column(4, {page:'current'} ).data().each( function ( group, i ) {
+                api.column(3, {page:'current'} ).data().each( function ( group, i ) {
                     if ( last !== group ) {
                         $(rows).eq( i ).before(
                             '<tr class="group"><td colspan="9" style="background-color: #bdbdbd;">'+group+'</td></tr>'
@@ -139,7 +137,8 @@
                 complete: function (response) {
                     var data = JSON.parse(response.responseText);   
                     var thead = '',  tbody = '';
-                    thead += '<th>Articulo solicitado</th>'; 
+                    thead += '<th>Articulo solicitado</th>';
+                    thead += '<th>Tipo</th>';  
                     thead += '<th>Empleado solicitante</th>'; 
                     thead += '<th>Cantidad solicitada</th>'; 
                     thead += '<th>Stock actual</th>';
@@ -160,13 +159,13 @@
                             d.ultimo_entregado = 'Nunca';
                         }
                         if(d.estado == 0){ 
-                            tbody += '<tr>{{ csrf_field() }}<input name="id_usuario" type="hidden" value="{{ Auth::user()->id }}"><input type="hidden" name="id_master" value="'+d.id_master+'"><input type="hidden" name="id_detalles[]" value="'+d.id_detalles+'"><input type="hidden" name="estado[]" class="estado2" required><td class="articulo" data-id="'+d.id_articulo+'">' + d.descripcion + '</td><td class="empleado" data-id="'+d.id_empleado+'">' + d.Apellido + ', '+ d.Nombres+ '</td><td class="cantidad">'+ d.cantidad+'</td><td class="stock_actual">'+ d.stock_actual+'</td><td class="ultimo_entregado">'+ d.ultimo_entregado+'</td><td><div class="btn-group" data-toggle="buttons"><label class="btn btn-danger noautorizar_movimiento"><input type="radio" autocomplete="off" checked> No autorizado</label><label class="btn btn-success autorizar_movimiento"><input type="radio" autocomplete="off"> Autorizado</label><label class="btn btn-info editar_movimiento"><input type="radio" class="editar_movimiento" autocomplete="off"> Modificar</label></div></td><td class="estado"></td></tr>';
+                            tbody += '<tr>{{ csrf_field() }}<input name="id_usuario" type="hidden" value="{{ Auth::user()->id }}"><input type="hidden" name="id_master" value="'+d.id_master+'"><input type="hidden" name="id_detalles[]" value="'+d.id_detalles+'"><input type="hidden" name="estado[]" class="estado2" required><td class="articulo" data-id="'+d.id_articulo+'">' + d.descripcion + '</td><td>' + d.tipo + '</td><td class="empleado" data-id="'+d.id_empleado+'">' + d.apellidos + ', '+ d.nombres+ '</td><td class="cantidad">'+ d.cantidad+'</td><td class="stock_actual">'+ d.stock_actual+'</td><td class="ultimo_entregado">'+ d.ultimo_entregado+'</td><td><div class="btn-group" data-toggle="buttons"><label class="btn btn-danger noautorizar_movimiento"><input type="radio" autocomplete="off" checked> No autorizado</label><label class="btn btn-success autorizar_movimiento"><input type="radio" autocomplete="off"> Autorizado</label><label class="btn btn-info editar_movimiento"><input type="radio" class="editar_movimiento" autocomplete="off"> Modificar</label></div></td><td class="estado"></td></tr>';
                             return estado = 0;
 
                         }
                         else
                         {
-                            tbody += '<tr>{{ csrf_field() }}<input name="id_usuario" type="hidden" value="{{ Auth::user()->id }}"><input type="hidden" name="id_master" value="'+d.id_master+'"><input type="hidden" name="id_detalles[]" value="'+d.id_detalles+'"><input type="hidden" name="estado[]" class="estado2"><td class="articulo" data-id="'+d.id_articulo+'">' + d.descripcion + '</td><td class="empleado" data-id="'+d.id_empleado+'">' + d.Apellido + ', '+ d.Nombres+ '</td><td class="cantidad">'+ d.cantidad+'</td><td class="stock_actual">'+ d.stock_actual+'</td><td class="ultimo_entregado">'+ d.ultimo_entregado+'</td><td class="estado">'+ estadoformateado +'</td></tr>';
+                            tbody += '<tr>{{ csrf_field() }}<input name="id_usuario" type="hidden" value="{{ Auth::user()->id }}"><input type="hidden" name="id_master" value="'+d.id_master+'"><input type="hidden" name="id_detalles[]" value="'+d.id_detalles+'"><input type="hidden" name="estado[]" class="estado2"><td class="articulo" data-id="'+d.id_articulo+'">' + d.descripcion + '</td><td>' + d.tipo + '</td><td class="empleado" data-id="'+d.id_empleado+'">' + d.apellidos + ', '+ d.nombres+ '</td><td class="cantidad">'+ d.cantidad+'</td><td class="stock_actual">'+ d.stock_actual+'</td><td class="ultimo_entregado">'+ d.ultimo_entregado+'</td><td class="estado">'+ estadoformateado +'</td></tr>';
                             return estado = 1;
                         }
                     });
@@ -254,7 +253,7 @@
 
             
 
-            $('<tr data-id-fila="'+count+'" data-id-articulo="'+$id_articulo+'" data-id-empleado="'+$id_empleado+'"><td class="articulo"><select id="articulos-'+count+'" style="width: 100%"></select></td><td>'+$empleado+'</td><td><input class="cantidad form-control" placeholder="Ingrese cantidad" min="1" type="number"></td><td id="stock_actual-'+count+'" class="stock_actual">'+$stock_actual+'</td><td id="ultimo_entregado-'+count+'">'+$ultimo_entregado+'</td><td><div class="btn-group" data-toggle="buttons"><label class="btn btn-success autorizar_movimiento"><input type="radio" name="options" id="option2" autocomplete="off"> Autorizar</label><label class="btn btn-danger remove-aut"><input type="radio" name="options" id="option1" autocomplete="off" checked> Eliminar</label></div></td><td class="estado" required></td></tr>').insertAfter($fila);
+            $('<tr data-id-fila="'+count+'" data-id-articulo="'+$id_articulo+'" data-id-empleado="'+$id_empleado+'"><td class="articulo"><select id="articulos-'+count+'" style="width: 100%"></select></td><td>'+$empleado+'</td><td><input class="cantidad form-control" placeholder="Ingrese cantidad" min="1" type="number"></td><td id="stock_actual-'+count+'" class="stock_actual">'+$stock_actual+'</td><td id="ultimo_entregado-'+count+'">'+$ultimo_entregado+'</td><td><div class="btn-group" data-toggle="buttons"><label class="btn btn-success autorizar_movimiento"><input type="radio" name="options" id="option2" autocomplete="off"> Autorizar</label><label class="btn btn-danger remove-aut"><input type="radio" name="options" id="option1" autocomplete="off" checked> Eliminar</label></div></td><td class="estado" required><input type="hidden" name="estado[]" class="estado2"></td></tr>').insertAfter($fila);
             Iniciarselectarticulos(count);
 
             $("#articulos-"+count).select2("trigger", "select", {
@@ -396,7 +395,7 @@
 
             //evento iniciar modal edit--------------------------------------------------------------------------------
 
-            $('#tabla-movimientos').on('draw.dt', function () {
+            /*$('#tabla-movimientos').on('draw.dt', function () {
 
                 $('.edit').click( function () {
                     var tr = $(this).closest('tr');
@@ -455,7 +454,7 @@
             });
             $("#empleados").on("select2:select", function(e) {
                 $("#cantidad").focus();
-            });
+            });*/
 
             //fin focus accesibilidad----------------------------------------------------------------------------------
 

@@ -11,6 +11,12 @@
 @stop
 
 @section('main-content')
+    <!-- Mensajes de exito-->
+    @if (session('status'))
+        <div class="alert alert-success" id="ocultar">
+            {{ session('status') }}
+        </div>
+    @endif
     <div class="box">
         <div class="box-body">
             <table id="tabla-movimientos" class="table table-striped table-bordered"  cellspacing="0" width="100%">
@@ -18,7 +24,6 @@
                     <tr>
                         <th></th>
                         <th>ID</th>
-                        <th>Tipo de movimiento</th>
                         <th>Subarea</th>
                         <th>Fecha que registra</th>
                         <th>Usuario</th>
@@ -33,6 +38,10 @@
 @section('js')
     <script>
     $(document).ready( function () {
+    //Ocultar mensajes de error o success
+    $("#ocultar").fadeTo(8000, 500).slideUp(500, function(){
+        $("ocultar").alert('close');
+    });
 
     //DAtatables 
 
@@ -52,7 +61,6 @@
                     defaultContent: ''
                 },
                 {data: 'id_master', name: 'autorizaciones_master.id_master'},
-                {data: 'tipo_retiro', name: 'autorizaciones_master.tipo_retiro'},
                 {data: 'descripcion_subarea', name: 'subareas.descripcion_subarea'},
                 {data: 'updated_at', name: 'autorizaciones_master.updated_at'},
                 {data: 'name', name: 'users.name'},
@@ -93,7 +101,8 @@
                     var data = JSON.parse(response.responseText);   
                     var thead = '',  tbody = '';
                     thead += '<th>#</th>';
-                    thead += '<th>Articulo solicitado</th>'; 
+                    thead += '<th>Articulo solicitado</th>';
+                    thead += '<th>Tipo</th>';  
                     thead += '<th>Empleado solicitante</th>'; 
                     thead += '<th>Cantidad solicitada</th>'; 
                     thead += '<th>Estado</th>'; 
@@ -111,7 +120,7 @@
                                 d.estado = "<span class='label label-danger'>Rechazado</span>";
                                 break;
                         }
-                        tbody += '<tr><td>'+ count +'</td><td>' + d.descripcion + '</td><td>' + d.Apellido + ', '+ d.Nombres+ '</td><td>'+ d.cantidad+'</td><td>'+ d.estado+'</td></tr>';
+                        tbody += '<tr><td>'+ count +'</td><td>' + d.descripcion + '</td><td>' + d.tipo + '</td><td>' + d.apellidos + ', '+ d.nombres+ '</td><td>'+ d.cantidad+'</td><td>'+ d.estado+'</td></tr>';
                         count++;
                     });
                     callback($('<table class="table table-hover">' + thead + tbody + '</table>')).show();

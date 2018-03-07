@@ -10,6 +10,11 @@ use App\SubAreas;
 
 class UsuariosController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function subareas(Request $request){
 
     	$post = $request->all();

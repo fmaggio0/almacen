@@ -46,7 +46,7 @@
                         <div class="form-group">
                             <label class="control-label col-sm-2">ID empleado:</label>
                             <div class="col-sm-4">
-                                <div class="input-group">
+                                <div class="input-group" style="width: 100%">
                                     <input class="form-control" style="width: 20%" readonly name="id_empleado" id="id_empleado" type="text" required>
                                     <select id="empleados" class="form-control" style="width: 80%"></select>
                                 </div>    
@@ -112,7 +112,7 @@ $(document).ready( function () {
                  data = data.map(function (item) {
                     return {
                         id: item.id,
-                        text: item.text+", "+item.nombre,
+                        text: item.text+", "+item.nombres,
                     };
                 });
                 return { results: data };

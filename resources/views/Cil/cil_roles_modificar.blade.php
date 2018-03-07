@@ -50,7 +50,7 @@
                             </div>
                             <label class="control-label col-sm-2">Permisos:</label>
                             <div class="col-sm-4">
-                                <select name="permisos[]" id="permisos" multiple="multiple" style="width: 100%" required></select>
+                                <select name="permisos[]" id="permisos" multiple="multiple" style="width: 100%"></select>
                             </div>
                         </div>
                     </div>

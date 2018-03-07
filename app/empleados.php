@@ -6,7 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Empleados extends Model
 {
-	protected $connection = 'personal';
-    protected $table = 'tpersonal';
-	protected $primaryKey = 'Nro_Legajo';
+    protected $table = 'empleados';
+	protected $primaryKey = 'id_empleado';
+	public $incrementing = false;
+    //Definimos los campos que se pueden llenar con asignación masiva
+    protected $fillable = ['nombres','apellidos', 'id_area', 'id_subarea', 'funcion', 'talle_remera', 'talle_camisa', 'talle_calzado', 'estado'];
 }

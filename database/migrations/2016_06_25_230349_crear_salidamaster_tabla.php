@@ -14,8 +14,8 @@ class CrearSalidamasterTabla extends Migration
     {
         Schema::create('salidas_master', function (Blueprint $table) {
             $table->increments('id_master');
-            $table->string('tipo_retiro', 60);
-            $table->integer('estado')->default(0); 
+            $table->integer('estado')->default(0);
+            $table->string('origen', 60);  
             $table->integer('id_subarea')->unsigned();
             $table->foreign('id_subarea')->references('id_subarea')->on('subareas');
             $table->integer('id_usuario')->unsigned();

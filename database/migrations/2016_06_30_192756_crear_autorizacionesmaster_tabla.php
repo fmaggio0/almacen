@@ -14,7 +14,6 @@ class CrearAutorizacionesmasterTabla extends Migration
     {
     Schema::create('autorizaciones_master', function (Blueprint $table) {
             $table->increments('id_master');
-            $table->string('tipo_retiro', 60);
             $table->integer('estado')->default(0); 
             $table->integer('id_subarea')->unsigned();
             $table->foreign('id_subarea')->references('id_subarea')->on('subareas');

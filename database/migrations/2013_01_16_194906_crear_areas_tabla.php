@@ -25,6 +25,6 @@ class CrearAreasTabla extends Migration
      */
     public function down()
     {
-        Schema::drop('destinos');
+        Schema::drop('areas');
     }
 }

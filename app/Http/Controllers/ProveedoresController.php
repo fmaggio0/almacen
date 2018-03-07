@@ -3,14 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use App\Http\Requests;
-
 use App\Proveedores;
-
 use DB;
+
 class ProveedoresController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index(){
 
 		return view('configuraciones.proveedores.proveedores');
@@ -51,29 +54,29 @@ class ProveedoresController extends Controller
         DB::beginTransaction();
         try
         {
-        $this->Validate($request, [
-            'nombre' => 'required|max:60',
-            'direccion' => 'required|max:60',
-            'email'    => 'max:60',
-            'telefono' => 'max:60',
-            'cuit' => 'max:60',
-            'observaciones' => 'max:255',
-            'rubros' => 'max:255',
-        ]);
- 
-        $id = $request->id_proveedor;
-        $update = Proveedores::findOrFail($id);
-            $update->nombre             = $request->nombre;
-            $update->direccion          = $request->direccion;
-            $update->coordenadas        = $request->coordinatesx.','.$request->coordinatesy;
-            $update->cuit               = $request->cuit;
-            $update->email              = $request->email;
-            $update->telefono           = $request->telefono;
-            $update->observaciones      = $request->observaciones;
-            $update->rubros             = implode(",",$request->rubros);
-        $update->save();
-        DB::commit();
-        return redirect("/proveedores")->with('status', 'Se ha modificado correctamente el proveedor.');
+            $this->Validate($request, [
+                'nombre' => 'required|max:60',
+                'direccion' => 'required|max:60',
+                'email'    => 'max:60',
+                'telefono' => 'max:60',
+                'cuit' => 'max:60',
+                'observaciones' => 'max:255',
+                'rubros' => 'required|max:255',
+            ]);
+     
+            $id = $request->id_proveedor;
+            $update = Proveedores::findOrFail($id);
+                $update->nombre             = $request->nombre;
+                $update->direccion          = $request->direccion;
+                $update->coordenadas        = $request->coordinatesx.','.$request->coordinatesy;
+                $update->cuit               = $request->cuit;
+                $update->email              = $request->email;
+                $update->telefono           = $request->telefono;
+                $update->observaciones      = $request->observaciones;
+                $update->rubros             = implode(",",$request->rubros);
+            $update->save();
+            DB::commit();
+            return redirect("/proveedores")->with('status', 'Se ha modificado correctamente el proveedor.');
         }
         catch(Exception $e){
             DB::rollback();
@@ -93,7 +96,9 @@ class ProveedoresController extends Controller
                 'telefono' => 'max:60',
                 'cuit' => 'max:60',
                 'observaciones' => 'max:255',
-                'rubros' => 'max:255',
+                'rubros' => 'required|max:255',
+                'coordinatesx' => 'required',
+                'coordinatesy' => 'required'
             ]);
             
                 $proveedor = new Proveedores;

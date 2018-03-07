@@ -13,11 +13,15 @@ use App\Role;
 
 class AjaxController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function getRubros() {
     	$rubros=DB::table('rubros')
 			->select('id_rubro AS id', 'descripcion AS text' )
 			->get();
-
     	return Response::json($rubros);
     }
 
@@ -25,7 +29,6 @@ class AjaxController extends Controller
         $rubros=DB::table('rubros')
             ->select('descripcion AS id', 'descripcion AS text' )
             ->get();
-
         return Response::json($rubros);
     }
 
@@ -33,7 +36,6 @@ class AjaxController extends Controller
 		$subrubros=DB::table('subrubros')
 			->select('id_subrubro AS id', 'descripcion AS text' )
 			->get();
-
     	return Response::json($subrubros);
     }
 
@@ -47,21 +49,31 @@ class AjaxController extends Controller
 
     public function getEmpleados(Request  $request){
     	$term = $request->term ?: '';
-    	$empleados = Empleados::where('Apellido', 'like', $term.'%')
-            ->join('tfuncion', 'tpersonal.Cod_Funcion', '=', 'tfuncion.Cod_Funcion')
-	    	->select('Apellido AS text', 'Nro_Legajo AS id', 'Nombres as nombre', 'Grupos_Registracion as sector', 'tfuncion.Dsc_Funcion as cargo')
-	   	 	->get();
-
+    	$empleados = DB::table('empleados')
+            ->where('empleados.apellidos', 'ilike', '%'.$term.'%')
+            ->join('areas', 'areas.id_area', '=', 'empleados.id_area')
+            ->leftJoin('subareas', 'subareas.id_subarea', '=', 'empleados.id_subarea')
+            ->select('empleados.id_empleado AS id', 'empleados.apellidos AS text', 'empleados.nombres as nombres', 'empleados.funcion as funcion', 'areas.descripcion_area as descripcion_area', 'subareas.descripcion_subarea as descripcion_subarea' )
+            ->get();
     	return Response::json($empleados);
     }
 
-    public function getSubareas(Request $request){
-    	$term = $request->term ?: '';
+    public function getSubareas(Request  $request){
+        $term = $request->term ?: '';
 		$subareas=DB::table('subareas')
-			->where('descripcion_subarea', 'like', $term.'%')
+			->where('descripcion_subarea', 'ilike', '%'.$term.'%')
 			->select('id_subarea AS id', 'descripcion_subarea AS text' )
 			->get();
+        return Response::json($subareas);
+    }
 
+    public function getSubareasxID($id, Request $request){
+        $term = $request->term ?: '';
+        $subareas=DB::table('subareas')
+            ->where('id_area', '=', $id)
+            ->where('descripcion_subarea', 'ilike', '%'.$term.'%')
+            ->select('id_subarea AS id', 'descripcion_subarea AS text' )
+            ->get();
         return Response::json($subareas);
     }
 
@@ -69,10 +81,9 @@ class AjaxController extends Controller
     {
         $term = $request->term ?: '';
         $tags = DB::table ('articulos')
-            ->where('descripcion', 'like', $term.'%')
-            ->select('descripcion AS text', 'id_articulo AS id', 'stock_actual', 'unidad', 'stock_minimo')
+            ->where('descripcion', 'ilike', '%'.$term.'%')
+            ->select('descripcion AS text', 'id_articulo AS id', 'stock_actual', 'unidad', 'stock_minimo', 'tipo')
             ->get();
-
         return Response::json($tags);
     }
 
@@ -80,10 +91,9 @@ class AjaxController extends Controller
     {
         $term = $request->term ?: '';
         $tags = DB::table ('roles')
-            ->where('display_name', 'like', $term.'%')
+            ->where('display_name', 'ilike', $term.'%')
             ->select('display_name AS text', 'id AS id')
             ->get();
-
         return Response::json($tags);
     }
 
@@ -91,10 +101,9 @@ class AjaxController extends Controller
     {
         $term = $request->term ?: '';
         $tags = DB::table ('permissions')
-            ->where('display_name', 'like', $term.'%')
+            ->where('display_name', 'ilike', $term.'%')
             ->select('display_name AS text', 'id AS id')
             ->get();
-
         return Response::json($tags);
     }
 
@@ -120,7 +129,7 @@ class AjaxController extends Controller
     {
         $term = $request->term ?: '';
         $tags = DB::table ('proveedores')
-            ->where('nombre', 'like', $term.'%')
+            ->where('nombre', 'ilike', '%'.$term.'%')
             ->select('nombre AS text', 'id_proveedor AS id')
             ->get();
 
@@ -152,8 +161,8 @@ class AjaxController extends Controller
         $detalles= DB::table('salidas_detalles')
             ->where('id_master', '=', $id )
             ->join('articulos', 'salidas_detalles.id_articulo', '=', 'articulos.id_articulo')
-            ->join('personal_prod.tpersonal as empleados', 'salidas_detalles.id_empleado', '=', 'empleados.Nro_Legajo')
-            ->select('articulos.descripcion as Articulo', 'empleados.Nombres as Nombre','empleados.Apellido as Apellido', 'salidas_detalles.cantidad as Cantidad')
+            ->join('empleados', 'salidas_detalles.id_empleado', '=', 'empleados.id_empleado')
+            ->select('articulos.descripcion', 'empleados.nombres','empleados.apellidos', 'salidas_detalles.cantidad', 'articulos.tipo')
             ->get();
         return Response::json($detalles);
     }
@@ -162,8 +171,8 @@ class AjaxController extends Controller
         $detalles=DB::table('autorizaciones_detalles')
             ->where('id_master', '=', $id )
             ->join('articulos', 'autorizaciones_detalles.id_articulo', '=', 'articulos.id_articulo')
-            ->join('personal_prod.tpersonal as empleados', 'autorizaciones_detalles.id_empleado', '=', 'empleados.Nro_Legajo')
-            ->select('articulos.id_articulo', 'articulos.descripcion','autorizaciones_detalles.id_empleado', 'empleados.Nombres','empleados.Apellido', 'autorizaciones_detalles.cantidad', 'articulos.stock_actual', 'autorizaciones_detalles.id_detalles', 'autorizaciones_detalles.estado')
+            ->join('empleados', 'autorizaciones_detalles.id_empleado', '=', 'empleados.id_empleado')
+            ->select('articulos.id_articulo', 'articulos.tipo', 'articulos.descripcion','autorizaciones_detalles.id_empleado', 'empleados.nombres','empleados.apellidos', 'autorizaciones_detalles.cantidad', 'articulos.stock_actual', 'autorizaciones_detalles.id_detalles', 'autorizaciones_detalles.estado')
             ->get();
 
         foreach ($detalles as $detalle) {
@@ -177,9 +186,10 @@ class AjaxController extends Controller
             if($asd === null){
                 $data[] = array(
                    'id_master' => $id,
-                   'Apellido' => $detalle->Apellido,
-                   'Nombres' => $detalle->Nombres,
+                   'apellidos' => $detalle->apellidos,
+                   'nombres' => $detalle->nombres,
                    'cantidad' => $detalle->cantidad,
+                   'tipo' => $detalle->tipo,
                    'descripcion' => $detalle->descripcion,
                    'id_articulo' => $detalle->id_articulo,
                    'stock_actual' => $detalle->stock_actual,
@@ -191,9 +201,10 @@ class AjaxController extends Controller
             else{
                 $data[] = array(
                     'id_master' => $id,
-                   'Apellido' => $detalle->Apellido,
-                   'Nombres' => $detalle->Nombres,
+                   'apellidos' => $detalle->apellidos,
+                   'nombres' => $detalle->nombres,
                    'cantidad' => $detalle->cantidad,
+                   'tipo' => $detalle->tipo,
                    'descripcion' => $detalle->descripcion,
                    'id_articulo' => $detalle->id_articulo,
                    'id_empleado' => $detalle->id_empleado,

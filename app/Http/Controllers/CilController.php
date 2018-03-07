@@ -24,6 +24,11 @@ use Validator;
 
 class CilController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function Index(){
     	return view('cil.cil_index');
     }
@@ -66,10 +71,9 @@ class CilController extends Controller
 
     	$user = User::find($id);
 
-        $empleado = Empleados::select('Nombres', 'Apellido')
-                           ->where('Nro_Legajo', '=', $user->id_empleado)
+        $empleado = Empleados::select('nombres', 'apellidos')
+                           ->where('id_empleado', '=', $user->id_empleado)
                            ->get();
-
         return View::make('cil.cil_usuarios_modificar')->with('user', $user)->with('empleado', $empleado);
     }
     public function UsuariosNuevoPost(Request $request){
@@ -248,17 +252,19 @@ class CilController extends Controller
             $prueba = array();
 
             //Eliminar permisos
-            foreach ($query->permisos as $key => $value) {
-                array_push($prueba, $value->id);
-                if (!in_array($value->id, $request->permisos)) {
-                    $query->permisos()->detach($value->id);
+            if($query->permisos != ""){
+                foreach ($query->permisos as $key => $value) {
+                    array_push($prueba, $value->id);
+                    if (!in_array($value->id, $request->permisos)) {
+                        $query->permisos()->detach($value->id);
+                    }
                 }
-            }
 
-            //Agregar permisos
-            foreach ($request->permisos as $key => $value) {
-                if (!in_array($value, $prueba)) {
-                    $query->permisos()->attach($value);
+                //Agregar permisos
+                foreach ($request->permisos as $key => $value) {
+                    if (!in_array($value, $prueba)) {
+                        $query->permisos()->attach($value);
+                    }
                 }
             }
 

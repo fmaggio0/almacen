@@ -27,6 +27,6 @@ class CrearSubareasTabla extends Migration
      */
     public function down()
     {
-        Schema::drop('subdestinos');
+        Schema::drop('subareas');
     }
 }

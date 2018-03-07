@@ -17,7 +17,7 @@ class User extends Authenticatable
     use EntrustUserTrait;
 
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'id_empleado'
     ];
 
     /**
@@ -33,9 +33,8 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\Role');
     }
-
-    public function UserInfo()
+    public function empleados()
     {
-        return $this->hasOne('App\UserInfo', 'id_user');
+        return $this->hasOne('App\Empleados', 'id_empleado', 'id_empleado');
     }
 }

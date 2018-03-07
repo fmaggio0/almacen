@@ -36,7 +36,6 @@
                     <tr>
                         <th></th>
                         <th>Nro documento</th>
-                        <th>Tipo de movimiento</th>
                         <th>Area</th>
                         <th>Subarea</th>
                         <th>Fecha que registra</th>
@@ -80,7 +79,6 @@
                     defaultContent: ""
                 },
                 {data: 'id_master', name: 'salidas_master.id_master'},
-                {data: 'tipo_retiro', name: 'salidas_master.tipo_retiro'},
                 {data: 'descripcion_area', name: 'areas.descripcion_area'},
                 {data: 'subarea', name: 'subareas.descripcion_subarea'},
                 {data: 'updated_at', name: 'salidas_master.updated_at'},
@@ -119,13 +117,14 @@
                     var data = JSON.parse(response.responseText);   
                     var thead = '',  tbody = '';
                     thead += '<th>#</th>';
-                    thead += '<th>Articulo</th>'; 
+                    thead += '<th>Articulo</th>';
+                    thead += '<th>Tipo</th>';  
                     thead += '<th>Empleado</th>'; 
                     thead += '<th>Cantidad</th>'; 
 
                     count = 1;
                     $.each(data, function (i, d) {
-                        tbody += '<tr><td>'+ count +'</td><td>' + d.Articulo + '</td><td>' + d.Apellido + ', '+ d.Nombre+ '</td><td>'+ d.Cantidad+'</td></tr>';
+                        tbody += '<tr><td>'+ count +'</td><td>' + d.descripcion + '</td><td>' + d.tipo +'</td><td>' + d.apellidos + ', '+ d.nombres+ '</td><td>'+ d.cantidad+'</td></tr>';
                         count++;
                     });
                     callback($('<table class="table table-hover">' + thead + tbody + '</table>')).show();

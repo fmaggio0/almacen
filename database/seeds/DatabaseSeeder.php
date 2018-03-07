@@ -11,6 +11,66 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        DB::table('areas')->insert(
+            array(
+                array(
+                    'descripcion_area' => 'ARBOLADO'
+                ),
+                array(
+                    'descripcion_area' => 'ESPACIOS VERDES'
+                ),
+                array(
+                    'descripcion_area' => 'TALLER'
+                ),
+                array(
+                    'descripcion_area' => 'ADMINISTRACIÓN'
+                ),
+                array(
+                    'descripcion_area' => 'CONTROL DE VECTORES'
+                ),
+                array(
+                    'descripcion_area' => 'COMPRAS'
+                ),
+            )
+        );
+        DB::table('subareas')->insert(
+            array(
+                array(
+                    'id_area' => '2',
+                    'descripcion_subarea' => 'PARQUE ESPAÑA ARRIBA'
+                ),
+                array(
+                    'id_area' => '2',
+                    'descripcion_subarea' => 'MONUMENTO'
+                ),
+                array(
+                    'id_area' => '2',
+                    'descripcion_subarea' => 'CUADRILLA VOLANTE DE ARBOLADO'
+                ),
+                array(
+                    'id_area' => '3',
+                    'descripcion_subarea' => 'TALLER HERRERIA'
+                ),
+                array(
+                    'id_area' => '3',
+                    'descripcion_subarea' => 'TALLER CARPINTERIA'
+                )
+            )
+        );
+        DB::table('empleados')->insert(
+            array(
+                array(
+                    'id_empleado' => 55691,
+                    'nombres' => 'FRANCO NICOLAS',
+                    'apellidos' => 'MAGGIONI',
+                    'id_area' => 2,
+                    'funcion' => "ADMINISTRATIVO",
+                    'talle_remera' => "XL",
+                    'talle_camisa' => 44,
+                    'talle_calzado' => 44
+                ),
+            )
+        );
         DB::table('users')->insert(
             array(
 	            array(
@@ -72,52 +132,6 @@ class DatabaseSeeder extends Seeder
                     'id_rubro' => '2',
                     'descripcion' => 'LIQUIDOS'
 	            ),
-	        )
-    	);
-    	DB::table('areas')->insert(
-            array(
-	            array(
-                    'descripcion_area' => 'Arbolado'
-	            ),
-	            array(
-                    'descripcion_area' => 'Espacios Verdes'
-	            ),
-	            array(
-                    'descripcion_area' => 'Taller'
-	            ),
-	            array(
-                    'descripcion_area' => 'Administracion'
-	            ),
-	            array(
-                    'descripcion_area' => 'Control de Vectores'
-	            ),
-	            array(
-                    'descripcion_area' => 'Compras'
-	            ),
-	        )
-    	);
-    	DB::table('subareas')->insert(
-            array(
-	            array(
-	            	'id_area' => '2',
-                    'descripcion_subarea' => 'Parque España Arriba'
-	            ),
-	            array(
-	            	'id_area' => '2',
-                    'descripcion_subarea' => 'Monumento'
-	            ),
-	            array(
-	            	'id_area' => '2',
-                    'descripcion_subarea' => 'Cuadrilla de arbolado'
-	            ),
-	            array(
-	            	'id_area' => '3',
-                    'descripcion_subarea' => 'Taller Herreria'
-	            ),
-	            array(
-	            	'id_area' => '3',
-                    'descripcion_subarea' => 'Taller Herreria'
-	            )
 	        )
     	);
     }
