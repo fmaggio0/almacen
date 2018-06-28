@@ -14,6 +14,6 @@ class AutorizacionesDetalles extends Model
 
     public function master()
     {
-    	return $this->belongsTo('App\AutorizacionesMaster');
+    	return $this->belongsTo('App\AutorizacionesMaster', 'id_master');
     }
 }

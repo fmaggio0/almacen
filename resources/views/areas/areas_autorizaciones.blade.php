@@ -66,7 +66,7 @@
                 {data: 'name', name: 'users.name'},
                 {data: 'estado', name: 'autorizaciones_master.estado'},
             ],
-            "order": [ 4, "desc" ],
+            "order": [ 3, "desc" ],
             language: {
                 url: "{!! asset('/plugins/datatables/lenguajes/spanish.json') !!}"
             }

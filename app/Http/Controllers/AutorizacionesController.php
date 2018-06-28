@@ -29,6 +29,58 @@ class AutorizacionesController extends Controller
         return view('autorizaciones.autorizaciones_retiro');    
     }
 
+    public function getEdit($id){
+
+        $master = DB::table('autorizaciones_master')
+            ->where('id_master', '=', $id)
+            ->join('subareas', 'subareas.id_subarea', '=', 'autorizaciones_master.id_subarea')
+            ->join('areas', 'areas.id_area', '=', 'subareas.id_area')
+            ->join('users', 'users.id', '=', 'autorizaciones_master.id_usuario')
+            ->join('empleados', 'empleados.id_empleado', '=', 'users.id_empleado')
+            ->select('autorizaciones_master.id_master', 'autorizaciones_master.estado', 'autorizaciones_master.updated_at', 'subareas.descripcion_subarea', 'areas.descripcion_area', 'users.name', 'empleados.nombres', 'empleados.apellidos', 'empleados.funcion')
+            ->first();
+
+        $detalles = DB::table('autorizaciones_detalles')
+            ->where('id_master', '=', $id )
+            ->join('articulos', 'autorizaciones_detalles.id_articulo', '=', 'articulos.id_articulo')
+            ->join('empleados', 'autorizaciones_detalles.id_empleado', '=', 'empleados.id_empleado')
+            ->select('articulos.id_articulo', 'articulos.tipo', 'articulos.descripcion','autorizaciones_detalles.id_empleado', 'empleados.nombres','empleados.apellidos', 'autorizaciones_detalles.cantidad', 'articulos.stock_actual', 'autorizaciones_detalles.id_detalles', 'autorizaciones_detalles.estado')
+            ->get();
+
+        foreach ($detalles as $detalle) {
+            $ultimo_entregado = DB::table('salidas_detalles')
+                ->where('id_articulo', '=', $detalle->id_articulo)
+                ->where('id_empleado', '=', $detalle->id_empleado)
+                ->select('salidas_detalles.created_at', 'salidas_detalles.id_detalles')
+                ->orderBy('salidas_detalles.created_at', 'desc')
+                ->first();
+            if($ultimo_entregado === null){
+                $ultimo = 0;
+            }
+            else{
+                $ultimo = $ultimo_entregado->created_at;
+                $data[] = array(
+                   'id_master' => $id,
+                   'apellidos' => $detalle->apellidos,
+                   'nombres' => $detalle->nombres,
+                   'cantidad' => $detalle->cantidad,
+                   'tipo' => $detalle->tipo,
+                   'descripcion' => $detalle->descripcion,
+                   'id_articulo' => $detalle->id_articulo,
+                   'id_empleado' => $detalle->id_empleado,
+                   'stock_actual' => $detalle->stock_actual,
+                   'ultimo_entregado' => $ultimo,
+                   'id_detalles' => $detalle->id_detalles,
+                   'estado' => $detalle->estado,
+                );
+            }
+        }
+
+        //return view('autorizaciones.autorizaciones_edit')->with('master', $master);//->with('details', $details);    
+        return view('autorizaciones.autorizaciones_edit', ['master' => $master, 'details' => json_decode(json_encode($data), FALSE) ]);
+
+    }
+
 	public function store(Request $request){
         DB::beginTransaction();
         try 

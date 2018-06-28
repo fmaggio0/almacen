@@ -26,9 +26,9 @@
                             <th>ID</th>
                             <th>Articulo</th>
                             <th>Unidad</th>
+                            <th>Tipo</th>
                             <th>Stock minimo</th>
                             <th>Stock actual</th>
-                            <th>Tipo</th>
                             <th>Rubro</th>
                             <th>Subrubro</th>
                             <th>Modificado</th>
@@ -63,8 +63,8 @@
                     {data: 'id_articulo', name: 'articulos.id_articulo', visible: false, orderable: false, searchable: false},
                     {data: 'descripcion', name: 'articulos.descripcion'},
                     {data: 'unidad', name: 'articulos.unidad'},
-                    {data: 'stock_minimo', name: 'articulos.stock_minimo'},
                     {data: 'tipo', name: 'articulos.tipo'},
+                    {data: 'stock_minimo', name: 'articulos.stock_minimo'},
                     {data: 'stock_actual', name: 'articulos.stock_actual'},
                     {data: 'descripcionrubro', name: 'rubros.descripcion'},
                     {data: 'descripcionsubrubro', name: 'subrubros.descripcion'},

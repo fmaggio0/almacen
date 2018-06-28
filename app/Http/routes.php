@@ -13,6 +13,7 @@ Route::group(['middleware' => ['role:developers|compras']], function() {
 
 	//GESTIONAR AUTORIZACIONES
 	Route::get('/autorizaciones', 					['uses' => 'AutorizacionesController@index']);
+	Route::get('/autorizaciones/{id}', 				['uses' => 'AutorizacionesController@getEdit']);
 	Route::post('/autorizaciones/post', 			['uses' => 'AutorizacionesController@storeadmin']);
 
 	//GESTIONAR STOCK

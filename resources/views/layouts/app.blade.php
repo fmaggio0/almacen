@@ -19,9 +19,6 @@
         <link rel="stylesheet" href="/plugins/select2/css/select2.css" />
         <link rel="stylesheet" href="/plugins/iCheck/square/blue.css" />
         <link rel="stylesheet" href="/plugins/datatables/dataTables.bootstrap.css" />
-
-        <link rel="stylesheet" href="/plugins/leaflet/leaflet.css" />
-        <link rel="stylesheet" href="/plugins/leaflet/leaflet-routing-machine.css" />
         
         <script src="{{ asset('/plugins/jQuery/jquery-3.2.1.min.js') }}"></script>
         <script src="{{ asset('/plugins/jQuery/jquery-ui.min.js') }}"></script>

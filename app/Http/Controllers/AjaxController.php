@@ -200,7 +200,7 @@ class AjaxController extends Controller
             }
             else{
                 $data[] = array(
-                    'id_master' => $id,
+                   'id_master' => $id,
                    'apellidos' => $detalle->apellidos,
                    'nombres' => $detalle->nombres,
                    'cantidad' => $detalle->cantidad,

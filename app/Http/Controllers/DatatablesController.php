@@ -251,7 +251,7 @@ class DatatablesController extends Controller
             ->editColumn('estado', function($salidas){
                 if( $salidas->estado == 0 )
                 {
-                    return "<span class='label label-warning'>Pendiente</span>";
+                    return '<a href="autorizaciones/'.$salidas->id_master.'" class="btn btn-xs btn-warning edit"><span><i class="glyphicon glyphicon-edit"></i> Pendiente</span></a>';
                 }
                 elseif ($salidas->estado == 1 )
                 {
